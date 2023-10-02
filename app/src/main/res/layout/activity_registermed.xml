@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterMedActivity">
+
+
+    <LinearLayout
+        android:layout_width="358dp"
+        android:layout_height="636dp"
+        android:orientation="vertical"
+        android:stretchColumns="*"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.494">
+
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/header_reg_2"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:textColor="@color/primary_black"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/q1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/p_reg1"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:textColor="@color/primary_black"
+            android:textSize="16sp"
+            android:layout_marginBottom="20dp"/>
+
+        <EditText
+            android:id="@+id/txt_ill"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/custom_input"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="@string/input_heredetary"
+            android:textColor="@color/grey"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="129dp"
+            android:layout_marginBottom="30dp"/>
+
+        <TextView
+            android:id="@+id/q2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/p_reg2"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:textColor="@color/primary_black"
+            android:textSize="16sp"
+            android:layout_marginBottom="20dp"/>
+
+        <EditText
+            android:id="@+id/txt_surg"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/custom_input"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="@string/input_surgery"
+            android:textColor="@color/grey"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="129dp"
+            android:layout_marginBottom="40dp"/>
+
+        <Button
+        android:id="@+id/btn_primary"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/btn_primary"
+        android:text="@string/btn_next"
+        android:textColor="@drawable/btn_text_color_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.500" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

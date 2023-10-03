@@ -5,13 +5,14 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:fontFamily">@font/font_urbanist_regular</item>
     </style>
+
     <style name="btn_primary">
         <item name="android:color">@color/white</item>
     </style>
+
     <style name="btn_primary2" parent="Widget.AppCompat.Button">
         <item name="backgroundTint">@drawable/btn_primary</item>
     </style>
-
 
 
     <style name="Theme.HartCheck" parent="Base.Theme.HartCheck" />

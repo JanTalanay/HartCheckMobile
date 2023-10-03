@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -33,22 +34,11 @@ class MainActivity : AppCompatActivity() {
 //        val btn_login: Button = findViewById<Button>(R.id.btn_login)
 //        val btn_signup: Button = findViewById<Button>(R.id.btn_SignUp)
         googleSignIn = findViewById(R.id.btn_login)
+        googleSignInAccount()
 
-        gso=GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()
 
-        gsc = GoogleSignIn.getClient(this, gso)
-
-        val account: GoogleSignInAccount? = GoogleSignIn
-            .getLastSignedInAccount(this)
-
-        if(account!=null){
-            goToHome()
-        }
 
         googleSignIn.setOnClickListener{
-
             goToSignIn()
 
         }
@@ -57,9 +47,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun googleSignInAccount(): GoogleSignInAccount? {
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        gsc = GoogleSignIn.getClient(this, gso)
+
+        val account: GoogleSignInAccount? = GoogleSignIn
+            .getLastSignedInAccount(this)
+        if(account!=null){
+            goToHome()
+        }
+        return account
+    }
+
     private fun goToSignIn() {
         val signInIntent = gsc.signInIntent
-
         startActivityForResult(signInIntent, 1000)
     }
 
@@ -72,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                 .getSignedInAccountFromIntent(data)
 
             try{
-
+                goToHome()
                 task.getResult(ApiException::class.java )
 
             }
@@ -84,7 +88,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun goToHome() {
         val intent = Intent(this, GoogleSign::class.java)
-
         startActivity(intent)
         finish()
     }
@@ -103,15 +106,28 @@ class MainActivity : AppCompatActivity() {
                         email = user.email
                     )
                 }
+                val firstNameEditText = findViewById<EditText>(R.id.edt_user_name)
+                val emailEditText = findViewById<EditText>(R.id.edit_password)
 
-                val textViewResult: TextView = findViewById<TextView>(R.id.txtest)
-                textViewResult.text = responseBody.toString()
-//                textViewResult.text = responseBody.toString()
-                Log.d ("MainActivity", "connected: ")
+                if (filteredData != null) {
+                    if (filteredData.isNotEmpty()) {
+                        // Get the first user from the filteredData list
+                        val user = filteredData[0]
+
+                        // Set the text of the EditText widgets
+                        firstNameEditText.setText(user.firstName)
+//                        lastNameEditText.setText(user.lastName)
+                        emailEditText.setText(user.email)
+
+//                        val textViewResult: TextView = findViewById<TextView>(R.id.txtest)
+//                        textViewResult.text = responseBody.toString()
+                        Log.d("MainActivity", "connected: ")
+                    }
+                }
             }
 
             override fun onFailure(call: Call<List<Users>>, t: Throwable) {
-                Log.d ("MainActivity", "Failled to connect: : " + t.message)
+                Log.d ("MainActivity", "Failed to connect: : " + t.message)
             }
         })
     }

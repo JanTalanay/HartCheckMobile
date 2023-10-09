@@ -30,21 +30,6 @@
 
 
         <EditText
-            android:id="@+id/txt_phone"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/custom_input"
-            android:ems="10"
-            android:hint="@string/input_phone"
-            android:inputType="phone|number"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textColor="@color/grey"
-            tools:layout_editor_absoluteX="30dp"
-            tools:layout_editor_absoluteY="129dp" />
-
-        <EditText
             android:id="@+id/txt_email"
             android:layout_width="match_parent"
             android:layout_height="55dp"

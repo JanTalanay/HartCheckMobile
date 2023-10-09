@@ -78,6 +78,57 @@
             tools:layout_editor_absoluteX="30dp"
             tools:layout_editor_absoluteY="129dp"
             android:layout_marginBottom="40dp"/>
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp">
+
+                <EditText
+                    android:id="@+id/input_height"
+                    android:layout_width="160dp"
+                    android:layout_height="55dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/custom_input"
+                    android:ems="10"
+                    android:layout_column="0"
+                    android:layout_span="1"
+                    android:hint="@string/input_height"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/grey"
+                    android:textColorHint="@color/grey"
+                    tools:layout_editor_absoluteX="28dp"
+                    tools:layout_editor_absoluteY="128dp" />
+
+
+
+                <EditText
+                    android:id="@+id/input_weight"
+                    android:layout_width="160dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/custom_input"
+                    android:ems="10"
+                    android:layout_column="1"
+                    android:layout_span="1"
+
+                    android:hint="@string/input_weight"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/grey"
+                    android:textColorHint="@color/grey"
+                    tools:layout_editor_absoluteX="28dp"
+                    tools:layout_editor_absoluteY="128dp" />
+            </TableRow>
+
+        </TableLayout>
+
 
         <Button
         android:id="@+id/btn_primary"

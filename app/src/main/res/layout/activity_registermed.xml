@@ -131,7 +131,7 @@
 
 
         <Button
-        android:id="@+id/btn_primary"
+        android:id="@+id/btn_medHis_bodyMass"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@drawable/btn_primary"

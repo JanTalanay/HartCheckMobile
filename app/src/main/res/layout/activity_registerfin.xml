@@ -85,7 +85,7 @@
             android:textColor="@color/primary_black" />
 
         <Button
-            android:id="@+id/btn_primary"
+            android:id="@+id/btn_confirm_register"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/btn_primary"

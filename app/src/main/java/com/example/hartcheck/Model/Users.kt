@@ -3,6 +3,7 @@ package com.example.hartcheck.Model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.text.DateFormat
+import java.time.format.DateTimeFormatter
 import java.util.Date
 
 data class Users(
@@ -26,9 +27,9 @@ data class Users(
     @Expose
     val password: String? = null,
 
-//    @SerializedName("birthdate")
-//    @Expose
-//    val birthdate: Date? = null,
+    @SerializedName("birthdate")
+    @Expose
+    val birthdate: String? = null,
 
     @SerializedName("gender")
     @Expose

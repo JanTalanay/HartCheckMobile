@@ -77,14 +77,15 @@
             android:layout_marginBottom="150dp"/>
 
         <TextView
-            android:id="@+id/p_login"
+            android:id="@+id/remember_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/li_rem_pass"
             android:textAlignment="center"
             android:textColor="@color/primary_teal"
             android:textSize="16sp"
-            android:fontFamily="@font/font_urbanist_bold"/>
+            android:fontFamily="@font/font_urbanist_bold"
+            android:clickable="true"/>
 
 
     </LinearLayout>

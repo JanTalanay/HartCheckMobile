@@ -95,14 +95,6 @@
             android:layout_gravity="center_horizontal"
             android:text="UPDATE" />
 
-        <Button
-            android:id="@+id/btn_login"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="LOGIN" />
-
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

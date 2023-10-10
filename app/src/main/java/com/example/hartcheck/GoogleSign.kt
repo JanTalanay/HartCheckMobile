@@ -57,7 +57,7 @@ class GoogleSign : AppCompatActivity() {
 
     private fun goSignOut() {
         gsc.signOut().addOnSuccessListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, LoginMain::class.java))
             finish()
         }
     }

@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/btn_back"
+            android:id="@+id/btn_back_new_pass"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginBottom="50dp"
@@ -81,7 +81,7 @@
             tools:layout_editor_absoluteY="129dp" />
 
         <Button
-            android:id="@+id/btn_send"
+            android:id="@+id/btn_reset_pass"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginBottom="150dp"

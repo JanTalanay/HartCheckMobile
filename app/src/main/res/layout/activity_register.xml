@@ -179,7 +179,7 @@
             android:layout_marginTop="15dp">
 
             <Button
-                android:id="@+id/btn_next"
+                android:id="@+id/btn_register"
                 android:layout_width="320dp"
                 android:layout_height="55dp"
                 android:layout_span="2"

@@ -40,7 +40,7 @@
             android:layout_marginBottom="20dp"/>
 
         <EditText
-            android:id="@+id/txt_ill"
+            android:id="@+id/txt_medcond"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/custom_input"
@@ -65,7 +65,7 @@
             android:layout_marginBottom="20dp"/>
 
         <EditText
-            android:id="@+id/txt_surg"
+            android:id="@+id/txt_pastSurg"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/custom_input"

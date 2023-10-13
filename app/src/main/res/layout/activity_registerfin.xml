@@ -45,7 +45,22 @@
             tools:layout_editor_absoluteY="129dp" />
 
         <EditText
-            android:id="@+id/txt_password"
+            android:id="@+id/txt_confirm_email"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/custom_input"
+            android:ems="10"
+            android:hint="@string/confirm_email"
+            android:inputType="textEmailAddress"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/grey"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="129dp" />
+
+        <EditText
+            android:id="@+id/txt_pass"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginBottom="15dp"

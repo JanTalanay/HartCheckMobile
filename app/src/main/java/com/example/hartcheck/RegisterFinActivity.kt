@@ -1,11 +1,93 @@
 package com.example.hartcheck
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import com.example.hartcheck.Model.Patients
+import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.HttpException
+import retrofit2.Response
 
 class RegisterFinActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registerfin)
+        val btn_confirm_register: Button = findViewById<Button>(R.id.btn_confirm_register)
+
+//        val email = intent.getStringExtra("email")
+//        val password = intent.getStringExtra("password")
+//        val userID = intent.getIntExtra("userID", 0)
+//
+//        Toast.makeText(this, "Registration Successful ${email}", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "Registration Successful ${password}", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "Registration Successful ${userID}", Toast.LENGTH_SHORT).show()
+
+        btn_confirm_register.setOnClickListener {
+//            val intent = Intent(this, RegisterMedActivity::class.java)
+//            startActivity(intent)
+            confirmCred()
+        }
+    }
+
+    private fun confirmCred() {
+        val email = intent.getStringExtra("email")
+        val password = intent.getStringExtra("password")
+
+//        val txt_email: EditText = findViewById<EditText>(R.id.txt_email)
+//        val txt_pass: EditText = findViewById<EditText>(R.id.txt_pass)
+
+        val confirmEmail: EditText = findViewById<EditText>(R.id.txt_confirm_email)
+        val confirmPass: EditText = findViewById<EditText>(R.id.txt_confirm_pass)
+
+
+
+
+        if (confirmEmail.text.toString() == email && confirmPass.text.toString() == password) {
+            Toast.makeText(this, "Email and password match", Toast.LENGTH_SHORT).show()
+            getPatientID()
+        } else {
+            Toast.makeText(this, "Email or password does not match", Toast.LENGTH_SHORT).show()
+        }
+    }
+    private fun getPatientID() {
+        val userID = intent.getIntExtra("userID", 0)
+        val service = PatientsInstance.retrofitBuilder
+
+        service.getPatientsID(userID).enqueue(object : Callback<Patients> {
+            override fun onResponse(call: Call<Patients>, response: Response<Patients>) {
+                if(response.isSuccessful){
+                    response.body()?.let { patients ->
+                        if(userID.equals(patients.usersID)){
+                            Log.d("MainActivity", "connected: ${patients.patientID}")//Intent
+                            Toast.makeText(this@RegisterFinActivity, "Registration Successful ${patients.patientID}", Toast.LENGTH_SHORT).show()
+
+                            val intent = Intent(this@RegisterFinActivity, RegisterMedActivity::class.java)
+                            intent.putExtra("patientID", patients.patientID)
+                            startActivity(intent)
+
+                        }else{
+                            Log.d("MainActivity", "Wrong: " + response.code())
+                        }
+                    }
+                } else {
+                    Log.d("MainActivity", "Failed to connect: " + response.code())
+
+                }
+            }
+            override fun onFailure(call: Call<Patients>, t: Throwable) {
+                Log.d ("MainActivity", "Failed to connect: : " + t.message)
+                if (t is HttpException) {
+                    val errorResponse = t.response()?.errorBody()?.string()
+                    Log.d("MainActivity", "Error response: $errorResponse")
+                }
+            }
+        })
     }
 }

@@ -1,5 +1,9 @@
 package com.example.hartcheck.Model
 
 data class BodyMass(
-    var bugID: Int? = null,
+    var bodyMassID: Int? = null,
+    var patientID: Int? = null,
+    var BMITypeID: Int? = null,
+    var weight: Int? = null,
+    var height: Int? = null
 )

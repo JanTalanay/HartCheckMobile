@@ -1,5 +1,7 @@
 package com.example.hartcheck.Model
 
 data class Condition(
-    var bugID: Int? = null,
+    var conditionID: Int,
+    var consultationID: Int,
+    var condition: String
 )

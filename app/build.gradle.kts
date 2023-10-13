@@ -78,4 +78,8 @@ dependencies {
     //Google
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
+    // Coroutines
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+
 }

@@ -1,5 +1,7 @@
 package com.example.hartcheck.Model
 
 data class PreviousMedication(
-    var bugID: Int? = null,
+    var prevMedID: Int,
+    var patientID: Int,
+    var previousMed: String
 )

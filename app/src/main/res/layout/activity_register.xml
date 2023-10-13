@@ -149,6 +149,7 @@
                 android:textColorHint="@color/grey"
                 tools:layout_editor_absoluteX="28dp"
                 tools:layout_editor_absoluteY="128dp" />
+
         </TableRow>
 
         <TableRow
@@ -171,8 +172,28 @@
                 android:textColorHint="@color/grey"
                 tools:layout_editor_absoluteX="28dp"
                 tools:layout_editor_absoluteY="128dp" />
-        </TableRow>
 
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <EditText
+                android:id="@+id/txt_register_pass"
+                android:layout_width="160dp"
+                android:layout_height="55dp"
+                android:layout_span="2"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/custom_input"
+                android:ems="10"
+                android:hint="@string/input_pass"
+                android:inputType="textPassword"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/grey"
+                tools:layout_editor_absoluteX="30dp"
+                tools:layout_editor_absoluteY="129dp" />
+        </TableRow>
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

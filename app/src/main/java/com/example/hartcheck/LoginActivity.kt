@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.btnMainRegister.setOnClickListener {
-            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            val intent = Intent(this@LoginActivity,  RegisterActivity::class.java)
             startActivity(intent)
         }
     }

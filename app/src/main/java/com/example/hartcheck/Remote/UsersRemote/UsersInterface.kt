@@ -1,6 +1,7 @@
 package com.example.hartcheck.Remote.UsersRemote
 
 import com.example.hartcheck.Model.Login
+import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.PreviousMedication
 import com.example.hartcheck.Model.Users
 import retrofit2.Call

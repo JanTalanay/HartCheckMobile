@@ -10,7 +10,9 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.example.hartcheck.Model.Login
+import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.Users
+import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
 import com.example.hartcheck.Remote.UsersRemote.UsersInstance
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -39,6 +41,8 @@ class LoginMain : AppCompatActivity() {
 
         btn_login.setOnClickListener {
             loginPatient()
+//            getPatientID(userID = 46)
+//            getPatientID()
         }
         googleSignIn.setOnClickListener{
             goToSignIn()
@@ -109,17 +113,20 @@ class LoginMain : AppCompatActivity() {
         val loginRequest  = Login(email = email, password = Password)
         val loginUser = UsersInstance.retrofitBuilder
 
-        loginUser.loginUser(loginRequest).enqueue(object : Callback<Users> {
+        loginUser.loginUser(loginRequest).enqueue(object : Callback<Users> {//CLEAN CODE
             override fun onResponse(call: Call<Users>, response: Response<Users>){
                 if (response.isSuccessful) {
                     // Registration successful, handle it as needed
+                    Log.d("MainActivity", "Response: ${response.body()}")
                     val user = response.body()
                     if(user != null){
                         val userID = user.usersID
                         if(userID != null){
                             Toast.makeText(this@LoginMain, "Registration Successful $userID", Toast.LENGTH_SHORT).show()
-
-                            val intent = Intent(this@LoginMain, HomeActivity::class.java)
+//                            getPatientID(userID)
+                            val intent = Intent(this@LoginMain, TestActivity::class.java)
+                            Log.d("MainActivity", "User ID: $userID")
+                            intent.putExtra("userID", userID)
                             startActivity(intent)
                         }else {
                             Toast.makeText(this@LoginMain, "User ID is null", Toast.LENGTH_SHORT).show()
@@ -138,6 +145,37 @@ class LoginMain : AppCompatActivity() {
             override fun onFailure(call: Call<Users>, t: Throwable) {
                 // Handle network failure
                 Log.d ("MainActivity", "Registration failed: ")
+            }
+        })
+    }
+    private fun getPatientID() {
+        val service = PatientsInstance.retrofitBuilder
+        service.getPatients().enqueue(object : Callback<List<Patients>> {
+            override fun onResponse(call: Call<List<Patients>>, response: Response<List<Patients>>) {
+                try {
+                    if(response.isSuccessful){
+                        val patients = response.body()
+//                    if(patients != null) {
+//                        // Filter the list of patients based on the user ID
+//                        val patient = patients.firstOrNull { it.usersID == userID }
+//                        if (patient != null) {
+//                            val patientID = patient.patientID
+                        // Do something with the patientID
+                        Toast.makeText(this@LoginMain, "Registration Successful $patients", Toast.LENGTH_SHORT).show()
+                        Log.d ("MainActivity", "Registration failed: $patients ")
+                    } else {
+                        Toast.makeText(this@LoginMain, "Patient not found for this user ID ${response.message()}", Toast.LENGTH_SHORT).show()
+                        Log.d ("MainActivity", "Registration failed: ${response.message()} ")
+
+                    }
+                }
+                catch (e: Exception){
+                    Log.d ("MainActivity", "Failed to connect: : " + e.message)
+                }
+
+            }
+            override fun onFailure(call: Call<List<Patients>>, t: Throwable) {
+                Log.d ("MainActivity", "Failed to connect: : " + t.message)
             }
         })
     }

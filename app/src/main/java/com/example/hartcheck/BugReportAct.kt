@@ -2,6 +2,7 @@ package com.example.hartcheck
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -55,21 +56,29 @@ class BugReportAct : AppCompatActivity() {
         val bugUserID = editUserID.text.toString()
         val bugDesc = editDesc.text.toString()
         val bugFeature = editFeature.text.toString()
-        val bugInfo = BugReport(usersID = bugUserID.toInt(), description = bugDesc, featureID = bugFeature.toInt())
+        val bugInfo = BugReport( usersID = bugUserID.toInt(), description = bugDesc, featureID = bugFeature.toInt())
 
         val bugService = BugReportInstance.retrofitBuilder
         bugService.insertBugReport(bugInfo).enqueue(object : Callback<BugReport> {
             override fun onResponse(call: Call<BugReport>, response: Response<BugReport>) {
                 if (response.isSuccessful) {
                     // Successfully deleted the bug report
+                    Toast.makeText(this@BugReportAct, "Registration Successful", Toast.LENGTH_SHORT).show()
+                    Log.d("MainActivity", "Response: ${response.body()}")
+
+
 
                 } else {
                     // Handle the error response
+                    Log.d("MainActivity", "Response: ${response.body()}")
+
                 }
             }
 
             override fun onFailure(call: Call<BugReport>, t: Throwable) {
                 // Handle network or other exceptions
+                Log.d("MainActivity", "Response:" + t.message)
+
             }
         })
     }

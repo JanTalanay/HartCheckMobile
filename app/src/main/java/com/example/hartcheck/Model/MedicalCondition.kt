@@ -1,5 +1,8 @@
 package com.example.hartcheck.Model
 
 data class MedicalCondition(
-    var bugID: Int? = null,
+    var medCondID: Int,
+    var patientID: Int,
+    var medicalCondition: String,
+    var conditionName: String
 )

@@ -11,7 +11,8 @@ class NavActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNavBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(filler())//activate bp or sumthn
+
+        btn_states()
 
         binding.navBar.setOnItemSelectedListener {
             when(it){
@@ -30,6 +31,28 @@ class NavActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun btn_states(){
+        val buttonState = intent.getStringExtra("BUTTON_STATE")
+
+        when (buttonState) {
+            "btn_bp" -> {
+                replaceFragment(BPFragment())
+            }
+            "btn_consul" -> {
+                replaceFragment(ConsultationFragment())
+            }
+            "btn_chat" -> {
+                replaceFragment(ChatFragment())
+            }
+            "btn_profile" -> {
+                replaceFragment(UserFragment())
+            }
+            else -> {
+
+            }
+        }
     }
 
     private fun replaceFragment(fragment: Fragment){

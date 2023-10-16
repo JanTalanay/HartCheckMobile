@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_bp"
+        android:title = "BP"
+        android:icon = "@drawable/ic_blood"
+        app:cnb_iconColor ="@color/green_1"
+        />
+    <item
+        android:id="@+id/nav_chat"
+        android:title = "Chat"
+        android:icon = "@drawable/ic_chatbub"
+        app:cnb_iconColor ="@color/green_2"
+        />
+    <item
+        android:id="@+id/nav_consultations"
+        android:title = "Consultations"
+        android:icon = "@drawable/ic_consul"
+        app:cnb_iconColor ="@color/green_3"
+        />
+    <item
+        android:id="@+id/nav_profile"
+        android:title = "Profile"
+        android:icon = "@drawable/ic_profile"
+        app:cnb_iconColor ="@color/green_4"
+        />
+</menu>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".UserFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/btn_back"
+        android:drawableStart="@drawable/back_arrow"
+        android:paddingStart="15dp"
+        android:text="@string/filler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TableLayout
+        android:layout_width="370dp"
+        android:layout_height="600dp"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        android:stretchColumns="*"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_back">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/header"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginBottom="30dp"
+                android:layout_span="2"
+                android:fontFamily="@font/font_urbanist_bold"
+                android:text="@string/header_profile_2"
+                android:textColor="@color/primary_black"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.494"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.050" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_fn_edit"
+                android:layout_width="160dp"
+                android:layout_height="55dp"
+                android:layout_column="0"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/custom_input"
+                android:ems="10"
+                android:hint="@string/input_fn"
+                android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/grey"
+                android:textColorHint="@color/grey"
+                tools:layout_editor_absoluteX="28dp"
+                tools:layout_editor_absoluteY="128dp" />
+
+            <EditText
+                android:id="@+id/input_ln_edit"
+                android:layout_width="160dp"
+                android:layout_height="55dp"
+                android:layout_column="1"
+                android:background="@drawable/custom_input"
+                android:ems="10"
+                android:hint="@string/input_ln"
+                android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/grey"
+                android:textColorHint="@color/grey"
+                tools:layout_editor_absoluteX="28dp"
+                tools:layout_editor_absoluteY="128dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                android:id="@+id/input_email_edit"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_span="2"
+                android:background="@drawable/custom_input"
+                android:ems="10"
+                android:hint="@string/input_email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/grey"
+                android:textColorHint="@color/grey"
+                tools:layout_editor_absoluteX="28dp"
+                tools:layout_editor_absoluteY="128dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                android:id="@+id/input_gender_edit"
+                android:layout_width="160dp"
+                android:layout_height="55dp"
+                android:layout_column="0"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/custom_input"
+                android:ems="10"
+                android:hint="@string/input_gender"
+                android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/grey"
+                android:textColorHint="@color/grey"
+                tools:layout_editor_absoluteX="28dp"
+                tools:layout_editor_absoluteY="128dp" />
+
+            <EditText
+                android:id="@+id/input_birthdate_edit"
+                android:layout_width="160dp"
+                android:layout_height="55dp"
+                android:layout_column="1"
+                android:background="@drawable/custom_input"
+                android:ems="10"
+                android:hint="@string/input_birthday"
+                android:inputType="date"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/grey"
+                android:textColorHint="@color/grey"
+                tools:layout_editor_absoluteX="28dp"
+                tools:layout_editor_absoluteY="128dp" />
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                android:id="@+id/input_phone_edit"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_span="2"
+                android:background="@drawable/custom_input"
+                android:ems="10"
+                android:hint="@string/input_phone"
+                android:inputType="phone"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/grey"
+                android:textColorHint="@color/grey"
+                tools:layout_editor_absoluteX="28dp"
+                tools:layout_editor_absoluteY="128dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <Button
+                android:id="@+id/btn_save_profile"
+                android:layout_width="320dp"
+                android:layout_height="55dp"
+                android:layout_span="2"
+                android:background="@drawable/btn_primary"
+                android:text="@string/btn_save"
+                android:textColor="@drawable/btn_text_color_white"
+                android:fontFamily="@font/font_urbanist_medium"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.500"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.500" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <Button
+                android:id="@+id/btn_delete_account"
+                android:layout_width="320dp"
+                android:layout_height="55dp"
+                android:layout_span="2"
+                android:background="@drawable/btn_secondary"
+                android:text="@string/btn_delete"
+                android:textColor="@drawable/btn_text_color"
+                android:fontFamily="@font/font_urbanist_medium"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.500"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.500" />
+        </TableRow>
+
+
+
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

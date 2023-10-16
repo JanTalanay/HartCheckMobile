@@ -129,6 +129,12 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <!-- Nav   -->
+    <string name="nav_bp">BP</string>
+    <string name="nav_chat">Chat</string>
+    <string name="nav_consul">Consultations</string>
+    <string name="nav_profile">Profile</string>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
@@ -166,6 +172,8 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="confirm_email">Confirm Email</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

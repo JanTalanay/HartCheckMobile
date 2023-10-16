@@ -7,10 +7,10 @@
     <color name="primary_black">#1E232C</color>
     <color name="secondary_white">#EDF2F4</color>
     <color name="grey">#8391A1</color>
-    <color name="green_1">#A7D489</color>
-    <color name="green_2">#C4DEA4</color>
-    <color name="green_3">#D5E7B8</color>
-    <color name="green_4">#F6F6DB</color>
+    <color name="green_1">#115D33</color>
+    <color name="green_2">#0F5132</color>
+    <color name="green_3">#066839</color>
+    <color name="green_4">#1B7D4F</color>
 
      <!--    custom btn-->
     <color name="custom_btn_1">#7BBCB6</color>

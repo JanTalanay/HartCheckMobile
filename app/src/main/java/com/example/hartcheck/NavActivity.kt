@@ -9,9 +9,9 @@ class NavActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNavBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_nav)
         binding = ActivityNavBinding.inflate(layoutInflater)
-        replaceFragment(BPFragment())//activate bp or sumthn
+        setContentView(binding.root)
+        replaceFragment(filler())//activate bp or sumthn
 
         binding.navBar.setOnItemSelectedListener {
             when(it){

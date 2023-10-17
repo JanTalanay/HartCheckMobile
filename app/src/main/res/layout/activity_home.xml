@@ -133,12 +133,12 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/li_faq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_span="2"
-                android:text="@string/p_trouble"
+                android:text="@string/header_faq"
                 android:fontFamily="@font/font_urbanist_bold"
                 android:textColor="@color/primary_teal"
                 android:textSize="16sp"

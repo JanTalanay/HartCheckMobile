@@ -15,7 +15,7 @@ class HomeActivity : AppCompatActivity() {
         val btn_chat = findViewById<Button>(R.id.btn_chat)
         val btn_profile = findViewById<Button>(R.id.btn_profile)
 
-
+        //add educ btn and faq link
         btn_bp.setOnClickListener {
             startNextActivity("btn_bp")
         }

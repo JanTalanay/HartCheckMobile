@@ -135,6 +135,28 @@
     <string name="nav_consul">Consultations</string>
     <string name="nav_profile">Profile</string>
 
+    <!-- Educational Resource   -->
+    <string name="educ_res">
+        High blood pressure, also known as hypertension, is a common medical condition that affects a
+        significant number of individuals worldwide. It occurs when the force of blood against the walls
+        of the arteries is consistently too high, putting extra strain on the heart and blood vessels.
+        While high blood pressure can be influenced by genetic factors, lifestyle choices such as a
+        sedentary lifestyle, unhealthy diet, excessive salt intake, smoking, and excessive alcohol
+        consumption can contribute to its development.
+    </string>
+
+    <!-- FAQ   -->
+    <string name="Q1">1. What is the purpose of this app?</string>
+    <string name="Q2">2. How does the app measure my blood pressure?</string>
+    <string name="Q3">3. Can I chat with my doctor outside of my appointment time?</string>
+    <string name="Q4">4. What if I have technical issues or need help with the app?</string>
+    <string name="Q5">5. Is this app a substitute for professional medical advice?</string>
+
+    <string name="ans1">The app\'s primary purpose is to help users monitor their blood pressure and
+        facilitate communication with their doctor during scheduled appointments. It enables users to
+        record and track their blood pressure readings chat with their doctor during appointment times,
+        and manage their health profile.</string>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
@@ -174,6 +196,7 @@
     <string name="confirm_email">Confirm Email</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_faqactivity">FAQActivity</string>
 
 
 </resources>

@@ -107,27 +107,25 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp">
 
-            <EditText
+            <Spinner
                 android:id="@+id/input_gender"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_span="2"
                 android:background="@drawable/custom_input"
                 android:ems="10"
-                android:hint="@string/input_gender"
-                android:inputType="text"
+                android:inputType="none"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:textColor="@color/grey"
-                android:textColorHint="@color/grey"
-                tools:layout_editor_absoluteX="28dp"
-                tools:layout_editor_absoluteY="128dp" />
+                android:textColorHint="@color/grey"/>
         </TableRow>
 
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="15dp" />
 
         <TableRow
             android:layout_width="match_parent"
@@ -174,16 +172,18 @@
                 tools:layout_editor_absoluteY="128dp" />
 
         </TableRow>
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <EditText
                 android:id="@+id/txt_register_pass"
                 android:layout_width="160dp"
                 android:layout_height="55dp"
-                android:layout_span="2"
-                android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_span="2"
                 android:background="@drawable/custom_input"
                 android:ems="10"
                 android:hint="@string/input_pass"
@@ -194,6 +194,7 @@
                 tools:layout_editor_absoluteX="30dp"
                 tools:layout_editor_absoluteY="129dp" />
         </TableRow>
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -205,10 +206,10 @@
                 android:layout_height="55dp"
                 android:layout_span="2"
                 android:background="@drawable/btn_primary"
-                android:text="@string/btn_next"
-                android:textColor="@drawable/btn_text_color_white"
                 android:fontFamily="@font/font_urbanist_medium"
+                android:text="@string/btn_next"
                 android:textAllCaps="false"
+                android:textColor="@drawable/btn_text_color_white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.500"

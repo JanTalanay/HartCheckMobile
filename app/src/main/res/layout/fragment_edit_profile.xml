@@ -120,7 +120,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="15dp">
 
-            <EditText
+            <Spinner
                 android:id="@+id/input_gender_edit"
                 android:layout_width="160dp"
                 android:layout_height="55dp"

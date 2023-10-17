@@ -4,8 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.Users
@@ -17,18 +19,35 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class RegisterActivity : AppCompatActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        val options = listOf("Male", "Female")
         //needs helper and observer to add 2nd register page
         //"register btn should be hidden"
         val btn_register: Button = findViewById<Button>(R.id.btn_register)
+        val input_gender = findViewById<Spinner>(R.id.input_gender)
+
+        val adapter = ArrayAdapter(this, R.layout.app_list_item, options.toMutableList().apply { add(0, "Gender") })
+        adapter.setDropDownViewResource(R.layout.app_list_item)
+        input_gender.adapter = adapter
+
+//        autoComplete.onItemClickListener = AdapterView.OnItemClickListener{
+//            adapterView, view, i , l ->
+//
+//            val itemSelected = adapterView.getItemAtPosition(i)
+//        }
 
         btn_register.setOnClickListener {
             insertPatient()
 //            val intent = Intent(this, RegisterFinActivity::class.java)
 //            startActivity(intent)
         }
+
         //when press next user would be inserted intent the email
     }
     private fun insertPatient() {

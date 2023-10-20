@@ -6,6 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
+import android.graphics.Color
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.Description
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.XAxis.XAxisPosition
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import org.apache.commons.csv.CSVFormat
+import org.apache.commons.csv.CSVParser
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.text.SimpleDateFormat
+
+//sql
+//import java.sql.Connection
+//import java.sql.DriverManager
+//import java.sql.ResultSet
+//import java.sql.Statement
+
+
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -33,8 +54,75 @@ class BPFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_b_p, container, false)
+        val view = inflater.inflate(R.layout.fragment_b_p, container, false)
+
+        val chart: LineChart = view.findViewById(R.id.lineChart)
+
+        val entries1 = mutableListOf<Entry>()
+        val entries2 = mutableListOf<Entry>()
+
+        // Read data from CSV file
+        val csvFile = resources.assets.open("test_sheet.csv")
+        val reader = BufferedReader(InputStreamReader(csvFile))
+        val csvParser = CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader())
+        //val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+
+        for (record in csvParser) {
+            //val xString = record.get("x")
+            val x = record.get("x").toFloat()// should be date: val xDate = dateFormat.parse(xString)
+            val y1 = record.get("y1").toFloat()
+            val y2 = record.get("y2").toFloat()
+            entries1.add(Entry(x, y1))
+            entries2.add(Entry(x, y2))
+//            entries1.add(Entry(xDate.time.toFloat(), y1))
+//            entries2.add(Entry(xDate.time.toFloat(), y2))
+        }
+
+        //DB Method
+//        val connection: Connection = DriverManager.getConnection(
+//            "jdbc:sqlserver://your_server_address:your_port;databaseName=your_database_name;user=your_username;password=your_password"
+//        )
+//
+//        // Execute a query to retrieve the data
+//        val statement: Statement = connection.createStatement()
+//        val resultSet: ResultSet = statement.executeQuery("SELECT x, y FROM your_table_name")
+//
+//        while (resultSet.next()) {
+//            val x = resultSet.getFloat("x")
+//            val y = resultSet.getFloat("y")
+//            entries.add(Entry(x, y))
+//        }
+//
+//        resultSet.close()
+//        statement.close()
+//        connection.close()
+
+        val dataSet1 = LineDataSet(entries1, "Systolic")
+        dataSet1.color = Color.RED
+
+        val dataSet2 = LineDataSet(entries2, "Diastolic")
+        dataSet2.color = Color.BLUE
+
+        val lineData = LineData(dataSet1, dataSet2)
+        chart.data = lineData
+
+        //chart customization
+        val description = Description()
+        description.text = "BP Chart"
+        chart.description = description
+
+        chart.xAxis.position =  XAxisPosition.BOTTOM
+        chart.axisLeft.axisMaximum = 200f
+        chart.axisLeft.axisMinimum = 0f
+        chart.axisRight.isEnabled = false
+
+        chart.legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+        chart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        chart.legend.setDrawInside(false)
+
+        chart.invalidate()
+
+        return view
     }
 
     companion object {
@@ -56,4 +144,5 @@ class BPFragment : Fragment() {
                 }
             }
     }
+
 }

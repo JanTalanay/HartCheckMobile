@@ -89,5 +89,13 @@ dependencies {
     implementation ("androidx.appcompat:appcompat:1.3.0")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
 
+    //MP Chart
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation ("org.apache.commons:commons-csv:1.5")
+
+    //MSSQL Thing
+    implementation ("com.microsoft.sqlserver:mssql-jdbc:9.4.0.jre11")
+
+
 
 }

@@ -86,6 +86,7 @@
     <string name="input_diastolic">Diastolic</string>
     <string name="input_status">Status</string>
     <string name="input_no">0</string>
+    <string name="input_feat">Feature</string>
 
     <!--    paragraphs-->
     <string name="p_reg1">Do you have any history of medical conditions that could be hereditary? if yes then what is that condition, if no then answer “N/A”</string>

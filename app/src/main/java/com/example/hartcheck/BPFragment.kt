@@ -1,5 +1,6 @@
 package com.example.hartcheck
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.Window
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.github.mikephil.charting.charts.LineChart
@@ -58,10 +62,16 @@ class BPFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_b_p, container, false)
         val patientID = arguments?.getInt(BPFragment.ARG_PATIENT_ID)
 
+        val btn_bp: Button = view.findViewById(R.id.btn_add_bp)
+
         val chart: LineChart = view.findViewById(R.id.lineChart)
 
         val entries1 = mutableListOf<Entry>()
         val entries2 = mutableListOf<Entry>()
+
+        btn_bp.setOnClickListener {
+            showModal()
+        }
 
         // Read data from CSV file
         val csvFile = resources.assets.open("test_sheet.csv")
@@ -126,6 +136,27 @@ class BPFragment : Fragment() {
 
         return view
     }
+
+    private fun showModal(){
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.popup_bp_input)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val btn_close:Button = dialog.findViewById(R.id.btn_modal_deny)
+
+        //add bp manually details here
+
+        btn_close.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
+
     private fun readCSVFile() {//THIS SHIT WORKS
 //        val textView = findViewById<TextView>(R.id.CSV)
 //        val edittext = findViewById<EditText>(R.id.edit_text_csv)

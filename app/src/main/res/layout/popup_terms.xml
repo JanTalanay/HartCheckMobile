@@ -9,20 +9,20 @@
     android:layout_marginHorizontal="20dp">
 
     <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
+        android:layout_width="387dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="20dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/header_terms"
-            android:textSize="30dp"
             android:fontFamily="@font/font_urbanist_bold"
+            android:gravity="center"
+            android:text="@string/header_terms"
             android:textColor="@color/primary_black"
-            android:gravity="center"/>
+            android:textSize="30dp" />
 
         <ScrollView
             android:layout_width="wrap_content"
@@ -38,18 +38,18 @@
                 android:textSize="16dp" />
 
         </ScrollView>
+
         <Button
-            android:layout_marginTop="20dp"
             android:id="@+id/btn_terms_okay"
             android:layout_width="match_parent"
             android:layout_height="55dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/btn_primary"
             android:fontFamily="@font/font_urbanist_medium"
             android:text="@string/btn_okay"
             android:textAllCaps="false"
             android:textColor="@drawable/btn_text_color_white"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp" />
 
     </LinearLayout>
 

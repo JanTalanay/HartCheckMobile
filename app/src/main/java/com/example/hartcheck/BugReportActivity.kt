@@ -1,8 +1,10 @@
 package com.example.hartcheck
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.hartcheck.Model.BugReport
@@ -15,7 +17,25 @@ class BugReportActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bug_report)
+
+        val btn_bug_report:Button = findViewById(R.id.btn_report_prob)
+
+        btn_bug_report.setOnClickListener {
+            confirmActivity("btn_bug_reported")
+        }
     }
+
+    fun confirmActivity(buttonState: String) {
+        //val userID = intent.getIntExtra("userID", 0)
+        //getPatientID(userID) { patientID ->
+            val intent = Intent(this, ConfirmActivity::class.java)
+            intent.putExtra("BUTTON_STATE", buttonState)
+            //intent.putExtra("userID", userID)
+            //intent.putExtra("patientID", patientID)
+            startActivity(intent)
+    }
+
+
     private fun bugGet() {
         TODO("Not yet implemented")
     }

@@ -31,6 +31,7 @@
     <string name="btn_request_date">Request this date</string>
     <string name="btn_view_app">View Appointment</string>
     <string name="btn_okay">Ok</string>
+    <string name="btn_exit">Close</string>
 
     <!--  custom btns-->
     <string name="btn_view_bp_2">View my BP</string>

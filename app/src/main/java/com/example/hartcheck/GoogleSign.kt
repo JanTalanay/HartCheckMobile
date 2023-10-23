@@ -33,7 +33,14 @@ class GoogleSign : AppCompatActivity() {
         gSignOut = findViewById(R.id.g_sign_out)
 
 
-        gso=GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSigned()
+        gSignOut.setOnClickListener {
+            goSignOut()
+        }
+    }
+
+    private fun GoogleSigned() {
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
 
@@ -42,15 +49,11 @@ class GoogleSign : AppCompatActivity() {
         val account: GoogleSignInAccount? = GoogleSignIn
             .getLastSignedInAccount(this)
 
-        if(account!=null){
-            gName.text=account.displayName
-            gEmail.text=account.email
-            gID.text=account.id
-        }
-        else{
-            goSignOut()
-        }
-        gSignOut.setOnClickListener {
+        if (account != null) {
+            gName.text = account.displayName
+            gEmail.text = account.email
+            gID.text = account.id
+        } else {
             goSignOut()
         }
     }

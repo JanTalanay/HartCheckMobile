@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 
 import android.graphics.Color
+import android.widget.EditText
+import android.widget.TextView
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.Legend
@@ -50,11 +52,11 @@ class BPFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
+        //fix
         val view = inflater.inflate(R.layout.fragment_b_p, container, false)
+        val patientID = arguments?.getInt(BPFragment.ARG_PATIENT_ID)
 
         val chart: LineChart = view.findViewById(R.id.lineChart)
 
@@ -124,8 +126,68 @@ class BPFragment : Fragment() {
 
         return view
     }
+    private fun readCSVFile() {//THIS SHIT WORKS
+//        val textView = findViewById<TextView>(R.id.CSV)
+//        val edittext = findViewById<EditText>(R.id.edit_text_csv)
+//        val edittext2 = findViewById<EditText>(R.id.edit_text_csv2)
+//        val bufferReader = BufferedReader(assets.open("com.samsung.shealth.blood_pressure.20230706212807.csv").reader())
+//        val csvParser = CSVParser.parse(
+//            bufferReader,
+//            CSVFormat.DEFAULT
+//        )
+//        csvParser.forEach{
+//            it?.let{
+//                val datetime = it.get(3)
+//                val systolic = it.get(13)
+//                val diastolic = it.get(11)
+//                if (systolic.isNumeric() && diastolic.isNumeric()) {
+//                    list.add(Triple(datetime, systolic, diastolic))
+//                }
+//            }
+//        }
+    }
+    private fun displayNextPair() {
+//        val edittext = findViewById<EditText>(R.id.edit_text_csv)
+//        val edittext2 = findViewById<EditText>(R.id.edit_text_csv2)
+//        val edittext3 = findViewById<EditText>(R.id.edit_text_csv3)
+
+//        if (currentIndex < list.size) {
+//            val triple = list[currentIndex]
+//            edittext.setText(triple.first)
+//            edittext2.setText(triple.second)
+//            edittext3.setText(triple.third)
+//            currentIndex++
+//        } else {
+//            edittext.setText("No more triples in the list.")
+//            edittext2.setText("")
+//            edittext3.setText("")
+//        }
+    }
+    fun String.isNumeric(): Boolean = this.matches("\\d+".toRegex())
 
     companion object {
+        private const val ARG_PATIENT_ID = "patientID"
+        private const val ARG_PARAM1 = "param1"
+        private const val ARG_PARAM2 = "param2"
+
+        @JvmStatic
+        fun newInstance(patientID: Int): BPFragment {
+            val fragment = BPFragment()
+            val args = Bundle()
+            args.putInt(ARG_PATIENT_ID, patientID)
+            fragment.arguments = args
+            return fragment
+        }
+
+        @JvmStatic
+        fun newInstance(param1: String, param2: String): UserFragment {
+            val fragment = UserFragment()
+            val args = Bundle()
+            args.putString(ARG_PARAM1, param1)
+            args.putString(ARG_PARAM2, param2)
+            fragment.arguments = args
+            return fragment
+        }
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -135,14 +197,14 @@ class BPFragment : Fragment() {
          * @return A new instance of fragment BPFragment.
          */
         // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BPFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+//        @JvmStatic
+//        fun newInstance(param1: String, param2: String) =
+//            BPFragment().apply {
+//                arguments = Bundle().apply {
+//                    putString(ARG_PARAM1, param1)
+//                    putString(ARG_PARAM2, param2)
+//                }
+//            }
     }
 
 }

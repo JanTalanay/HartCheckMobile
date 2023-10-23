@@ -31,8 +31,9 @@ class TestActivity : AppCompatActivity() {
         val testDelete: Button = findViewById<Button>(R.id.btn_test3)
         val testInsert: Button = findViewById<Button>(R.id.btn_test4)
 
-//        val userID = intent.getIntExtra("email", 0)
-//        testView.text = userID.toString()
+        val patientID = intent.getIntExtra("patientID", 0)
+        val userID = intent.getIntExtra("userID", 0)
+        testView.text = userID.toString()
 
 //        Log.d("TestActivity", "User ID: $userID")
 

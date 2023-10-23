@@ -1,10 +1,13 @@
 package com.example.hartcheck
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.CalendarContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import java.util.Calendar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,6 +38,28 @@ class ConsultationFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_consultation, container, false)
+    }
+    private fun Booked() {
+        val startMillis: Long = Calendar.getInstance().run {
+            set(2023, 10, 19, 7, 30)
+            timeInMillis
+        }
+        val endMillis: Long = Calendar.getInstance().run {
+            set(2023, 10, 19, 8, 30)
+            timeInMillis
+        }
+        val intent = Intent(Intent.ACTION_INSERT)
+            .setData(CalendarContract.Events.CONTENT_URI)
+            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
+            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
+            .putExtra(CalendarContract.Events.TITLE, "Meeting")
+            .putExtra(CalendarContract.Events.DESCRIPTION, "Team Meeting")
+            .putExtra(CalendarContract.Events.EVENT_LOCATION, "Office")
+            .putExtra(
+                CalendarContract.Events.AVAILABILITY,
+                CalendarContract.Events.AVAILABILITY_BUSY
+            )
+        startActivity(intent)
     }
 
     companion object {

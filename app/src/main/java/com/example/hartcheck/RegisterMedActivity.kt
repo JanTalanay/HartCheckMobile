@@ -13,28 +13,49 @@ import com.example.hartcheck.Model.MedicalHistory
 import com.example.hartcheck.Remote.BodyMassRemote.BodyMassInstance
 import com.example.hartcheck.Remote.BugReportRemote.BugReportInstance
 import com.example.hartcheck.Remote.MedHisRemote.MedHisInstance
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class RegisterMedActivity : AppCompatActivity() {
+    private lateinit var gsc: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registermed)
+        GoogleRegisterFinal()
 
 //        val patientID = intent.getIntExtra("patientID", 0)
 //        Toast.makeText(this, "Registration Successful ${patientID}", Toast.LENGTH_SHORT).show()
 
-        val btn_medHis_bodyMass: Button = findViewById<Button>(R.id.btn_medHis_bodyMass)
+        val btn_medHis_bodyMass = findViewById<Button>(R.id.btn_medHis_bodyMass)
         btn_medHis_bodyMass.setOnClickListener {
 //            val intent = Intent(this, LoginMain::class.java)
 //            startActivity(intent)
             insertMedHis()
-            insertBodyMass();
+            insertBodyMass()
         }
 
 
     }
+
+    private fun GoogleRegisterFinal() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        gsc = GoogleSignIn.getClient(this, gso)
+    }
+
+    private fun goSignOut() {
+        gsc.signOut().addOnSuccessListener {
+            startActivity(Intent(this, LoginMain::class.java))
+            finish()
+        }
+    }
+
     private fun insertMedHis() {//to be fix
         val patientID = intent.getIntExtra("patientID", 0)
 
@@ -77,7 +98,7 @@ class RegisterMedActivity : AppCompatActivity() {
         val weightInKg = bodyMassWeight.toDouble()
         val bmi = weightInKg / (heightInMeters * heightInMeters)
 
-        val BMIType = when {//seting of number needs to be fx
+        val BMIType = when {//setting of number needs to be fx
             bmi < 18.5 -> 1
             bmi >= 18.5 && bmi < 25 -> 2
             bmi >= 25 && bmi < 30 -> 3
@@ -93,8 +114,10 @@ class RegisterMedActivity : AppCompatActivity() {
             override fun onResponse(call: Call<BodyMass>, response: Response<BodyMass>) {
                 if (response.isSuccessful) {
                     // Successfully deleted the bug report
-                    val intent = Intent(this@RegisterMedActivity, LoginMain::class.java)
-                    startActivity(intent)
+                    goSignOut()
+
+//                    val intent = Intent(this@RegisterMedActivity, LoginMain::class.java)
+//                    startActivity(intent)
                 } else {
                     // Handle the error response
                 }

@@ -1,5 +1,6 @@
 package com.example.hartcheck.Remote.PreviousMedRemote
 
+import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.PreviousMedication
 import retrofit2.Call
 import retrofit2.http.Body
@@ -14,6 +15,8 @@ interface PreviousMedInterface {
     fun insertPrevMed(@Body request: PreviousMedication): Call<PreviousMedication>
     @GET("api/PreviousMed")
     fun getPrevMed(): Call<List<PreviousMedication>>
+    @GET("api/PreviousMed/{patientID}")
+    fun getPreviousMedID(@Path("patientID") patientID: Int): Call<PreviousMedication>
     @DELETE("api/PreviousMed/{prevMedID}")
     fun deletePrevMed(@Path("prevMedID") resourceId: String): Call<PreviousMedication>
     @PUT("api/PreviousMed/{prevMedID}")

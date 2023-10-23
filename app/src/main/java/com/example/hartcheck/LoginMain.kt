@@ -32,17 +32,18 @@ class LoginMain : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_main)
 
+        //Logged in as google needs to be fix to get userID
+        //register as google is good
+
         googleSignIn = findViewById(R.id.btn_GoogleSignIn)
-        val btn_login: Button = findViewById<Button>(R.id.btn_login_main)
-        val noAccbtn: TextView = findViewById<TextView>(R.id.txt_dont_have_acc)
-        val forgotPass: TextView = findViewById<TextView>(R.id.txt_forgot)
+        val btn_login = findViewById<Button>(R.id.btn_login_main)
+        val noAccbtn = findViewById<TextView>(R.id.txt_dont_have_acc)
+        val forgotPass = findViewById<TextView>(R.id.txt_forgot)
 
         googleSignInAccount()
 
         btn_login.setOnClickListener {
             loginPatient()
-//            getPatientID(userID = 46)
-//            getPatientID()
         }
         googleSignIn.setOnClickListener{
             goToSignIn()
@@ -68,7 +69,7 @@ class LoginMain : AppCompatActivity() {
         val account: GoogleSignInAccount? = GoogleSignIn
             .getLastSignedInAccount(this)
         if(account!=null){
-            goToHome()
+            goToHome(account.email)
         }
         return account
     }
@@ -87,8 +88,8 @@ class LoginMain : AppCompatActivity() {
                 .getSignedInAccountFromIntent(data)
 
             try{
-                goToHome()
-                task.getResult(ApiException::class.java )
+                val account = task.getResult(ApiException::class.java)
+                goToHome(account.email)
 
             }
             catch (e:java.lang.Exception){
@@ -97,15 +98,16 @@ class LoginMain : AppCompatActivity() {
         }
     }
 
-    private fun goToHome() {
-        val intent = Intent(this, GoogleSign::class.java)
+    private fun goToHome(email: String?) {
+        val intent = Intent(this, HomeActivity::class.java)
+        intent.putExtra("email", email)
         startActivity(intent)
         finish()
     }
 
     private fun loginPatient() {
-        val editEmail: EditText = findViewById<EditText>(R.id.input_email)
-        val editPassword: EditText = findViewById<EditText>(R.id.input_pass)
+        val editEmail = findViewById<EditText>(R.id.input_email)
+        val editPassword = findViewById<EditText>(R.id.input_pass)
 
         val email = editEmail.text.toString()
         val Password = editPassword.text.toString()
@@ -114,68 +116,27 @@ class LoginMain : AppCompatActivity() {
         val loginUser = UsersInstance.retrofitBuilder
 
         loginUser.loginUser(loginRequest).enqueue(object : Callback<Users> {//CLEAN CODE
-            override fun onResponse(call: Call<Users>, response: Response<Users>){
-                if (response.isSuccessful) {
-                    // Registration successful, handle it as needed
-                    Log.d("MainActivity", "Response: ${response.body()}")
-                    val user = response.body()
-                    if(user != null){
-                        val userID = user.usersID
-                        if(userID != null){
-                            Toast.makeText(this@LoginMain, "Registration Successful $userID", Toast.LENGTH_SHORT).show()
-//                            getPatientID(userID)
-                            val intent = Intent(this@LoginMain, TestActivity::class.java)
-                            Log.d("MainActivity", "User ID: $userID")
-                            intent.putExtra("userID", userID)
-                            startActivity(intent)
-                        }else {
-                            Toast.makeText(this@LoginMain, "User ID is null", Toast.LENGTH_SHORT).show()
-                        }
-                        Toast.makeText(this@LoginMain, "Registration Successful", Toast.LENGTH_SHORT).show()
+        override fun onResponse(call: Call<Users>, response: Response<Users>){
+            if (response.isSuccessful) {
+                val user = response.body()
+                if(user != null){
+                    val userID = user.usersID
+                    if(userID != null){
+                        Toast.makeText(this@LoginMain, "Logged In $userID", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@LoginMain, HomeActivity::class.java)
+                        intent.putExtra("userID", userID)
+                        startActivity(intent)
+                    }else {
+                        Toast.makeText(this@LoginMain, "User ID is null", Toast.LENGTH_SHORT).show()
                     }
-//                    Log.d ("MainActivity", "Registration successful: ")
-
-                }
-                else {
-                    // Registration failed, handle the error
-                    Toast.makeText(this@LoginMain, "Registration DENIED", Toast.LENGTH_SHORT).show()
                 }
             }
-
+            else {
+                Toast.makeText(this@LoginMain, "Registration DENIED", Toast.LENGTH_SHORT).show()
+            }
+        }
             override fun onFailure(call: Call<Users>, t: Throwable) {
-                // Handle network failure
                 Log.d ("MainActivity", "Registration failed: ")
-            }
-        })
-    }
-    private fun getPatientID() {
-        val service = PatientsInstance.retrofitBuilder
-        service.getPatients().enqueue(object : Callback<List<Patients>> {
-            override fun onResponse(call: Call<List<Patients>>, response: Response<List<Patients>>) {
-                try {
-                    if(response.isSuccessful){
-                        val patients = response.body()
-//                    if(patients != null) {
-//                        // Filter the list of patients based on the user ID
-//                        val patient = patients.firstOrNull { it.usersID == userID }
-//                        if (patient != null) {
-//                            val patientID = patient.patientID
-                        // Do something with the patientID
-                        Toast.makeText(this@LoginMain, "Registration Successful $patients", Toast.LENGTH_SHORT).show()
-                        Log.d ("MainActivity", "Registration failed: $patients ")
-                    } else {
-                        Toast.makeText(this@LoginMain, "Patient not found for this user ID ${response.message()}", Toast.LENGTH_SHORT).show()
-                        Log.d ("MainActivity", "Registration failed: ${response.message()} ")
-
-                    }
-                }
-                catch (e: Exception){
-                    Log.d ("MainActivity", "Failed to connect: : " + e.message)
-                }
-
-            }
-            override fun onFailure(call: Call<List<Patients>>, t: Throwable) {
-                Log.d ("MainActivity", "Failed to connect: : " + t.message)
             }
         })
     }

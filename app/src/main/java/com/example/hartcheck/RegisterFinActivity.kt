@@ -21,17 +21,8 @@ class RegisterFinActivity : AppCompatActivity() {
         setContentView(R.layout.activity_registerfin)
         val btn_confirm_register: Button = findViewById<Button>(R.id.btn_confirm_register)
 
-//        val email = intent.getStringExtra("email")
-//        val password = intent.getStringExtra("password")
-//        val userID = intent.getIntExtra("userID", 0)
-//
-//        Toast.makeText(this, "Registration Successful ${email}", Toast.LENGTH_SHORT).show()
-//        Toast.makeText(this, "Registration Successful ${password}", Toast.LENGTH_SHORT).show()
-//        Toast.makeText(this, "Registration Successful ${userID}", Toast.LENGTH_SHORT).show()
 
         btn_confirm_register.setOnClickListener {
-//            val intent = Intent(this, RegisterMedActivity::class.java)
-//            startActivity(intent)
             confirmCred()
         }
     }
@@ -40,11 +31,8 @@ class RegisterFinActivity : AppCompatActivity() {
         val email = intent.getStringExtra("email")
         val password = intent.getStringExtra("password")
 
-//        val txt_email: EditText = findViewById<EditText>(R.id.txt_email)
-//        val txt_pass: EditText = findViewById<EditText>(R.id.txt_pass)
-
-        val confirmEmail: EditText = findViewById<EditText>(R.id.txt_confirm_email)
-        val confirmPass: EditText = findViewById<EditText>(R.id.txt_confirm_pass)
+        val confirmEmail = findViewById<EditText>(R.id.txt_confirm_email)
+        val confirmPass = findViewById<EditText>(R.id.txt_confirm_pass)
 
 
 

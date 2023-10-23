@@ -1,11 +1,16 @@
 package com.example.hartcheck
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
@@ -20,11 +25,32 @@ class RegisterFinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registerfin)
         val btn_confirm_register: Button = findViewById<Button>(R.id.btn_confirm_register)
+        val link_terms:Button = findViewById(R.id.link_terms)
+
+        link_terms.setOnClickListener {
+            showTerms()
+        }
 
 
         btn_confirm_register.setOnClickListener {
             confirmCred()
         }
+        //Add error if terms is not checked
+    }
+    private fun showTerms(){
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.popup_terms)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val btn_ok:Button = dialog.findViewById(R.id.btn_terms_okay)
+
+        btn_ok.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun confirmCred() {

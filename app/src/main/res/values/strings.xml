@@ -10,7 +10,7 @@
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
     <string name="btn_next">Next</string>
-    <string name="btn_info">More Info</string>
+    <string name="btn_info">Learn more about BP Management</string>
     <string name="btn_code">Send Code</string>
     <string name="btn_verify">Verify</string>
     <string name="btn_reset">Reset Password</string>
@@ -30,6 +30,7 @@
     <string name="btn_book_app">Book Appointment</string>
     <string name="btn_request_date">Request this date</string>
     <string name="btn_view_app">View Appointment</string>
+    <string name="btn_okay">Ok</string>
 
     <!--  custom btns-->
     <string name="btn_view_bp_2">View my BP</string>
@@ -124,6 +125,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="li_terms"><u>Terms and Conditions</u></string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -157,6 +159,15 @@
         facilitate communication with their doctor during scheduled appointments. It enables users to
         record and track their blood pressure readings chat with their doctor during appointment times,
         and manage their health profile.</string>
+
+    <!-- terms -->
+    <string name="terms">
+        Please read the following terms and conditions carefully before using our mobile application. By accessing and using our application, you are consenting to the collection, processing, storage, and usage of your personal data, including blood pressure information, in accordance with the provisions outlined below.  Data Privacy and Security Measures:
+ a. We prioritize the privacy and security of your data and adhere to relevant healthcare legislation, including the Data Privacy Act of 2012 in the Philippines. b. We implement security measures to protect your personal information from unauthorized access, disclosure, alteration, or destruction. c. We store your data securely and take reasonable precautions to ensure its confidentiality and integrity.  Purpose of Data Collection: a. We collect and process your blood pressure information for the purpose of monitoring and managing your health. b. The collected data helps us provide personalized insights, suggestions, and recommendations to improve your overall well-being.  Consent for Data Usage: a. By using our mobile application and providing your blood pressure data, you grant us explicit consent to collect, process, store, and use this information. b. Your data may be anonymized and used for statistical analysis, research, or other legitimate purposes, ensuring that your identity remains protected.  Data Retention: a. We will retain your blood pressure data for as long as necessary to fulfill the purposes outlined in this consent, or as required by applicable laws and regulations. b. If you decide to terminate your use of our application, you may request the deletion of your personal data from our systems.  Third-Party Access: a. We do not share your personal data, including blood pressure information, with third parties without your explicit consent, except as required by law or with your explicit request. b. In some cases, we may engage trusted service providers who assist us in delivering our services. These providers are bound by confidentiality obligations and are only authorized to access your data to the extent necessary to perform their services.  Individual Rights: a. You have the right to access, correct, or update your personal data held by us. If you require assistance with this, please contact our support team. b. You may withdraw your consent for the collection and use of your data at any time. However, please note that this may affect your ability to use certain features or services within the application.  Data Protection Officer (DPO): a. We have appointed a Data Protection Officer (DPO) who oversees compliance with the Data Privacy Act of 2012 and ensures the protection of your personal information. b. If you have any concerns, questions, or requests regarding your data privacy, please contact our DPO at [DPO contact details].  By using our mobile application and providing your blood pressure data, you acknowledge that you have read, understood, and agreed to the terms and conditions outlined above. You also consent to the collection, processing, storage, and usage of your personal data as described herein. If you do not agree with these terms, please refrain from using our application.and will not be shared with any unauthorized individuals or organizations without my explicit consent, except as required by law. I will follow the instructions provided by my healthcare provider. I will promptly report any concerns related to the blood pressure monitoring to my healthcare provider. Right to Withdraw Consent: I understand that I have the right to withdraw my consent for blood pressure monitoring at any time, without affecting my current or future medical care. However, I acknowledge that the decision to withdraw may impact the accuracy and effectiveness of my treatment. By checking the box, I acknowledge that I have read and understood the contents of this consent form. I have had the opportunity to ask questions, and any concerns I had have been addressed to my satisfaction
+
+
+.
+    </string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

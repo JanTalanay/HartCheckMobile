@@ -78,7 +78,7 @@
             android:id="@+id/txt_confirm_pass"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/custom_input"
             android:ems="10"
             android:hint="@string/input_confirm_pass"
@@ -89,6 +89,17 @@
             tools:layout_editor_absoluteX="30dp"
             tools:layout_editor_absoluteY="129dp" />
 
+        <Button
+            android:id="@+id/link_terms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:text="@string/li_terms"
+            android:textColor="@color/primary_teal"
+            android:gravity="center"
+            android:textSize="16sp" />
 
         <CheckBox
             android:id="@+id/chk_terms"

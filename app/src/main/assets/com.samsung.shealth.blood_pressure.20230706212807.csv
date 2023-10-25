@@ -1,0 +1,5 @@
+com.samsung.shealth.blood_pressure,6236003,1,,,,,,,,,,,
+medication,com.samsung.health.blood_pressure.start_time,com.samsung.health.blood_pressure.custom,com.samsung.health.blood_pressure.update_time,com.samsung.health.blood_pressure.create_time,com.samsung.health.blood_pressure.mean,com.samsung.health.blood_pressure.pulse,com.samsung.health.blood_pressure.time_offset,com.samsung.health.blood_pressure.deviceuuid,com.samsung.health.blood_pressure.comment,com.samsung.health.blood_pressure.pkg_name,com.samsung.health.blood_pressure.diastolic,com.samsung.health.blood_pressure.datauuid,com.samsung.health.blood_pressure.systolic
+,55:18.0,,27:17.6,27:17.6,0,109,UTC+0800,d5e10e9c-bb50-417f-8c27-ceae56f5bbd9,,com.samsung.android.shealthmonitors,91,604b0fc8-dd8e-4768-97fd-d3d89ce8fcd0,143
+,27:15.7,,27:17.6,27:17.6,0,78,UTC+0800,d5e10e9c-bb50-417f-8c27-ceae56f5bbd9,,com.samsung.android.shealthmonitors,81,0eec8061-ff88-4ef6-bd4c-3a1d6ae97ce4,128
+,28:37.4,,27:17.6,27:17.6,0,87,UTC+0800,d5e10e9c-bb50-417f-8c27-ceae56f5bbd9,,com.samsung.android.shealthmonitors,82,f341e29c-e8c9-48a5-a847-90aa616e63a9,130

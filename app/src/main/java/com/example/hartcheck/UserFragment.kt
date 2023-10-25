@@ -52,6 +52,7 @@ class UserFragment : Fragment() {
         // Inflate the layout for this fragment
         val userID = arguments?.getInt(ARG_USER_ID)
         val view = inflater.inflate(R.layout.fragment_user, container, false)
+        Toast.makeText(context, "UserFragment $userID", Toast.LENGTH_SHORT).show()
 
         val btn_back_userProfile = view.findViewById<Button>(R.id.btn_back_userProfile)
         val btn_edit_profile = view.findViewById<Button>(R.id.btn_edit_profile)

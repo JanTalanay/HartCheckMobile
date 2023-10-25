@@ -26,8 +26,9 @@ class NavActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         btn_states()
-        val userID = intent.getIntExtra("userID", 0)
-        Toast.makeText(this, "Logged In $userID", Toast.LENGTH_SHORT).show()
+//        val userID = intent.getIntExtra("userID", 0)
+//        val patientID = intent.getIntExtra("patientID", 0)
+//        Toast.makeText(this, "GOT UR: $userID AND $patientID", Toast.LENGTH_SHORT).show()
 
         binding.navBar.setOnItemSelectedListener {
             when(it){
@@ -52,7 +53,8 @@ class NavActivity : AppCompatActivity() {
 
         when (buttonState) {
             "btn_bp" -> {
-                replaceFragment(BPFragment.newInstance(patientID))
+                replaceFragment(BPFragment.newInstance(userID,patientID))
+//                replaceFragment(BPFragment.newInstanceUserID(userID))
             }
             "btn_consul" -> {// have to think first
                 replaceFragment(ConsultationFragment())

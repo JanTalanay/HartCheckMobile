@@ -144,6 +144,7 @@
                 android:textSize="16sp"
                 tools:layout_editor_absoluteX="121dp"
                 android:textAlignment="center"
+                android:clickable="true"
                 tools:layout_editor_absoluteY="94dp" />
         </TableRow>
     </TableLayout>

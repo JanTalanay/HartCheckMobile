@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.Users
@@ -24,20 +25,33 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        val userID = intent.getIntExtra("userID", 0)
+//        val patientID = intent.getIntExtra("patientID", 0)
+
         val btn_bp = findViewById<Button>(R.id.btn_view_bp)
         val btn_consul = findViewById<Button>(R.id.btn_consul)
         val btn_chat = findViewById<Button>(R.id.btn_chat)
         val btn_profile = findViewById<Button>(R.id.btn_profile)
         val btn_info = findViewById<Button>(R.id.btn_info)
+        val li_faq = findViewById<TextView>(R.id.li_faq)
 
 //        GoogleSignInOptions()
 
 
         btn_info.setOnClickListener {
+            val intent = Intent(this, EducationalActivity::class.java)
+            intent.putExtra("userID", userID)
+            startActivity(intent)
+//            intent.putExtra("patientID", patientID)
 //            GoogleSignOut()
         }
-        //add educ btn and faq link
-//        getPatientUserID() to be fix
+        li_faq.setOnClickListener {
+            val intent = Intent(this, FAQ::class.java)
+            intent.putExtra("userID", userID)
+            startActivity(intent)
+//            intent.putExtra("patientID", patientID)
+        }
+
 
         btn_bp.setOnClickListener {
             startNextActivity("btn_bp")
@@ -110,7 +124,7 @@ class HomeActivity : AppCompatActivity() {
             }
         })
     }
-    private fun GoogleLoginUserID() {
+    private fun GoogleLoginUserID() { //to be fix
         val email = intent.getStringExtra("email") ?: ""
         val service = UsersInstance.retrofitBuilder
         service.getRegisterEmail(email).enqueue(object : Callback<Users> {

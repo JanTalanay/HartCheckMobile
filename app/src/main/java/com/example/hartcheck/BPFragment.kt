@@ -239,6 +239,9 @@ class BPFragment : Fragment() {
             }
         })
     }
+    private fun getprevBP() {
+
+    }
     private fun readCSVFile() {//THIS SHIT WORKS
         val csvFile = resources.assets.open("com.samsung.shealth.blood_pressure.20230706212807.csv")
         val reader = BufferedReader(InputStreamReader(csvFile))

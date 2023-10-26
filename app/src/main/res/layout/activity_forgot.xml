@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/btn_back"
+            android:id="@+id/btn_back_forgot"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/btn_back"
@@ -52,7 +52,7 @@
             android:layout_marginBottom="40dp"/>
 
         <EditText
-            android:id="@+id/txt_email"
+            android:id="@+id/txt_email_forgot"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/custom_input"
@@ -66,7 +66,7 @@
             tools:layout_editor_absoluteX="30dp"
             tools:layout_editor_absoluteY="129dp" />
         <Button
-            android:id="@+id/btn_send"
+            android:id="@+id/btn_send_code"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/btn_primary"

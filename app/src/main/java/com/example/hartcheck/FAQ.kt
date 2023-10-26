@@ -1,9 +1,11 @@
 package com.example.hartcheck
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.hartcheck.Data.FAQData
@@ -18,6 +20,8 @@ class FAQ : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_faq)
+        val userID = intent.getIntExtra("userID", 0)
+        val btnBackFAQ = findViewById<Button>(R.id.btn_back_FAQ)
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -32,5 +36,10 @@ class FAQ : AppCompatActivity() {
 
         adapter = ExpandableAdapter(faqList)
         recyclerView.adapter = adapter
+        btnBackFAQ.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("userID", userID)
+            startActivity(intent)
+        }
     }
 }

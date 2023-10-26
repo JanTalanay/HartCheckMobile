@@ -63,6 +63,12 @@
             android:name=".GoogleSign"
             android:exported="false" />
         <activity
+            android:name=".EducationalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FAQ"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>

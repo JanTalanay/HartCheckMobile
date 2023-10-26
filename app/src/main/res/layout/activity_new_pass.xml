@@ -66,7 +66,7 @@
             tools:layout_editor_absoluteX="30dp"
             tools:layout_editor_absoluteY="129dp" />
         <EditText
-            android:id="@+id/txt_old_pass"
+            android:id="@+id/txt_confirm_newpass"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginBottom="40dp"

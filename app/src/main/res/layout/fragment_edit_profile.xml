@@ -8,7 +8,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <Button
-        android:id="@+id/btn_back"
+        android:id="@+id/btn_back_edit_profile"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="48dp"
@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_back">
+        app:layout_constraintTop_toBottomOf="@+id/btn_back_edit_profile">
 
         <TableRow
             android:layout_width="match_parent"

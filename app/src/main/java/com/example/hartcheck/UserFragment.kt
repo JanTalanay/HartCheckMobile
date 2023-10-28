@@ -52,7 +52,6 @@ class UserFragment : Fragment() {
         // Inflate the layout for this fragment
         val userID = arguments?.getInt(ARG_USER_ID)
         val view = inflater.inflate(R.layout.fragment_user, container, false)
-        Toast.makeText(context, "UserFragment $userID", Toast.LENGTH_SHORT).show()
 
         val btn_back_userProfile = view.findViewById<Button>(R.id.btn_back_userProfile)
         val btn_edit_profile = view.findViewById<Button>(R.id.btn_edit_profile)
@@ -64,12 +63,16 @@ class UserFragment : Fragment() {
             startActivity(intent)
         }
         btn_logout.setOnClickListener {
-
             val intent = Intent(activity, LoginMain::class.java)
             startActivity(intent)
         }
         btn_edit_profile.setOnClickListener {
-                updateProfile()
+            val editProfileFragment = userID?.let { it1 -> EditProfileFragment.newInstance(it1) }
+            editProfileFragment?.let { it1 -> replaceFragment(it1) }
+//                updateProfile()
+//            val intent = Intent(activity, EditProfileFragment::class.java)
+//            intent.putExtra("userID", userID)
+//            startActivity(intent)
         }
 
 
@@ -112,8 +115,8 @@ class UserFragment : Fragment() {
         })
     }
 
+
     private fun viewUser() {
-//        val userID = intent.getIntExtra("userID", 0)
         val userID = arguments?.getInt(ARG_USER_ID)
         val service = UsersInstance.retrofitBuilder
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -122,7 +125,6 @@ class UserFragment : Fragment() {
             service.getRegisterUsersID(it).enqueue(object : Callback<Users> {
                 override fun onResponse(call: Call<Users>, response: Response<Users>) {
                     if(response.isSuccessful){
-//                        Log.d("MainActivity", "userID: $userID " + response.code())
                         val user = response.body()
                         user?.let {
                             currentUser = it
@@ -165,7 +167,13 @@ class UserFragment : Fragment() {
         }?: run {
         }
     }
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = activity?.supportFragmentManager
+        val fragmentTransaction = fragmentManager?.beginTransaction()
 
+        fragmentTransaction?.replace(R.id.frame_layout, fragment)
+        fragmentTransaction?.commit()
+    }
     companion object {
         private const val ARG_USER_ID = "userID"
         private const val ARG_PARAM1 = "param1"

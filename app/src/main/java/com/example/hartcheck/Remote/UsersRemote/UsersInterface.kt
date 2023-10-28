@@ -40,7 +40,7 @@ interface UsersInterface {
     fun getRegisterEmail(@Path("email") email: String): Call<Users>
 
     @DELETE("api/register/{userID}")
-    fun deleteUser(@Path("userID") resourceId: String): Call<Users>
+    fun deleteUser(@Path("userID") resourceId: Int): Call<Users>
 
     @PUT("api/register/{userID}")
     fun updateUser(@Path("userID") resourceId: String, @Body updatedResource: Users): Call<Users>

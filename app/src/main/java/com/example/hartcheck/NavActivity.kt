@@ -54,7 +54,6 @@ class NavActivity : AppCompatActivity() {
         when (buttonState) {
             "btn_bp" -> {
                 replaceFragment(BPFragment.newInstance(userID,patientID))
-//                replaceFragment(BPFragment.newInstanceUserID(userID))
             }
             "btn_consul" -> {// have to think first
                 replaceFragment(ConsultationFragment())
@@ -64,7 +63,6 @@ class NavActivity : AppCompatActivity() {
             }
             "btn_profile" -> {
                 replaceFragment(UserFragment.newInstance(userID))
-//                replaceFragment(UserFragment())
             }
             else -> {
 

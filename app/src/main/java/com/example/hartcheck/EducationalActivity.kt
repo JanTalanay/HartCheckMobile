@@ -3,7 +3,18 @@ package com.example.hartcheck
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Spinner
+import com.example.hartcheck.Model.Users
+import com.example.hartcheck.Remote.UsersRemote.UsersInstance
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.HttpException
+import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class EducationalActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,5 +29,8 @@ class EducationalActivity : AppCompatActivity() {
             intent.putExtra("userID", userID)
             startActivity(intent)
         }
+    }
+    private fun viewEduc() {
+
     }
 }

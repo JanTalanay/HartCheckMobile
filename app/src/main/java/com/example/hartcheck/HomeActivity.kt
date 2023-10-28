@@ -21,12 +21,14 @@ import retrofit2.Response
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var gsc: GoogleSignInClient
+    private lateinit var token: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        //setContentView(R.layout.activity_home)
 
         val userID = intent.getIntExtra("userID", 0)
 //        val patientID = intent.getIntExtra("patientID", 0)
+        token = intent.getStringExtra("token") ?: ""
 
         val btn_bp = findViewById<Button>(R.id.btn_view_bp)
         val btn_consul = findViewById<Button>(R.id.btn_consul)
@@ -36,6 +38,39 @@ class HomeActivity : AppCompatActivity() {
         val li_faq = findViewById<TextView>(R.id.li_faq)
 
 //        GoogleSignInOptions()
+        if (isTokenAvailable(token)) {
+            setContentView(R.layout.activity_home)
+
+            btn_info.setOnClickListener {
+                val intent = Intent(this, EducationalActivity::class.java)
+                intent.putExtra("userID", userID)
+                startActivity(intent)
+            }
+            li_faq.setOnClickListener {
+                val intent = Intent(this, FAQ::class.java)
+                intent.putExtra("userID", userID)
+                startActivity(intent)
+            }
+            btn_bp.setOnClickListener {
+                startNextActivity("btn_bp")
+            }
+
+            btn_consul.setOnClickListener {
+                startNextActivity("btn_consul")
+            }
+
+            btn_chat.setOnClickListener {
+                startNextActivity("btn_chat")
+            }
+
+            btn_profile.setOnClickListener {
+                startNextActivity("btn_profile")
+
+            }
+
+        }else {
+            redirectToLoginActivity()
+        }
 
 
         btn_info.setOnClickListener {
@@ -71,6 +106,15 @@ class HomeActivity : AppCompatActivity() {
         }
 
     }
+    private fun isTokenAvailable(token: String): Boolean {
+        return token.isNotEmpty()
+    }
+    private fun redirectToLoginActivity() {
+        val intent = Intent(this, LoginMain::class.java)
+        startActivity(intent)
+        finish()
+    }
+
 
     private fun GoogleSignOut() {
         gsc.signOut().addOnSuccessListener {

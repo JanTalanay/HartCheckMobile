@@ -13,6 +13,7 @@ import com.example.hartcheck.Model.Login
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
+import com.example.hartcheck.Remote.Token.TokenInstance
 import com.example.hartcheck.Remote.UsersRemote.UsersInstance
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -114,29 +115,77 @@ class LoginMain : AppCompatActivity() {
 
         val loginRequest  = Login(email = email, password = Password)
         val loginUser = UsersInstance.retrofitBuilder
+        //generate token here
 
-        loginUser.loginUser(loginRequest).enqueue(object : Callback<Users> {//CLEAN CODE
-        override fun onResponse(call: Call<Users>, response: Response<Users>){
-            if (response.isSuccessful) {
-                val user = response.body()
-                if(user != null){
+
+//        loginUser.loginUser(loginRequest).enqueue(object : Callback<Users> {//CLEAN CODE
+//        override fun onResponse(call: Call<Users>, response: Response<Users>){
+//            if (response.isSuccessful) {
+//                val user = response.body()
+//                if(user != null){
+//                    val userID = user.usersID
+//                    if(userID != null){
+//                        Toast.makeText(this@LoginMain, "Logged In $userID", Toast.LENGTH_SHORT).show()
+//                        val intent = Intent(this@LoginMain, HomeActivity::class.java)
+//                        intent.putExtra("userID", userID)
+//                        startActivity(intent)
+//                    }else {
+//                        Toast.makeText(this@LoginMain, "User ID is null", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//            else {
+//                Toast.makeText(this@LoginMain, "Registration DENIED", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//            override fun onFailure(call: Call<Users>, t: Throwable) {
+//                Log.d ("MainActivity", "Registration failed: ")
+//            }
+//        })
+        loginUser.loginUser(loginRequest).enqueue(object : Callback<Users> {
+            override fun onResponse(call: Call<Users>, response: Response<Users>) {
+                if (response.isSuccessful) {
+                    handleSuccessfulResponse(response.body())
+                } else {
+                    handleUnsuccessfulResponse()
+                }
+            }
+
+            override fun onFailure(call: Call<Users>, t: Throwable) {
+                Log.d("MainActivity", "Registration failed: ")
+            }
+
+            private fun handleSuccessfulResponse(user: Users?) {
+                if (user != null) {
                     val userID = user.usersID
-                    if(userID != null){
-                        Toast.makeText(this@LoginMain, "Logged In $userID", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this@LoginMain, HomeActivity::class.java)
-                        intent.putExtra("userID", userID)
-                        startActivity(intent)
-                    }else {
-                        Toast.makeText(this@LoginMain, "User ID is null", Toast.LENGTH_SHORT).show()
+                    if (userID != null) {
+                        if(TokenInstance.isTokenAvailable()){
+                            showToast("Logged In $userID")
+                            startHomeActivity(userID,TokenInstance.getToken())
+                        }else{
+                            TokenInstance.generateToken(16)
+                            startHomeActivity(userID,TokenInstance.getToken())
+                        }
+
+                    } else {
+                        showToast("User ID is null")
                     }
                 }
             }
-            else {
-                Toast.makeText(this@LoginMain, "Registration DENIED", Toast.LENGTH_SHORT).show()
+
+            private fun handleUnsuccessfulResponse() {
+                showToast("Registration DENIED")
             }
-        }
-            override fun onFailure(call: Call<Users>, t: Throwable) {
-                Log.d ("MainActivity", "Registration failed: ")
+
+            private fun showToast(message: String) {
+                Toast.makeText(this@LoginMain, message, Toast.LENGTH_SHORT).show()
+            }
+
+            private fun startHomeActivity(userID: Int, token:String?) {
+                val intent = Intent(this@LoginMain, HomeActivity::class.java)
+                intent.putExtra("userID", userID)
+                intent.putExtra("token", token)
+                startActivity(intent)
             }
         })
     }

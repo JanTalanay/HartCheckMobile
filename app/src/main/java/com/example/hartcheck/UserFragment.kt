@@ -69,7 +69,7 @@ class UserFragment : Fragment() {
             startActivity(intent)
         }
         btn_edit_profile.setOnClickListener {
-            updateProfile()
+                updateProfile()
         }
 
 
@@ -88,7 +88,7 @@ class UserFragment : Fragment() {
             lastName = view?.findViewById<EditText>(R.id.input_ln_profile)?.text.toString(),
             password = currentUser?.password, // Assuming you want to keep the password unchanged
             birthdate = view?.findViewById<EditText>(R.id.input_birthdate_profile)?.text.toString(),
-            gender = view?.findViewById<EditText>(R.id.input_gender_profile)?.text.toString().toInt(),
+            gender = currentUser?.gender, // Assuming you want to keep the password unchanged
             phoneNumber = view?.findViewById<EditText>(R.id.input_phone_profile)?.text.toString().toLong(),
             role = currentUser?.role // Assuming you want to keep the role unchanged
         )

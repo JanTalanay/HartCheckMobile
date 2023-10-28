@@ -1,7 +1,11 @@
 package com.example.hartcheck
 
 import android.app.Dialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,12 +14,16 @@ import android.view.ViewGroup
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.util.Log
 import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.example.hartcheck.Model.BloodPressure
 import com.example.hartcheck.Remote.BloodPressureRemote.BloodPressureInstance
 import com.github.mikephil.charting.charts.LineChart
@@ -62,6 +70,16 @@ class BPFragment : Fragment() {
     private var param2: String? = null
     private val list = mutableListOf<Pair<String, String>>()
     private var currentIndex = 0
+    private val CHANNEL_ID ="Your_Channel_ID"
+    private val notificationID = 101
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        if (isGranted) {
+            sendNotification("Permission granted")
+        } else {
+            // Handle the case where the user denies the permission request
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -91,6 +109,7 @@ class BPFragment : Fragment() {
         val entries2 = mutableListOf<Entry>()
 
         readCSVFile()
+        createNotificationChannel()
 
         backBP.setOnClickListener {
             val intent = Intent(activity, HomeActivity::class.java)
@@ -197,6 +216,40 @@ class BPFragment : Fragment() {
         dialog.show()
     }
 
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Notification Title"
+            val descriptionText = "Notification Description"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager =
+                requireActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+    private fun sendNotification(message: String) {
+        val permission = "android.permission.POST_NOTIFICATIONS"
+        val hasPermission = requireActivity().checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+
+        if (hasPermission) {
+            val builder = NotificationCompat.Builder(requireActivity(), CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Blood Pressure Alert")
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+            with(NotificationManagerCompat.from(requireActivity())) {
+                notify(notificationID, builder.build())
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                requestPermissionLauncher.launch(permission)
+            }
+        }
+    }
+
 
     private fun insertBP(dialog: Dialog){
         val patientID = arguments?.getInt(ARG_PATIENT_ID)
@@ -256,6 +309,7 @@ class BPFragment : Fragment() {
             }
         }
     }
+
     private fun displayNextPair(view: View) {
         val systolic = view.findViewById<EditText>(R.id.edit_systolic)
         val diastolic = view.findViewById<EditText>(R.id.edit_diastolic)
@@ -264,6 +318,21 @@ class BPFragment : Fragment() {
             val pair = list[currentIndex]
             systolic?.setText(pair.first)
             diastolic?.setText(pair.second)
+
+            // Check if systolic or diastolic value has reached specific stage
+            val systolic = pair.first.toInt()
+            val diastolic = pair.second.toInt()
+            val specificStage = 120 // Replace with your specific stage
+            if (systolic >= 140 || diastolic >= 90) {
+                sendNotification("High Blood Pressure (hypertension)")
+            } else if (systolic >= 130 || (systolic >= 120 && diastolic >= 80)) {
+                sendNotification("Elevated")
+            } else if ((systolic >= 120 && systolic < 130) || (diastolic >= 80 && diastolic < 89)) {
+                sendNotification("At Risk (prehypertension)")
+            } else if (systolic < 120 && diastolic < 80) {
+                sendNotification("Normal")
+            }
+
             currentIndex++
         } else {
             systolic?.setText("No more pairs in the list.")

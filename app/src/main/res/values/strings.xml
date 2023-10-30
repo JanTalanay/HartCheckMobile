@@ -108,8 +108,11 @@
     <string name="p_delete_acc">Are you sure you want to Delete your account?</string>
     <string name="p_delete">Are you sure you want to delete?</string>
     <string name="p_booking_success">Thank you for booking</string>
+    <string name="p_no_appointment">You don\'t have any appointments today.</string>
     <string name="p_resched_modal">Are you sure you want to Reschedule?</string>
     <string name="p_cancel_modal">Are you sure you want to Cancel?</string>
+    <string name="p_appointment_date">Appointment Date</string>
+    <string name="p_view">View</string>
     <string name="p_resched_appointment">There was an overlapping with the scheduled date, if you want to see the new date please click on the button below, you may also opt to reschedule again.</string>
     <!--    links-->
     <string name="li_reg_now">Don’t have an account?</string>

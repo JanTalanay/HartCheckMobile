@@ -14,6 +14,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.checkCallingOrSelfPermission
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.hartcheck.Adapter.ListAdapter
+import com.example.hartcheck.Data.DocData
 import okhttp3.internal.notify
 import java.util.Calendar
 
@@ -21,6 +25,8 @@ import java.util.Calendar
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+
+
 
 /**
  * A simple [Fragment] subclass.
@@ -33,6 +39,10 @@ class ConsultationFragment : Fragment() {
     private var param2: String? = null
     private val CHANNEL_ID ="Your_Channel_ID"
     private val notificationID = 101
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var listAdapter: ListAdapter
+    private lateinit var doctorList: List<DocData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +57,21 @@ class ConsultationFragment : Fragment() {
         val patientID = arguments?.getInt(ARG_PATIENT_ID)
         val userID = arguments?.getInt(ARG_USER_ID)
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_b_p, container, false)
+        val view = inflater.inflate(R.layout.fragment_consultation, container, false)
+        doctorList = listOf(
+            DocData("Doctor 1", "Info 1"),
+            DocData("Doctor 2", "Info 2"),
+            DocData("Doctor 3", "Info 3")
+        )
+
+        // Initialize RecyclerView and set its layout manager
+        recyclerView = view.findViewById(R.id.consulList)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Initialize and set the adapter for the RecyclerView
+        listAdapter = ListAdapter(doctorList)
+        recyclerView.adapter = listAdapter
+
 
         return view
     }

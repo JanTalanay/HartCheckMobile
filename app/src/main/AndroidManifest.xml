@@ -20,7 +20,7 @@
         android:theme="@style/Theme.HartCheck"
         tools:targetApi="31">
         <activity
-            android:name=".NavActivity"
+            android:name=".BugReportActivity"
             android:exported="false">
         </activity>
         <activity
@@ -63,7 +63,7 @@
             android:name=".FAQ"
             android:exported="false" />
         <activity
-            android:name=".BugReportActivity"
+            android:name=".NavActivity"
             android:exported="false" />
         <activity
             android:name=".ConfirmActivity"

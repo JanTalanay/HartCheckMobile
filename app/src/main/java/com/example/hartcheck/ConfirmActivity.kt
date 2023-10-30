@@ -11,13 +11,14 @@ class ConfirmActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm)
-
+        val userID = intent.getIntExtra("userID", 0)
         val btn_back_home: Button = findViewById(R.id.btn_back_home)
 
         btn_states()
 
         btn_back_home.setOnClickListener {
             val intent = Intent(this,HomeActivity::class.java)
+            intent.putExtra("userID", userID)
             startActivity(intent)
         }
 

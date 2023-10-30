@@ -66,13 +66,13 @@
             android:name=".FAQ"
             android:exported="false" />
         <activity
-            android:name=".LoginMain"
+            android:name=".BugReportActivity"
             android:exported="false" />
         <activity
             android:name=".ConfirmActivity"
             android:exported="false" />
         <activity
-            android:name=".BugReportActivity"
+            android:name=".LoginMain"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

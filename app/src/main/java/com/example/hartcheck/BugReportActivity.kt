@@ -29,9 +29,11 @@ class BugReportActivity : AppCompatActivity() {
     }
 
     fun confirmActivity(buttonState: String) {
-            val intent = Intent(this, ConfirmActivity::class.java)
-            intent.putExtra("BUTTON_STATE", buttonState)
-            startActivity(intent)
+        val userID = intent.getIntExtra("userID", 0)
+        val intent = Intent(this, ConfirmActivity::class.java)
+        intent.putExtra("BUTTON_STATE", buttonState)
+        intent.putExtra("userID", userID)
+        startActivity(intent)
     }
     private fun featureDropdown() {
         val options = listOf("Register", "Login/logout", "Account Management", "Viewing of Appointment", "Blood Pressure Monitoring",

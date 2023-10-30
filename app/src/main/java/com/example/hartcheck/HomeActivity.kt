@@ -36,7 +36,7 @@ class HomeActivity : AppCompatActivity() {
         val btnProfile = findViewById<Button>(R.id.btn_profile)
         val btnInfo = findViewById<Button>(R.id.btn_info)
         val li_faq = findViewById<TextView>(R.id.li_faq)
-        val li_bug = findViewById<TextView>(R.id.li_bug)
+        val reportProblem = findViewById<TextView>(R.id.report_problem)
 
 //        GoogleSignInOptions()
 //        if (isTokenAvailable(token)) {
@@ -86,7 +86,7 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
 //            intent.putExtra("patientID", patientID)
         }
-        li_bug.setOnClickListener {
+        reportProblem.setOnClickListener {
             val intent = Intent(this, BugReportActivity::class.java)
             intent.putExtra("userID", userID)
             startActivity(intent)

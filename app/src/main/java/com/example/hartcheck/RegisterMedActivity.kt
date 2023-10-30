@@ -59,8 +59,8 @@ class RegisterMedActivity : AppCompatActivity() {
     private fun insertMedHis() {//to be fix
         val patientID = intent.getIntExtra("patientID", 0)
 
-        val txtMedCond: EditText = findViewById<EditText>(R.id.txt_medcond)
-        val txtpastSurge: EditText = findViewById<EditText>(R.id.txt_pastSurg)
+        val txtMedCond: EditText = findViewById(R.id.txt_medcond)
+        val txtpastSurge: EditText = findViewById(R.id.txt_pastSurg)
 
         val medCond = txtMedCond.text.toString()
         val pastSurge = txtpastSurge.text.toString()
@@ -83,11 +83,11 @@ class RegisterMedActivity : AppCompatActivity() {
             }
         })
     }
-    private fun insertBodyMass() {//to be fix
+    private fun insertBodyMass() {
         val patientID = intent.getIntExtra("patientID", 0)
 
-        val txtBodyMassHeight: EditText = findViewById<EditText>(R.id.input_height)
-        val txtBodyMassWeight: EditText = findViewById<EditText>(R.id.input_weight)
+        val txtBodyMassHeight: EditText = findViewById(R.id.input_height)
+        val txtBodyMassWeight: EditText = findViewById(R.id.input_weight)
 
 
         val bodyMassHeight = txtBodyMassHeight.text.toString()

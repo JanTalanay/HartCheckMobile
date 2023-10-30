@@ -356,23 +356,6 @@ class BPFragment : Fragment() {
             fragment.arguments = args
             return fragment
         }
-//        fun newInstancePatientID(patientID: Int): BPFragment {
-//            val fragment = BPFragment()
-//            val args = Bundle()
-//            args.putInt(ARG_PATIENT_ID, patientID)
-//            fragment.arguments = args
-//            return fragment
-//        }
-//        @JvmStatic
-//        fun newInstanceUserID(userID: Int): BPFragment {
-//            val fragment = BPFragment()
-//            val args = Bundle()
-//            args.putInt(ARG_USER_ID, userID)
-//            fragment.arguments = args
-//            return fragment
-//        }
-
-
         @JvmStatic
         fun newInstance(param1: String, param2: String): UserFragment {
             val fragment = UserFragment()

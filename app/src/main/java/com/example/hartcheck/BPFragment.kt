@@ -100,6 +100,7 @@ class BPFragment : Fragment() {
 
         val addBP: Button = view.findViewById(R.id.btn_add_bp)
         val backBP: Button = view.findViewById(R.id.btn_back_BloodP)
+        val viewBP: Button = view.findViewById(R.id.btn_view_bp)
 
 
 
@@ -122,7 +123,11 @@ class BPFragment : Fragment() {
             showModal()
         }
 
-
+        viewBP.setOnClickListener {
+            val intent = Intent(activity,PreviousBPActivity::class.java)
+            intent.putExtra("userID", userID)
+            intent.putExtra("patientID", patientID)
+        }
 
         // Read data from CSV file
         val csvFile = resources.assets.open("test_sheet.csv")

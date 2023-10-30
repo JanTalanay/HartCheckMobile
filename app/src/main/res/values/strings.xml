@@ -114,6 +114,7 @@
     <string name="p_appointment_date">Appointment Date</string>
     <string name="p_view">View</string>
     <string name="p_no_avail">There are currently no available doctors.</string>
+    <string name="p_no_bp">No BP history.</string>
     <string name="p_resched_appointment">There was an overlapping with the scheduled date, if you want to see the new date please click on the button below, you may also opt to reschedule again.</string>
     <!--    links-->
     <string name="li_reg_now">Don’t have an account?</string>
@@ -215,6 +216,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_faqactivity">FAQActivity</string>
+    <string name="title_activity_previous_bpactivity">PreviousBPActivity</string>
 
 
 </resources>

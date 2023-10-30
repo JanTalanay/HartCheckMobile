@@ -2,6 +2,8 @@ package com.example.hartcheck
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,6 +12,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -43,6 +48,11 @@ class ConsultationFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var listAdapter: ListAdapter
     private lateinit var doctorList: List<DocData>
+    private lateinit var btn_avail: Button
+    private lateinit var txt_emp: TextView
+    private lateinit var line: ImageView
+    private lateinit var txt_appointment:TextView
+    private lateinit var txt_title:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,22 +68,43 @@ class ConsultationFragment : Fragment() {
         val userID = arguments?.getInt(ARG_USER_ID)
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_consultation, container, false)
+
+        btn_avail = view.findViewById(R.id.btn_view_avail)
+        txt_emp = view.findViewById(R.id.txt_empty)
+
+        line.visibility = View.VISIBLE
+        txt_appointment.visibility =View.VISIBLE
+        txt_title.visibility = View.VISIBLE
+
         doctorList = listOf(
             DocData("Doctor 1", "Info 1"),
             DocData("Doctor 2", "Info 2"),
             DocData("Doctor 3", "Info 3")
         )
 
-        // Initialize RecyclerView and set its layout manager
         recyclerView = view.findViewById(R.id.consulList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        // Initialize and set the adapter for the RecyclerView
         listAdapter = ListAdapter(doctorList)
         recyclerView.adapter = listAdapter
 
+        //enable this as default
+        txt_emp.visibility = View.VISIBLE
+        btn_avail.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+
+        btn_avail.setOnClickListener {
+            replaceFragment(DoctorFragment())
+        }
+
 
         return view
+    }
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = activity?.supportFragmentManager
+        val fragmentTransaction = fragmentManager?.beginTransaction()
+
+        fragmentTransaction?.replace(R.id.frame_layout, fragment)
+        fragmentTransaction?.commit()
     }
     private fun Booked() {
         val startMillis: Long = Calendar.getInstance().run {

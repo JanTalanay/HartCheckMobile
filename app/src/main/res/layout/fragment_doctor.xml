@@ -1,14 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ConsultationFragment">
+    tools:context=".DoctorFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <Button
-        android:id="@+id/btn_back_appoint"
+        android:id="@+id/btn_back_doctor"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="48dp"
@@ -28,14 +27,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:fontFamily="@font/font_urbanist_bold"
-        android:text="@string/header_appointments"
+        android:text="@string/header_available_doctor"
         android:textColor="@color/primary_black"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_back_appoint"
+        app:layout_constraintTop_toBottomOf="@+id/btn_back_doctor"
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.core.widget.NestedScrollView
@@ -69,7 +68,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="30dp"
                 android:fontFamily="@font/font_urbanist_bold"
-                android:text="@string/p_no_appointment"
+                android:text="@string/p_no_avail"
                 android:textColor="@color/primary_black"
                 android:textSize="16sp"
                 android:visibility="gone"
@@ -79,24 +78,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.050" />
-
-            <Button
-                android:id="@+id/btn_view_avail"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/btn_primary"
-                android:fontFamily="@font/font_urbanist_medium"
-                android:text="@string/btn_view_doc"
-                android:textAllCaps="false"
-                android:textColor="@drawable/btn_text_color_white"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.500"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.500" />
 
         </LinearLayout>
 

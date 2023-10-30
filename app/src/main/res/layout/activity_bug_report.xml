@@ -58,7 +58,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <Spinner
                 android:id="@+id/input_bug_feature"
                 android:layout_width="160dp"
                 android:layout_height="55dp"

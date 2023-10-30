@@ -24,56 +24,55 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var token: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_home)
+        setContentView(R.layout.activity_home)
 
         val userID = intent.getIntExtra("userID", 0)
 //        val patientID = intent.getIntExtra("patientID", 0)
-        token = intent.getStringExtra("token") ?: ""
+//        token = intent.getStringExtra("token") ?: ""
 
-        val btn_bp = findViewById<Button>(R.id.btn_view_bp)
-        val btn_consul = findViewById<Button>(R.id.btn_consul)
-        val btn_chat = findViewById<Button>(R.id.btn_chat)
-        val btn_profile = findViewById<Button>(R.id.btn_profile)
-        val btn_info = findViewById<Button>(R.id.btn_info)
+        val btnBP = findViewById<Button>(R.id.btn_view_bp)
+        val btnConsul = findViewById<Button>(R.id.btn_consul)
+        val btnChat = findViewById<Button>(R.id.btn_chat)
+        val btnProfile = findViewById<Button>(R.id.btn_profile)
+        val btnInfo = findViewById<Button>(R.id.btn_info)
         val li_faq = findViewById<TextView>(R.id.li_faq)
 
 //        GoogleSignInOptions()
-        if (isTokenAvailable(token)) {
-            setContentView(R.layout.activity_home)
+//        if (isTokenAvailable(token)) {
+//            setContentView(R.layout.activity_home)
+//        btnInfo.setOnClickListener {
+//                val intent = Intent(this, EducationalActivity::class.java)
+//                intent.putExtra("userID", userID)
+//                startActivity(intent)
+//            }
+//            li_faq.setOnClickListener {
+//                val intent = Intent(this, FAQ::class.java)
+//                intent.putExtra("userID", userID)
+//                startActivity(intent)
+//            }
+//            btn_bp.setOnClickListener {
+//                startNextActivity("btn_bp")
+//            }
+//
+//            btn_consul.setOnClickListener {
+//                startNextActivity("btn_consul")
+//            }
+//
+//            btn_chat.setOnClickListener {
+//                startNextActivity("btn_chat")
+//            }
+//
+//            btn_profile.setOnClickListener {
+//                startNextActivity("btn_profile")
+//
+//            }
+//        }
+//        else {
+//            redirectToLoginActivity()
+//        }
 
-            btn_info.setOnClickListener {
-                val intent = Intent(this, EducationalActivity::class.java)
-                intent.putExtra("userID", userID)
-                startActivity(intent)
-            }
-            li_faq.setOnClickListener {
-                val intent = Intent(this, FAQ::class.java)
-                intent.putExtra("userID", userID)
-                startActivity(intent)
-            }
-            btn_bp.setOnClickListener {
-                startNextActivity("btn_bp")
-            }
 
-            btn_consul.setOnClickListener {
-                startNextActivity("btn_consul")
-            }
-
-            btn_chat.setOnClickListener {
-                startNextActivity("btn_chat")
-            }
-
-            btn_profile.setOnClickListener {
-                startNextActivity("btn_profile")
-
-            }
-
-        }else {
-            redirectToLoginActivity()
-        }
-
-
-        btn_info.setOnClickListener {
+        btnInfo.setOnClickListener {
             val intent = Intent(this, EducationalActivity::class.java)
             intent.putExtra("userID", userID)
             startActivity(intent)
@@ -88,19 +87,19 @@ class HomeActivity : AppCompatActivity() {
         }
 
 
-        btn_bp.setOnClickListener {
+        btnBP.setOnClickListener {
             startNextActivity("btn_bp")
         }
 
-        btn_consul.setOnClickListener {
+        btnConsul.setOnClickListener {
             startNextActivity("btn_consul")
         }
 
-        btn_chat.setOnClickListener {
+        btnChat.setOnClickListener {
             startNextActivity("btn_chat")
         }
 
-        btn_profile.setOnClickListener {
+        btnProfile.setOnClickListener {
             startNextActivity("btn_profile")
 
         }

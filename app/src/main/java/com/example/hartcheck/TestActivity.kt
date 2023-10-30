@@ -38,7 +38,7 @@ class TestActivity : AppCompatActivity() {
 //        Log.d("TestActivity", "User ID: $userID")
 
         testGet.setOnClickListener {
-            getPatientID()
+//            getPatientID()
         }
 
     }

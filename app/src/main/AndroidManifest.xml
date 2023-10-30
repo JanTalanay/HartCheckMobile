@@ -45,7 +45,7 @@
             android:name=".RegisterMedActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -54,7 +54,7 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginMain"
+            android:name=".HomeActivity"
             android:exported="false" />
         <activity
             android:name=".GoogleSign"
@@ -66,7 +66,13 @@
             android:name=".FAQ"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".LoginMain"
+            android:exported="false" />
+        <activity
+            android:name=".ConfirmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BugReportActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

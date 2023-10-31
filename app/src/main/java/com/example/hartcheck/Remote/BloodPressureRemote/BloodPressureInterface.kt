@@ -4,6 +4,7 @@ import com.example.hartcheck.Model.BloodPressure
 import com.example.hartcheck.Model.BugReport
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.PreviousMedication
+import com.example.hartcheck.Wrapper.PrevBloodPressure
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -18,7 +19,7 @@ interface BloodPressureInterface {
     @GET("api/BloodPressure")
     fun getBloodPressure(): Call<List<BloodPressure>>
     @GET("api/BloodPressure/{patientID}")
-    fun getBloodPressureID(@Path("bloodpressureID") patientID: Int): Call<BloodPressure>
+    fun getBloodPressureID(@Path("patientID") patientID: Int): Call<PrevBloodPressure>
     @DELETE("api/BloodPressure/{bloodPressureID}")
     fun deleteBloodPressure(@Path("bloodPressureID") resourceId: String): Call<BloodPressure>
     @PUT("api/BloodPressure/{bloodPressureID}")

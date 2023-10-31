@@ -102,7 +102,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_view_bp"
+        android:id="@+id/btn_view_prev_bp"
         android:layout_width="320dp"
         android:layout_height="55dp"
         android:layout_span="2"

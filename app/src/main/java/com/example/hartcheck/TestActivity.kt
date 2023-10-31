@@ -6,9 +6,11 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.example.hartcheck.Remote.BloodPressureRemote.BloodPressureInstance
 import com.example.hartcheck.Wrapper.Test
 import com.example.hartcheck.Remote.PatientsDoctor.PatientsDoctorInstance
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
+import com.example.hartcheck.Wrapper.PrevBloodPressure
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,7 +40,8 @@ class TestActivity : AppCompatActivity() {
 
         testGet.setOnClickListener {
 //            getPatientID()
-            getDoctorID()
+//            getDoctorID()
+            getPrevBP()
         }
 
     }
@@ -62,6 +65,35 @@ class TestActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<PatientsDoctorAssign>, t: Throwable) {
                 Log.d("TestActivity", "Failure: ${t.message}")
+            }
+        })
+    }
+    private fun getPrevBP(){
+        val patientID = intent.getIntExtra("patientID", 0)
+        val service = BloodPressureInstance.retrofitBuilder
+
+        service.getBloodPressureID(patientID).enqueue(object : Callback<PrevBloodPressure> {
+            override fun onResponse(call: Call<PrevBloodPressure>, response: Response<PrevBloodPressure>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { prevBP ->
+                        // Parse the response data into your PrevBloodPressure object
+                        val systolic = prevBP.PrevBP.map { it.systolic }
+                        val diastolic = prevBP.PrevBP.map { it.diastolic }
+                        val dateTaken = prevBP.PrevBP.map { it.dateTaken }
+
+                        // Display the systolic, diastolic, and dateTaken in a TextView
+                        val textView = findViewById<TextView>(R.id.view_test)
+                        textView.text = "Systolic: $systolic, Diastolic: $diastolic, Date Taken: $dateTaken"
+                    }
+                } else {
+                    // Handle the error
+                    Log.d("MainActivity", "Failed to connect: " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<PrevBloodPressure>, t: Throwable) {
+                // Handle the failure
+                Log.d("MainActivity", "Failed to connect: : " + t.message)
             }
         })
     }

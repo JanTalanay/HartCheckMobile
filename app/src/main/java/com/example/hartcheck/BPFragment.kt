@@ -26,6 +26,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.hartcheck.Model.BloodPressure
 import com.example.hartcheck.Remote.BloodPressureRemote.BloodPressureInstance
+import com.example.hartcheck.Wrapper.PrevBloodPressure
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.Legend
@@ -100,7 +101,8 @@ class BPFragment : Fragment() {
 
         val addBP: Button = view.findViewById(R.id.btn_add_bp)
         val backBP: Button = view.findViewById(R.id.btn_back_BloodP)
-        val viewBP: Button = view.findViewById(R.id.btn_view_bp)
+//        val viewBP: Button = view.findViewById(R.id.btn_view_bp)
+        val prevBP: Button = view.findViewById(R.id.btn_view_prev_bp)
 
 
 
@@ -118,16 +120,24 @@ class BPFragment : Fragment() {
             intent.putExtra("patientID", patientID)
             startActivity(intent)
         }
-
+        prevBP.setOnClickListener {
+//            val intent = Intent(activity, PreviousBPActivity::class.java)
+//            intent.putExtra("userID", userID)
+//            intent.putExtra("patientID", patientID)
+//            val prevBPList = getprevBP()
+//            intent.putParcelableArrayListExtra("prevBPList", ArrayList(prevBPList))
+//            startActivity(intent)
+            val userID = arguments?.getInt(ARG_USER_ID)
+            val patientID = arguments?.getInt(ARG_PATIENT_ID)
+            getprevBP(userID!!, patientID!!)
+        }
         addBP.setOnClickListener {
             showModal()
         }
 
-        viewBP.setOnClickListener {
-            val intent = Intent(activity,PreviousBPActivity::class.java)
-            intent.putExtra("userID", userID)
-            intent.putExtra("patientID", patientID)
-        }
+//        viewBP.setOnClickListener {
+//
+//        }
 
         // Read data from CSV file
         val csvFile = resources.assets.open("test_sheet.csv")
@@ -297,8 +307,34 @@ class BPFragment : Fragment() {
             }
         })
     }
-    private fun getprevBP() {
+    private fun getprevBP(userID: Int, patientID: Int) {
+        val service = BloodPressureInstance.retrofitBuilder
 
+        service.getBloodPressureID(patientID).enqueue(object : Callback<PrevBloodPressure> {
+            override fun onResponse(call: Call<PrevBloodPressure>, response: Response<PrevBloodPressure>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { prevBP ->
+                        // Parse the response data into your PrevBloodPressure object
+                        val prevBPList = prevBP.PrevBP
+
+                        // Start PreviousBPActivity and pass the retrieved list
+                        val intent = Intent(activity, PreviousBPActivity::class.java)
+                        intent.putExtra("userID", userID)
+                        intent.putExtra("patientID", patientID)
+                        intent.putParcelableArrayListExtra("prevBPList", ArrayList(prevBPList))
+                        startActivity(intent)
+                    }
+                } else {
+                    // Handle the error
+                    Log.d("MainActivity", "Failed to connect: " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<PrevBloodPressure>, t: Throwable) {
+                // Handle the failure
+                Log.d("MainActivity", "Failed to connect: : " + t.message)
+            }
+        })
     }
     private fun readCSVFile() {//THIS SHIT WORKS
         val csvFile = resources.assets.open("com.samsung.shealth.blood_pressure.20230706212807.csv")

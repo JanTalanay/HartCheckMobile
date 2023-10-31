@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hartcheck.Adapter.ListAdapter
 import com.example.hartcheck.Data.DocData
+import com.example.hartcheck.Wrapper.PatientsDoctorAssign
 import okhttp3.internal.notify
 import java.util.Calendar
 
@@ -47,7 +48,7 @@ class ConsultationFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var listAdapter: ListAdapter
-    private lateinit var doctorList: List<DocData>
+    private lateinit var doctorList: MutableList<DocData>
     private lateinit var btn_avail: Button
     private lateinit var txt_emp: TextView
     private lateinit var line: ImageView
@@ -66,8 +67,10 @@ class ConsultationFragment : Fragment() {
     ): View? {
         val patientID = arguments?.getInt(ARG_PATIENT_ID)
         val userID = arguments?.getInt(ARG_USER_ID)
+        val doctorAssign = arguments?.getParcelable<PatientsDoctorAssign>(ARG_DOCTOR_ASSIGN)
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_consultation, container, false)
+        val frag = true
 
         btn_avail = view.findViewById(R.id.btn_view_avail)
         txt_emp = view.findViewById(R.id.txt_empty)
@@ -76,7 +79,7 @@ class ConsultationFragment : Fragment() {
         txt_appointment.visibility =View.VISIBLE
         txt_title.visibility = View.VISIBLE
 
-        doctorList = listOf(
+        doctorList = mutableListOf(
             DocData("Doctor 1", "Info 1"),
             DocData("Doctor 2", "Info 2"),
             DocData("Doctor 3", "Info 3")
@@ -84,7 +87,7 @@ class ConsultationFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList)
+        listAdapter = ListAdapter(doctorList,frag)
         recyclerView.adapter = listAdapter
 
         //enable this as default
@@ -158,13 +161,15 @@ class ConsultationFragment : Fragment() {
         private const val ARG_USER_ID = "userID"
         private const val ARG_PARAM1 = "param1"
         private const val ARG_PARAM2 = "param2"
+        private const val ARG_DOCTOR_ASSIGN = "doctorAssign"
 
         @JvmStatic
-        fun newInstance(userID: Int, patientID: Int): BPFragment {
-            val fragment = BPFragment()
+        fun newInstance(userID: Int, patientID: Int, doctorAssign: PatientsDoctorAssign): ConsultationFragment {
+            val fragment = ConsultationFragment()
             val args = Bundle()
             args.putInt(ARG_USER_ID, userID)
             args.putInt(ARG_PATIENT_ID, patientID)
+            args.putParcelable(ARG_DOCTOR_ASSIGN, doctorAssign)
             fragment.arguments = args
             return fragment
         }

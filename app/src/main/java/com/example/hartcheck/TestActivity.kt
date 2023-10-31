@@ -6,12 +6,11 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import com.example.hartcheck.Model.Patients
-import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
+import com.example.hartcheck.Wrapper.Test
+import com.example.hartcheck.Remote.PatientsDoctor.PatientsDoctorInstance
+import com.example.hartcheck.Wrapper.PatientsDoctorAssign
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.HttpException
 import retrofit2.Response
 
 class TestActivity : AppCompatActivity() {
@@ -32,48 +31,37 @@ class TestActivity : AppCompatActivity() {
         val testInsert: Button = findViewById<Button>(R.id.btn_test4)
 
         val patientID = intent.getIntExtra("patientID", 0)
-        val userID = intent.getIntExtra("userID", 0)
-        testView.text = userID.toString()
+//        val userID = intent.getIntExtra("userID", 0)
+//        testView.text = userID.toString()
 
 //        Log.d("TestActivity", "User ID: $userID")
 
         testGet.setOnClickListener {
 //            getPatientID()
+            getDoctorID()
         }
 
     }
-    private fun getPatientID() {
-        val userID = intent.getIntExtra("email", 0)
-        val service = PatientsInstance.retrofitBuilder
+    private fun getDoctorID(){
+        val patientID = intent.getIntExtra("patientID", 0)
+        val service = PatientsDoctorInstance.retrofitBuilder
 
-        service.getPatientsID(userID).enqueue(object : Callback<Patients> {
-            override fun onResponse(call: Call<Patients>, response: Response<Patients>) {
-                if(response.isSuccessful){
-                    response.body()?.let { patients ->
-                        if(userID.equals(patients.usersID)){
-                            Log.d("MainActivity", "connected: ${patients.patientID}")//Intent
-                            Toast.makeText(this@TestActivity, "Registration Successful ${patients.patientID}", Toast.LENGTH_SHORT).show()
-                        }else{
-                            Log.d("MainActivity", "Wrong: " + response.code())
+        service.getHealthCareProfessionals(patientID).enqueue(object : Callback<PatientsDoctorAssign> {
+            override fun onResponse(call: Call<PatientsDoctorAssign>, response: Response<PatientsDoctorAssign>) {
+                if (response.isSuccessful) {
+                    val healthCareProfessionals = response.body()
+                    if (healthCareProfessionals != null) {
+                        for (professional in healthCareProfessionals.HealthCareName) {
+                            Log.d("TestActivity", "First Name: ${professional.firstName}, Last Name: ${professional.lastName}")
                         }
-
-//                            val editTest: EditText = findViewById<EditText>(R.id.edit_test)
-//                            val editTest2: EditText = findViewById<EditText>(R.id.edit_test2)
-//
-//                            editTest.setText(patients.patientID.toString())
-//                            editTest2.setText(patients.usersID.toString())
                     }
                 } else {
-                    Log.d("MainActivity", "Failed to connect: " + response.code())
-
+                    Log.d("TestActivity", "Error: ${response.code()}")
                 }
             }
-            override fun onFailure(call: Call<Patients>, t: Throwable) {
-                Log.d ("MainActivity", "Failed to connect: : " + t.message)
-                if (t is HttpException) {
-                    val errorResponse = t.response()?.errorBody()?.string()
-                    Log.d("MainActivity", "Error response: $errorResponse")
-                }
+
+            override fun onFailure(call: Call<PatientsDoctorAssign>, t: Throwable) {
+                Log.d("TestActivity", "Failure: ${t.message}")
             }
         })
     }

@@ -2,8 +2,6 @@ package com.example.hartcheck
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,9 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -23,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hartcheck.Adapter.ListAdapter
 import com.example.hartcheck.Data.DocData
+import com.example.hartcheck.Wrapper.PatientsDoctorAssign
 import okhttp3.internal.notify
 import java.util.Calendar
 
@@ -48,11 +45,6 @@ class ConsultationFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var listAdapter: ListAdapter
     private lateinit var doctorList: List<DocData>
-    private lateinit var btn_avail: Button
-    private lateinit var txt_emp: TextView
-    private lateinit var line: ImageView
-    private lateinit var txt_appointment:TextView
-    private lateinit var txt_title:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,45 +58,27 @@ class ConsultationFragment : Fragment() {
     ): View? {
         val patientID = arguments?.getInt(ARG_PATIENT_ID)
         val userID = arguments?.getInt(ARG_USER_ID)
+        val doctorAssign = arguments?.getParcelable<PatientsDoctorAssign>(ARG_DOCTOR_ASSIGN)
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_consultation, container, false)
-
-        btn_avail = view.findViewById(R.id.btn_view_avail)
-        txt_emp = view.findViewById(R.id.txt_empty)
-
-        line.visibility = View.VISIBLE
-        txt_appointment.visibility =View.VISIBLE
-        txt_title.visibility = View.VISIBLE
-
         doctorList = listOf(
             DocData("Doctor 1", "Info 1"),
             DocData("Doctor 2", "Info 2"),
             DocData("Doctor 3", "Info 3")
         )
 
+        // Initialize RecyclerView and set its layout manager
         recyclerView = view.findViewById(R.id.consulList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Initialize and set the adapter for the RecyclerView
         listAdapter = ListAdapter(doctorList)
         recyclerView.adapter = listAdapter
 
-        //enable this as default
-        txt_emp.visibility = View.VISIBLE
-        btn_avail.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
-
-        btn_avail.setOnClickListener {
-            replaceFragment(DoctorFragment())
-        }
-
+        val names = doctorAssign?.HealthCareName?.joinToString(separator = ", ") { "${it.firstName} ${it.lastName}" }
+        Toast.makeText(context, "GOT UR: $userID AND $patientID AND $names", Toast.LENGTH_SHORT).show()
 
         return view
-    }
-    private fun replaceFragment(fragment: Fragment){
-        val fragmentManager = activity?.supportFragmentManager
-        val fragmentTransaction = fragmentManager?.beginTransaction()
-
-        fragmentTransaction?.replace(R.id.frame_layout, fragment)
-        fragmentTransaction?.commit()
     }
     private fun Booked() {
         val startMillis: Long = Calendar.getInstance().run {
@@ -154,17 +128,19 @@ class ConsultationFragment : Fragment() {
     }
 
     companion object {
-        private const val ARG_PATIENT_ID = "patientID"
-        private const val ARG_USER_ID = "userID"
         private const val ARG_PARAM1 = "param1"
         private const val ARG_PARAM2 = "param2"
+        private const val ARG_PATIENT_ID = "patientID"
+        private const val ARG_USER_ID = "userID"
+        private const val ARG_DOCTOR_ASSIGN = "doctorAssign"
 
         @JvmStatic
-        fun newInstance(userID: Int, patientID: Int): BPFragment {
-            val fragment = BPFragment()
+        fun newInstance(userID: Int, patientID: Int, doctorAssign: PatientsDoctorAssign): ConsultationFragment {
+            val fragment = ConsultationFragment()
             val args = Bundle()
             args.putInt(ARG_USER_ID, userID)
             args.putInt(ARG_PATIENT_ID, patientID)
+            args.putParcelable(ARG_DOCTOR_ASSIGN, doctorAssign)
             fragment.arguments = args
             return fragment
         }

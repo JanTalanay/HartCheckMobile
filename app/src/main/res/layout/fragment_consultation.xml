@@ -8,7 +8,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <Button
-        android:id="@+id/btn_back_appoint"
+        android:id="@+id/btn_back_edit_profile"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="48dp"
@@ -35,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_back_appoint"
+        app:layout_constraintTop_toBottomOf="@+id/btn_back_edit_profile"
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.core.widget.NestedScrollView
@@ -59,8 +59,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/consulList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible"/>
+                android:layout_height="match_parent" />
 
             <TextView
                 android:id="@+id/txt_empty"
@@ -81,7 +80,7 @@
                 app:layout_constraintVertical_bias="0.050" />
 
             <Button
-                android:id="@+id/btn_view_avail"
+                android:id="@+id/btn_save_profile"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginTop="20dp"

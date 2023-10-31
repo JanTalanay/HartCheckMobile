@@ -1,6 +1,6 @@
-package com.example.hartcheck.Remote.DoctorScheduleRemote
+package com.example.hartcheck.Remote.HealthCareProfessional
 
-import com.example.hartcheck.Model.DoctorSchedule
+import com.example.hartcheck.Model.HealthCareProfessional
 import com.example.hartcheck.Model.MedicalHistory
 import com.example.hartcheck.Model.PreviousMedication
 import com.example.hartcheck.Model.Users
@@ -12,14 +12,14 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
-interface DoctorScheduleInterface {
-    @POST("api/DoctorSchedule")
-    fun insertDoctorSched(@Body request: DoctorSchedule): Call<DoctorSchedule>
-    @GET("api/DoctorSchedule")
-    fun getDoctorSched(): Call<List<DoctorSchedule>>
-    @GET("api/DoctorSchedule/{doctorSchedID}")
-    fun getDoctorScheduleID(@Path("doctorSchedID") doctorSchedID: Int): Call<DoctorSchedule>
-//    @GET("api/DoctorSchedule/{patientID}")
+interface HealthCareProfessionalInterface {
+    @POST("api/HealthCareProfessional")
+    fun insertHealthCareProf(@Body request: HealthCareProfessional): Call<HealthCareProfessional>
+    @GET("api/HealthCareProfessional")
+    fun getHealthCareProf(): Call<List<HealthCareProfessional>>
+    @GET("api/HealthCareProfessional/{doctorID}")
+    fun getHealthCareProfessionalID(@Path("doctorID") doctorID: Int): Call<HealthCareProfessional>
+//    @GET("api/MedicalHistory/{patientID}")
 //    fun getMedicalHisID(@Path("patientID") patientID: Int): Call<PreviousMedication>
 //    @DELETE("api/MedicalHistory/{medicalHistoryID}")
 //    fun deleteMedHis(@Path("medicalHistoryID") resourceId: String): Call<MedicalHistory>

@@ -191,12 +191,8 @@ class HomeActivity : AppCompatActivity() {
     ) {
         val service = PatientsDoctorInstance.retrofitBuilder
 
-        service.getHealthCareProfessionals(patientID)
-            .enqueue(object : Callback<PatientsDoctorAssign> {
-                override fun onResponse(
-                    call: Call<PatientsDoctorAssign>,
-                    response: Response<PatientsDoctorAssign>
-                ) {
+        service.getHealthCareProfessionals(patientID).enqueue(object : Callback<PatientsDoctorAssign> {
+                override fun onResponse(call: Call<PatientsDoctorAssign>, response: Response<PatientsDoctorAssign>) {
                     if (response.isSuccessful) {
                         response.body()?.let { doctorAssign ->
                             onDoctorAssignRetrieved(doctorAssign)

@@ -74,10 +74,10 @@ class ConsultationFragment : Fragment() {
 
         btn_avail = view.findViewById(R.id.btn_view_avail)
         txt_emp = view.findViewById(R.id.txt_empty)
-
-        line.visibility = View.VISIBLE
-        txt_appointment.visibility =View.VISIBLE
-        txt_title.visibility = View.VISIBLE
+//
+//        line.visibility = View.VISIBLE
+//        txt_appointment.visibility =View.VISIBLE
+//        txt_title.visibility = View.VISIBLE
 
         doctorList = mutableListOf(
             DocData("Doctor 1", "Info 1"),
@@ -96,10 +96,15 @@ class ConsultationFragment : Fragment() {
         recyclerView.visibility = View.GONE
 
         btn_avail.setOnClickListener {
-            replaceFragment(DoctorFragment())
+            userID?.let { it1 -> patientID?.let { it2 ->
+                doctorAssign?.let { it3 ->
+                    DoctorFragment.newInstance(it1,
+                        it2, it3
+                    )
+                }
+            } }
+                ?.let { it2 -> replaceFragment(it2) }
         }
-
-
         return view
     }
     private fun replaceFragment(fragment: Fragment){

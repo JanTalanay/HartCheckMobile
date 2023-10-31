@@ -101,6 +101,9 @@
     <string name="p_terms1">By checking the box, you are agreeing with the terms and conditions of the app</string>
     <string name="p_change_pass">Please enter your email to change your password.</string>
     <string name="p_forgot">Forgot Password?</string>
+    <string name="p_med">E.g. Paracetamol</string>
+    <string name="p_current_condition">Do you currently have a medical condition? if none then please add \"none\"</string>
+    <string name="p_prev_med">Have you had any previous medications? if none then please add \"none\"</string>
     <string name="p_bmi">Please enter your height in cm and weight in kg</string>
     <string name="p_trouble">Having trouble?</string>
     <string name="p_reg">Or Register with</string>

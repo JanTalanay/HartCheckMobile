@@ -97,15 +97,10 @@ class BPFragment : Fragment() {
         val patientID = arguments?.getInt(ARG_PATIENT_ID)
         val userID = arguments?.getInt(ARG_USER_ID)
 
-        Toast.makeText(context, "Bpfragment $userID AND $patientID", Toast.LENGTH_SHORT).show()
-
         val addBP: Button = view.findViewById(R.id.btn_add_bp)
         val backBP: Button = view.findViewById(R.id.btn_back_BloodP)
 //        val viewBP: Button = view.findViewById(R.id.btn_view_bp)
         val prevBP: Button = view.findViewById(R.id.btn_view_prev_bp)
-
-
-
         val chart: LineChart = view.findViewById(R.id.lineChart)
 
         val entries1 = mutableListOf<Entry>()
@@ -121,12 +116,6 @@ class BPFragment : Fragment() {
             startActivity(intent)
         }
         prevBP.setOnClickListener {
-//            val intent = Intent(activity, PreviousBPActivity::class.java)
-//            intent.putExtra("userID", userID)
-//            intent.putExtra("patientID", patientID)
-//            val prevBPList = getprevBP()
-//            intent.putParcelableArrayListExtra("prevBPList", ArrayList(prevBPList))
-//            startActivity(intent)
             val userID = arguments?.getInt(ARG_USER_ID)
             val patientID = arguments?.getInt(ARG_PATIENT_ID)
             getprevBP(userID!!, patientID!!)

@@ -125,7 +125,7 @@ class LoginMain : AppCompatActivity() {
                 if(user != null){
                     val userID = user.usersID
                     if(userID != null){
-                        Toast.makeText(this@LoginMain, "Logged In $userID", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this@LoginMain, "Logged In $userID", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this@LoginMain, HomeActivity::class.java)
                         intent.putExtra("userID", userID)
                         startActivity(intent)

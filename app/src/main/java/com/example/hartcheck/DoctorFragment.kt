@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hartcheck.Adapter.ListAdapter
 import com.example.hartcheck.Data.DocData
-import com.example.hartcheck.databinding.DoctorItemBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,8 +31,7 @@ class DoctorFragment : Fragment() {
     private lateinit var txt_emp:TextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var listAdapter: ListAdapter
-    private lateinit var doctorList: List<DocData>
-    private lateinit var doc_item: DoctorItemBinding
+    private lateinit var doctorList: MutableList<DocData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +47,7 @@ class DoctorFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_doctor, container, false)
-
-        doc_item = DoctorItemBinding.inflate(inflater,container,false)
-        //add doc_item propety
+        val frag = false
 
         txt_emp = view.findViewById(R.id.txt_empty)
 
@@ -59,7 +55,7 @@ class DoctorFragment : Fragment() {
         txt_emp.visibility = View.GONE
 
 
-        doctorList = listOf(
+        doctorList = mutableListOf(
             DocData("Doctor 1", "Info 1"),
             DocData("Doctor 2", "Info 2"),
             DocData("Doctor 3", "Info 3")
@@ -67,13 +63,9 @@ class DoctorFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList)//test
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList)
+        listAdapter = ListAdapter(doctorList,frag)
         recyclerView.adapter = listAdapter
 
-        //for the recycler view
-        doc_item.docLine.visibility = View.GONE
-        doc_item.txtDocView.visibility =View.GONE
-        doc_item.txtDocName.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
 
         return view

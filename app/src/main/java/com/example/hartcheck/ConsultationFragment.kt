@@ -47,12 +47,9 @@ class ConsultationFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var listAdapter: ListAdapter
-    private lateinit var doctorList: List<DocData>
+    private lateinit var doctorList: MutableList<DocData>
     private lateinit var btn_avail: Button
     private lateinit var txt_emp: TextView
-    private lateinit var line: ImageView
-    private lateinit var txt_appointment:TextView
-    private lateinit var txt_title:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,15 +65,12 @@ class ConsultationFragment : Fragment() {
         val userID = arguments?.getInt(ARG_USER_ID)
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_consultation, container, false)
+        val frag = true
 
         btn_avail = view.findViewById(R.id.btn_view_avail)
         txt_emp = view.findViewById(R.id.txt_empty)
 
-        line.visibility = View.VISIBLE
-        txt_appointment.visibility =View.VISIBLE
-        txt_title.visibility = View.VISIBLE
-
-        doctorList = listOf(
+        doctorList = mutableListOf(
             DocData("Doctor 1", "Info 1"),
             DocData("Doctor 2", "Info 2"),
             DocData("Doctor 3", "Info 3")
@@ -84,7 +78,7 @@ class ConsultationFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList)
+        listAdapter = ListAdapter(doctorList,frag)
         recyclerView.adapter = listAdapter
 
         //enable this as default

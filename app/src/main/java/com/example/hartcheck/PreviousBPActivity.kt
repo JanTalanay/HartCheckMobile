@@ -14,15 +14,16 @@ class PreviousBPActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var bpAdapter: BpAdapter
-    private lateinit var bpList: List<BpData>
+    private lateinit var bpList: MutableList<BpData>
 //    private lateinit var systolicTextView: TextView
 //    private lateinit var diastolicTextView: TextView = itemView.findViewById(R.id.txt_prev_diastolic)
 //    private lateinit var dateTextView: TextView = itemView.findViewById(R.id.txt_bp_date)
+    private lateinit var delete:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_previous_bpactivity)
 
-        bpList = listOf(
+        bpList = mutableListOf(
             BpData(120f, 90f,"June 3, 2023"),
             BpData(180f, 100f,"June 4, 2023"),
             BpData(110f, 83f,"June 5, 2023")

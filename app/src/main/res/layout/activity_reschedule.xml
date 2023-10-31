@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RescheduleActivity">
+
+    <Button
+        android:id="@+id/btn_back_resched"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/btn_back"
+        android:drawableStart="@drawable/back_arrow"
+        android:paddingStart="15dp"
+        android:text="@string/filler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/reschedAppoint"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/font_urbanist_bold"
+        android:text="@string/header_doctor_details"
+        android:textColor="@color/primary_black"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_back_resched" />
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="498dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/reschedAppoint"
+        app:layout_constraintVertical_bias="0.888">
+
+        <TextView
+            android:id="@+id/txt_doctor_name"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:text="Dr. Padma Jignesh"
+            android:textAlignment="center"
+            android:textColor="@color/primary_black"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/txt_clinic_name"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/font_urbanist_medium"
+            android:text="St. Luke's Medical Center"
+            android:textAlignment="center"
+            android:textColor="@color/primary_black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_resched_date"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:text="@string/p_date"
+            android:textColor="@color/primary_black"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/input_resched_date"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custom_input"
+            android:hint="@string/p_date"
+            android:inputType="text"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/grey"
+            android:textColorHint="@color/grey"
+            tools:layout_editor_absoluteX="28dp"
+            tools:layout_editor_absoluteY="128dp" />
+
+        <Button
+            android:id="@+id/btn_resched_appointment"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_primary"
+            android:fontFamily="@font/font_urbanist_medium"
+            android:text="@string/btn_resched"
+            android:textAllCaps="false"
+            android:textColor="@drawable/btn_text_color_white" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -77,11 +77,21 @@
             android:textColor="@color/grey"
             tools:layout_editor_absoluteX="30dp"
             tools:layout_editor_absoluteY="129dp"
-            android:layout_marginBottom="40dp"/>
+            android:layout_marginBottom="30dp"/>
         <TableLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="*">
+
+            <TextView
+                android:id="@+id/q3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/p_bmi"
+                android:fontFamily="@font/font_urbanist_bold"
+                android:textColor="@color/primary_black"
+                android:textSize="16sp"
+                android:layout_marginBottom="20dp"/>
 
             <TableRow
                 android:layout_width="fill_parent"
@@ -105,8 +115,6 @@
                     android:textColorHint="@color/grey"
                     tools:layout_editor_absoluteX="28dp"
                     tools:layout_editor_absoluteY="128dp" />
-
-
 
                 <EditText
                     android:id="@+id/input_weight"

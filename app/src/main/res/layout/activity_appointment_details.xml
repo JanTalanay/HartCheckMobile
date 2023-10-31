@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AppointmentDetailsActivity">
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="498dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appointDetails">
+
+        <TextView
+            android:id="@+id/txt_doctor_name"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:text="Dr. Padma Jignesh"
+            android:textAlignment="center"
+            android:textColor="@color/primary_black"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/txt_clinic_name"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/font_urbanist_medium"
+            android:text="St. Luke's Medical Center"
+            android:textAlignment="center"
+            android:textColor="@color/primary_black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_book_date"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:text="@string/p_date"
+            android:textColor="@color/primary_black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txt_appoint_sched"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/font_urbanist_medium"
+            android:text="July 14, 2023, 10:30"
+            android:textColor="@color/primary_black"
+            android:textSize="18sp" />
+        <Button
+            android:id="@+id/btn_request_appointment"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_primary"
+            android:fontFamily="@font/font_urbanist_medium"
+            android:text="@string/btn_request"
+            android:textAllCaps="false"
+            android:textColor="@drawable/btn_text_color_white" />
+
+        <Button
+            android:id="@+id/btn_cancel_appointment"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_primary"
+            android:fontFamily="@font/font_urbanist_medium"
+            android:text="@string/btn_cancel_app"
+            android:textAllCaps="false"
+            android:textColor="@drawable/btn_text_color_white" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/appointDetails"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/font_urbanist_bold"
+        android:text="@string/header_doctor_details"
+        android:textColor="@color/primary_black"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_back_appoint_details" />
+
+    <Button
+        android:id="@+id/btn_back_appoint_details"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/btn_back"
+        android:drawableStart="@drawable/back_arrow"
+        android:paddingStart="15dp"
+        android:text="@string/filler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

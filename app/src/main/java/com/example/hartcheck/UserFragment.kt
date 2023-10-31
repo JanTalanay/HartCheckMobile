@@ -56,6 +56,7 @@ class UserFragment : Fragment() {
         val btn_back_userProfile = view.findViewById<Button>(R.id.btn_back_userProfile)
         val btn_edit_profile = view.findViewById<Button>(R.id.btn_edit_profile)
         val btn_logout = view.findViewById<Button>(R.id.btn_logout)
+        val btn_change = view.findViewById<Button>(R.id.btn_change_pass)
 
         btn_back_userProfile.setOnClickListener {
             val intent = Intent(activity, HomeActivity::class.java)
@@ -73,6 +74,12 @@ class UserFragment : Fragment() {
 //            val intent = Intent(activity, EditProfileFragment::class.java)
 //            intent.putExtra("userID", userID)
 //            startActivity(intent)
+        }
+        btn_change.setOnClickListener {
+            val intent = Intent(activity, ForgotActivity::class.java)
+            val change = true
+            intent.putExtra("change", change)
+            startActivity(intent)
         }
 
 

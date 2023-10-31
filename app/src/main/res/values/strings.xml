@@ -32,6 +32,10 @@
     <string name="btn_view_app">View Appointment</string>
     <string name="btn_okay">Ok</string>
     <string name="btn_exit">Close</string>
+    <string name="btn_payment">Send Payment Link</string>
+    <string name="btn_resched">Reschedule Appointment</string>
+    <string name="btn_change_pass">Change Password</string>
+
 
     <!--  custom btns-->
     <string name="btn_view_bp_2">View my BP</string>
@@ -48,6 +52,7 @@
     <string name="header_forgot">Forgot Password?</string>
     <string name="header_otp">OTP Verification</string>
     <string name="header_new_pass">Create new password</string>
+    <string name="header_change_pass">Change password</string>
     <string name="header_pass_change">Password Changed!</string>
     <string name="header_faq">Frequently Asked Questions (FAQ)</string>
     <string name="header_home">Hello [User] What would you like to do?</string>
@@ -94,7 +99,9 @@
     <string name="p_reg1">Do you have any history of medical conditions that could be hereditary? if yes then what is that condition, if no then answer “N/A”</string>
     <string name="p_reg2">Have you had any past surgeries? If you had, then please answer what kind of surgery, if none then answer “N/A” </string>
     <string name="p_terms1">By checking the box, you are agreeing with the terms and conditions of the app</string>
+    <string name="p_change_pass">Please enter your email to change your password.</string>
     <string name="p_forgot">Forgot Password?</string>
+    <string name="p_bmi">Please enter your height in cm and weight in kg</string>
     <string name="p_trouble">Having trouble?</string>
     <string name="p_reg">Or Register with</string>
     <string name="p_log">Or Login with</string>
@@ -113,6 +120,9 @@
     <string name="p_cancel_modal">Are you sure you want to Cancel?</string>
     <string name="p_appointment_date">Appointment Date</string>
     <string name="p_view">View</string>
+    <string name="p_date">Date</string>
+    <string name="p_payment">Payment Link</string>
+    <string name="p_payment_info">Please input your email where the payment link will be sent. Once it is paid then your appointment will be booked.</string>
     <string name="p_no_avail">There are currently no available doctors.</string>
     <string name="p_no_bp">No BP history.</string>
     <string name="p_resched_appointment">There was an overlapping with the scheduled date, if you want to see the new date please click on the button below, you may also opt to reschedule again.</string>

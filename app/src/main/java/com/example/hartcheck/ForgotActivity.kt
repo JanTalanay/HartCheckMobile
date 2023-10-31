@@ -23,6 +23,16 @@ class ForgotActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot)
 
+        val change = intent.getBooleanExtra("change",false)
+
+        if (change){
+            val forgotHeader: TextView = findViewById(R.id.p_header_forgot)
+            val forgotP: TextView = findViewById(R.id.p_forgot_main)
+
+            forgotHeader.setText(R.string.header_change_pass)
+            forgotP.setText(R.string.p_change_pass)
+        }
+
 
         val btnBack: Button = findViewById(R.id.btn_back_forgot)
         val btnSendOTP: Button = findViewById(R.id.btn_send_code)

@@ -8,9 +8,13 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.hartcheck.Model.Patients
+import com.example.hartcheck.Model.PatientsDoctor
 import com.example.hartcheck.Model.Users
+import com.example.hartcheck.Remote.PatientsDoctor.PatientsDoctorInstance
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
 import com.example.hartcheck.Remote.UsersRemote.UsersInstance
+import com.example.hartcheck.Wrapper.PatientsDoctorAssign
+import com.example.hartcheck.databinding.DoctorItemBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -112,9 +116,11 @@ class HomeActivity : AppCompatActivity() {
         }
 
     }
+
     private fun isTokenAvailable(token: String): Boolean {
         return token.isNotEmpty()
     }
+
     private fun redirectToLoginActivity() {
         val intent = Intent(this, LoginMain::class.java)
         startActivity(intent)
@@ -140,13 +146,17 @@ class HomeActivity : AppCompatActivity() {
     fun startNextActivity(buttonState: String) {
         val userID = intent.getIntExtra("userID", 0)
         getPatientID(userID) { patientID ->
-            val intent = Intent(this, NavActivity::class.java)
-            intent.putExtra("BUTTON_STATE", buttonState)
-            intent.putExtra("userID", userID)
-            intent.putExtra("patientID", patientID)
-            startActivity(intent)
+            getDoctorAssign(patientID) { doctorAssign ->
+                val intent = Intent(this, NavActivity::class.java)
+                intent.putExtra("BUTTON_STATE", buttonState)
+                intent.putExtra("userID", userID)
+                intent.putExtra("patientID", patientID)
+                intent.putExtra("doctorAssign", doctorAssign)
+                startActivity(intent)
+            }
         }
     }
+
     private fun getPatientID(userID: Int, onPatientIDRetrieved: (patientID: Int) -> Unit) {
         val service = PatientsInstance.retrofitBuilder
 
@@ -174,25 +184,56 @@ class HomeActivity : AppCompatActivity() {
             }
         })
     }
-    private fun GoogleLoginUserID() { //to be fix
-        val email = intent.getStringExtra("email") ?: ""
-        val service = UsersInstance.retrofitBuilder
-        service.getRegisterEmail(email).enqueue(object : Callback<Users> {
-            override fun onResponse(call: Call<Users>, response: Response<Users>) {
-                if (response.isSuccessful) {
-                    val user = response.body()
-                    val userID = user?.usersID
-                    Toast.makeText(this@HomeActivity, "Logged In $userID", Toast.LENGTH_SHORT).show()
 
+    private fun getDoctorAssign(
+        patientID: Int,
+        onDoctorAssignRetrieved: (doctorAssign: PatientsDoctorAssign) -> Unit
+    ) {
+        val service = PatientsDoctorInstance.retrofitBuilder
 
-                } else {
-                    Log.d("MainActivity", "Failed to connect: " + response.code())
+        service.getHealthCareProfessionals(patientID)
+            .enqueue(object : Callback<PatientsDoctorAssign> {
+                override fun onResponse(
+                    call: Call<PatientsDoctorAssign>,
+                    response: Response<PatientsDoctorAssign>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.let { doctorAssign ->
+                            onDoctorAssignRetrieved(doctorAssign)
+                        }
+                    } else {
+                        Log.d("TestActivity", "Error: ${response.code()}")
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<Users>, t: Throwable) {
-                Log.d("MainActivity", "Failed to connect: : " + t.message)
-            }
-        })
+                override fun onFailure(call: Call<PatientsDoctorAssign>, t: Throwable) {
+                    Log.d("TestActivity", "Failure: ${t.message}")
+                }
+            })
     }
 }
+
+
+//
+//    private fun GoogleLoginUserID() { //to be fix
+//        val email = intent.getStringExtra("email") ?: ""
+//        val service = UsersInstance.retrofitBuilder
+//        service.getRegisterEmail(email).enqueue(object : Callback<Users> {
+//            override fun onResponse(call: Call<Users>, response: Response<Users>) {
+//                if (response.isSuccessful) {
+//                    val user = response.body()
+//                    val userID = user?.usersID
+//                    Toast.makeText(this@HomeActivity, "Logged In $userID", Toast.LENGTH_SHORT).show()
+//
+//
+//                } else {
+//                    Log.d("MainActivity", "Failed to connect: " + response.code())
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<Users>, t: Throwable) {
+//                Log.d("MainActivity", "Failed to connect: : " + t.message)
+//            }
+//        })
+//    }
+

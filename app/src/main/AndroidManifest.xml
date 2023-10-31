@@ -65,13 +65,13 @@
             android:name=".FAQ"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".NavActivity"
             android:exported="false" />
         <activity
             android:name=".ConfirmActivity"
             android:exported="false" />
         <activity
-            android:name=".NavActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

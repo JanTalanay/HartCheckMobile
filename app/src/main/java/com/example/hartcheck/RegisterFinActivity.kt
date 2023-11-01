@@ -12,8 +12,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.hartcheck.Model.Login
 import com.example.hartcheck.Model.Patients
+import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
+import com.example.hartcheck.Remote.UsersRemote.UsersInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -26,6 +29,9 @@ class RegisterFinActivity : AppCompatActivity() {
         setContentView(R.layout.activity_registerfin)
         val btn_confirm_register: Button = findViewById<Button>(R.id.btn_confirm_register)
         val link_terms:Button = findViewById(R.id.link_terms)
+
+        val email = intent.getStringExtra("email")
+        val otpHash = intent.getStringExtra("otpHash")
 
         link_terms.setOnClickListener {
             showTerms()
@@ -53,6 +59,23 @@ class RegisterFinActivity : AppCompatActivity() {
         dialog.show()
     }
 
+//    private fun confirmCredOld() {
+//        val email = intent.getStringExtra("email")
+//        val password = intent.getStringExtra("password")
+//
+//        val confirmEmail = findViewById<EditText>(R.id.txt_confirm_email)
+//        val confirmPass = findViewById<EditText>(R.id.txt_confirm_pass)
+//
+//
+//
+//
+//        if (confirmEmail.text.toString() == email && confirmPass.text.toString() == password) {
+//            Toast.makeText(this, "Email and password match", Toast.LENGTH_SHORT).show()
+//            getPatientID()
+//        } else {
+//            Toast.makeText(this, "Email or password does not match", Toast.LENGTH_SHORT).show()
+//        }
+//    }
     private fun confirmCred() {
         val email = intent.getStringExtra("email")
         val password = intent.getStringExtra("password")
@@ -60,17 +83,32 @@ class RegisterFinActivity : AppCompatActivity() {
         val confirmEmail = findViewById<EditText>(R.id.txt_confirm_email)
         val confirmPass = findViewById<EditText>(R.id.txt_confirm_pass)
 
+        if (confirmEmail.text.toString() == email) {
+            val login = Login(email, confirmPass.text.toString())
+            val userService = UsersInstance.retrofitBuilder
+            userService.loginUser(login).enqueue(object : Callback<Users> {
+                override fun onResponse(call: Call<Users>, response: Response<Users>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@RegisterFinActivity, "Email and password match", Toast.LENGTH_SHORT).show()
+                        getPatientID()
+                    } else {
+                        Toast.makeText(this@RegisterFinActivity, "Email or password does not match", Toast.LENGTH_SHORT).show()
+                    }
+                }
 
-
-
-        if (confirmEmail.text.toString() == email && confirmPass.text.toString() == password) {
-            Toast.makeText(this, "Email and password match", Toast.LENGTH_SHORT).show()
-            getPatientID()
+                override fun onFailure(call: Call<Users>, t: Throwable) {
+                    Log.d("MainActivity", "Exception: ", t)
+                }
+            })
         } else {
-            Toast.makeText(this, "Email or password does not match", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@RegisterFinActivity, "Emails do not match", Toast.LENGTH_SHORT).show()
         }
     }
+
     private fun getPatientID() {
+        val email = intent.getStringExtra("email")
+        val otpHash = intent.getStringExtra("otpHash")
+
         val userID = intent.getIntExtra("userID", 0)
         val service = PatientsInstance.retrofitBuilder
 
@@ -84,6 +122,8 @@ class RegisterFinActivity : AppCompatActivity() {
 
                             val intent = Intent(this@RegisterFinActivity, RegisterMedActivity::class.java)
                             intent.putExtra("patientID", patients.patientID)
+                            intent.putExtra("email", email)
+                            intent.putExtra("otpHash", otpHash)
                             startActivity(intent)
 
                         }else{

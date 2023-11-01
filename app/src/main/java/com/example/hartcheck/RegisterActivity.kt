@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import com.example.hartcheck.Data.ServerUser
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
@@ -146,22 +147,21 @@ class RegisterActivity : AppCompatActivity() {
         userService.registerUser(usersInput).enqueue(object : Callback<Users> {
             override fun onResponse(call: Call<Users>, response: Response<Users>) {
                 if (response.isSuccessful) {
-                    val user = response.body()
-                    if(user != null){
-                        val userID = user.usersID
-                        if(userID != null){
-                            Log.d("MainActivity", "User ID: $userID")
-                            val intent = Intent(this@RegisterActivity, RegisterFinActivity::class.java)
-                            intent.putExtra("userID", userID)
-                            intent.putExtra("email", email)
-                            intent.putExtra("password", password)
-                            startActivity(intent)
-                        }else {
-                            Toast.makeText(this@RegisterActivity, "User ID is null", Toast.LENGTH_SHORT).show()
-                        }
-                        Toast.makeText(this@RegisterActivity, "Registration Successful", Toast.LENGTH_SHORT).show()
+                    val users = response.body()
+                    if(users != null){
+                        Log.d("MainActivity", "Server response: ${users}")
+                        Toast.makeText(this@RegisterActivity, "Register", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@RegisterActivity, RegisterFinActivity::class.java)
+                        intent.putExtra("userID", users.usersID)
+                        intent.putExtra("email", users.email)
+                        intent.putExtra("password", users.password)
+                        intent.putExtra("otpHash", users.otpHash)
+                        startActivity(intent)
+                    }else {
+                        Toast.makeText(this@RegisterActivity, "User ID is null", Toast.LENGTH_SHORT).show()
                     }
-                } else {
+                }
+                else {
                     // Handle the error response
                     Toast.makeText(this@RegisterActivity, "HATDOG", Toast.LENGTH_SHORT).show()
                     Log.d("MainActivity", "HATDOG: ")
@@ -175,6 +175,4 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
     }
-
-
 }

@@ -16,9 +16,16 @@ class ConfirmActivity : AppCompatActivity() {
 
         btn_states()
 
+
         btn_back_home.setOnClickListener {
-            val intent = Intent(this,HomeActivity::class.java)
-            intent.putExtra("userID", userID)
+            val pageState = intent.getBooleanExtra("isForgot", false)
+
+            if(!pageState){
+                val intent = Intent(this,HomeActivity::class.java)
+                intent.putExtra("userID", userID)
+                startActivity(intent)
+            }
+            val intent = Intent(this,LoginMain::class.java)
             startActivity(intent)
         }
 
@@ -38,6 +45,18 @@ class ConfirmActivity : AppCompatActivity() {
             "btn_bug_reported" -> {
                 header_confirm.setText(R.string.header_bug_reported)
                 txt_confirm.setText(R.string.p_admin_review)
+            }
+            "btn_NewPass" ->{
+                header_confirm.setText(R.string.header_pass_change)
+                txt_confirm.setText(R.string.p_success_change)
+            }
+            "btn_request" ->{
+                header_confirm.setText(R.string.header_request_sent)
+                txt_confirm.setText(R.string.p_success_change)
+            }
+            "payment_success" ->{
+                header_confirm.setText(R.string.header_purchase_success)
+                txt_confirm.setText(R.string.p_booking_success)
             }
 
             else -> {

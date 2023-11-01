@@ -1,5 +1,6 @@
 package com.example.hartcheck
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -16,6 +17,12 @@ class PaymentActivity : AppCompatActivity() {
 
         input_email = findViewById(R.id.txt_email_payment)
         btn_pay = findViewById(R.id.btn_send_payment)
+
+        btn_pay.setOnClickListener {
+            val intent = Intent(this, ConfirmActivity::class.java)
+            intent.putExtra("BUTTON_STATE","payment_success")
+            startActivity(intent)
+        }
 
         //payment logic here
     }

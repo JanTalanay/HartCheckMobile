@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hartcheck.Adapter.ListAdapter
 import com.example.hartcheck.Data.DocData
+import com.example.hartcheck.Wrapper.DoctorScheduleDates
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
 import okhttp3.internal.notify
 import java.util.Calendar
@@ -68,13 +70,14 @@ class ConsultationFragment : Fragment() {
         val patientID = arguments?.getInt(ARG_PATIENT_ID)
         val userID = arguments?.getInt(ARG_USER_ID)
         val doctorAssign = arguments?.getParcelable<PatientsDoctorAssign>(ARG_DOCTOR_ASSIGN)
+        val datesAssign = arguments?.getParcelable<DoctorScheduleDates>(ARG_DATE_ASSIGN)
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_consultation, container, false)
         val frag = true
 
         btn_avail = view.findViewById(R.id.btn_view_avail)
         txt_emp = view.findViewById(R.id.txt_empty)
-//
+
 //        line.visibility = View.VISIBLE
 //        txt_appointment.visibility =View.VISIBLE
 //        txt_title.visibility = View.VISIBLE
@@ -95,16 +98,20 @@ class ConsultationFragment : Fragment() {
         btn_avail.visibility = View.VISIBLE
         recyclerView.visibility = View.GONE
 
-        btn_avail.setOnClickListener {
+        btn_avail.setOnClickListener {//available doctors
             userID?.let { it1 -> patientID?.let { it2 ->
                 doctorAssign?.let { it3 ->
-                    DoctorFragment.newInstance(it1,
-                        it2, it3
-                    )
+                    datesAssign?.let{it4 ->
+                        DoctorFragment.newInstance(it1,
+                            it2, it3, it4)
+                    }
                 }
             } }
                 ?.let { it2 -> replaceFragment(it2) }
         }
+//        val names = datesAssign?.DoctorDates?.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
+//        Toast.makeText(context, "GOT UR:$names", Toast.LENGTH_SHORT).show()
+
         return view
     }
     private fun replaceFragment(fragment: Fragment){
@@ -167,14 +174,16 @@ class ConsultationFragment : Fragment() {
         private const val ARG_PARAM1 = "param1"
         private const val ARG_PARAM2 = "param2"
         private const val ARG_DOCTOR_ASSIGN = "doctorAssign"
+        private const val ARG_DATE_ASSIGN = "datesAssign"
 
         @JvmStatic
-        fun newInstance(userID: Int, patientID: Int, doctorAssign: PatientsDoctorAssign): ConsultationFragment {
+        fun newInstance(userID: Int, patientID: Int, doctorAssign: PatientsDoctorAssign, datesAssign: DoctorScheduleDates): ConsultationFragment {
             val fragment = ConsultationFragment()
             val args = Bundle()
             args.putInt(ARG_USER_ID, userID)
             args.putInt(ARG_PATIENT_ID, patientID)
             args.putParcelable(ARG_DOCTOR_ASSIGN, doctorAssign)
+            args.putParcelable(ARG_DATE_ASSIGN, datesAssign)
             fragment.arguments = args
             return fragment
         }

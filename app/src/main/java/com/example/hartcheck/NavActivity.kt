@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
+import com.example.hartcheck.Wrapper.DoctorScheduleDates
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
 import com.example.hartcheck.databinding.ActivityNavBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -28,7 +29,8 @@ class NavActivity : AppCompatActivity() {
         val userID = intent.getIntExtra("userID", 0)
         val patientID = intent.getIntExtra("patientID", 0)
         val doctorAssign = intent.getParcelableExtra<PatientsDoctorAssign>("doctorAssign")
-//        val names = doctorAssign?.HealthCareName?.joinToString(separator = ", ") { "${it.firstName} ${it.lastName}" }
+        val dateAssign = intent.getParcelableExtra<DoctorScheduleDates>("datesAssign")
+//        val names = dateAssign?.DoctorDates?.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
 //        Toast.makeText(this, "GOT UR: $userID AND $patientID AND $names", Toast.LENGTH_SHORT).show()
 
         btn_states()
@@ -41,7 +43,7 @@ class NavActivity : AppCompatActivity() {
                 R.id.nav_profile -> replaceFragment(UserFragment.newInstance(userID))
                 R.id.nav_consultations ->
                     if (doctorAssign != null) {
-                        replaceFragment(ConsultationFragment.newInstance(userID,patientID,doctorAssign))
+                        replaceFragment(ConsultationFragment.newInstance(userID,patientID,doctorAssign,dateAssign!!))
                     }
                 R.id.nav_bp -> replaceFragment(BPFragment.newInstance(userID,patientID))
                 R.id.nav_chat -> replaceFragment(ChatFragment())
@@ -59,6 +61,7 @@ class NavActivity : AppCompatActivity() {
         val userID = intent.getIntExtra("userID", 0)
         val patientID = intent.getIntExtra("patientID", 0)
         val doctorAssign = intent.getParcelableExtra<PatientsDoctorAssign>("doctorAssign")
+        val dateAssign = intent.getParcelableExtra<DoctorScheduleDates>("datesAssign")
 
         when (buttonState) {
             "btn_bp" -> {
@@ -66,7 +69,7 @@ class NavActivity : AppCompatActivity() {
             }
             "btn_consul" -> {// have to think first
                 if (doctorAssign != null) {
-                    replaceFragment(ConsultationFragment.newInstance(userID,patientID, doctorAssign))
+                    replaceFragment(ConsultationFragment.newInstance(userID,patientID, doctorAssign,dateAssign!!))
                 }
             }
             "btn_chat" -> {

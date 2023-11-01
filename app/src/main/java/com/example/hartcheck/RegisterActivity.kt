@@ -10,11 +10,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
-import com.example.hartcheck.Data.ServerUser
-import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.Users
-import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
-import com.example.hartcheck.Remote.PatientsRemote.PatientsInterface
 import com.example.hartcheck.Remote.UsersRemote.UsersInstance
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount

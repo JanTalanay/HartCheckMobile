@@ -1,7 +1,7 @@
 package com.example.hartcheck.Remote.DoctorScheduleRemote
 
-import com.example.hartcheck.Data.DoctorScheduleResponse
 import com.example.hartcheck.Model.DoctorSchedule
+import com.example.hartcheck.Wrapper.DoctorScheduleDates
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -16,11 +16,15 @@ interface DoctorScheduleInterface {
     @GET("api/DoctorSchedule/{doctorSchedID}")
     fun getDoctorScheduleID(@Path("doctorSchedID") doctorSchedID: Int): Call<DoctorSchedule>
 
-//    @GET("api/DoctorSchedule/patient/{patientID}")
-//    fun getDoctorSchedulesForPatient(@Path("patientID") patientID: Int): Call<DoctorDetailsAndScheduleDto>
+//    @GET("api/DoctorSchedule/patient/{patientID}/schedules")
+//    fun getDoctorSchedulesForPatient(@Path("patientID") patientID: Int): Call<List<DoctorSchedule>>
 
     @GET("api/DoctorSchedule/patient/{patientID}/schedules")
-    fun getDoctorSchedulesForPatient(@Path("patientID") patientID: Int): Call<DoctorScheduleResponse>
+    fun getDoctorSchedulesForPatient(@Path("patientID") patientID: Int): Call<DoctorScheduleDates>
+
+//    @GET("api/DoctorSchedule/patient/{patientID}/schedules")
+//    fun getDoctorSchedulesForPatient(@Path("patientID") patientID: Int): Call<List<String>>
+
 
 
 //    @GET("api/DoctorSchedule/{patientID}")

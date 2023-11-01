@@ -6,14 +6,17 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import com.example.hartcheck.Data.DoctorScheduleResponse
+import android.widget.Toast
+import com.example.hartcheck.Model.DoctorSchedule
 import com.example.hartcheck.Remote.BloodPressureRemote.BloodPressureInstance
 import com.example.hartcheck.Remote.DoctorScheduleRemote.DoctorScheduleInstance
 import com.example.hartcheck.Remote.PatientsDoctor.PatientsDoctorInstance
+import com.example.hartcheck.Wrapper.DoctorScheduleDates
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
 import com.example.hartcheck.Wrapper.PrevBloodPressure
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.HttpException
 import retrofit2.Response
 
 class TestActivity : AppCompatActivity() {
@@ -43,7 +46,7 @@ class TestActivity : AppCompatActivity() {
 //            getPatientID()
 //            getDoctorID()
 //            getPrevBP()
-            getDoctorSchedulesForPatient()
+//            getDoctorSchedulesForPatient()
         }
 
     }
@@ -101,19 +104,15 @@ class TestActivity : AppCompatActivity() {
     }
     private fun getDoctorSchedulesForPatient() {
         val patientID = intent.getIntExtra("patientID", 0)
-        if (patientID == 0) {
-            Log.d("TestActivity", "Error: patientID is not valid")
-            return
-        }
         val service = DoctorScheduleInstance.retrofitBuilder
 
-        service.getDoctorSchedulesForPatient(patientID).enqueue(object : Callback<DoctorScheduleResponse> {
-            override fun onResponse(call: Call<DoctorScheduleResponse>, response: Response<DoctorScheduleResponse>) {
+        service.getDoctorSchedulesForPatient(patientID).enqueue(object : Callback<DoctorScheduleDates> {
+            override fun onResponse(call: Call<DoctorScheduleDates>, response: Response<DoctorScheduleDates>) {
                 if (response.isSuccessful) {
-                    val doctorSchedulesForPatient = response.body()
-                    if (doctorSchedulesForPatient != null) {
-                        for ((doctorID, doctorScheduleWrapper) in doctorSchedulesForPatient.doctorSchedules) {
-                            Log.d("TestActivity", "Doctor ID: $doctorID, Schedule Dates: ${doctorScheduleWrapper.values}")
+                    val doctorSchedules = response.body()
+                    if (doctorSchedules != null) {
+                        for (doctorSchedule in doctorSchedules.DoctorDates) {
+                            Log.d("TestActivity", "Doctor Schedule ID: ${doctorSchedule.doctorSchedID}, Doctor ID: ${doctorSchedule.doctorID}, Schedule Date Time: ${doctorSchedule.schedDateTime}")
                         }
                     }
                 } else {
@@ -121,11 +120,9 @@ class TestActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<DoctorScheduleResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DoctorScheduleDates>, t: Throwable) {
                 Log.d("TestActivity", "Failure: ${t.message}")
             }
         })
     }
-
-
 }

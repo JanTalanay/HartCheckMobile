@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hartcheck.Adapter.ListAdapter
 import com.example.hartcheck.Data.DocData
+import com.example.hartcheck.Wrapper.DoctorScheduleDates
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,6 +33,7 @@ class DoctorFragment : Fragment() {
     private var userID: Int? = null
     private var patientID: Int? = null
     private lateinit var doctorAssign: PatientsDoctorAssign
+    private lateinit var datesAssign: DoctorScheduleDates
 
     private lateinit var txt_emp:TextView
     private lateinit var recyclerView: RecyclerView
@@ -46,6 +48,7 @@ class DoctorFragment : Fragment() {
             userID = it.getInt(ARG_USER_ID)
             patientID = it.getInt(ARG_PATIENT_ID)
             doctorAssign = it.getParcelable<PatientsDoctorAssign>(ARG_DOCTOR_ASSIGN)!!
+            datesAssign = it.getParcelable<DoctorScheduleDates>(ARG_DATES_ASSIGN)!!
         }
     }
 
@@ -85,6 +88,8 @@ class DoctorFragment : Fragment() {
 //        val names = doctorAssign.HealthCareName.joinToString(separator = ", ") { "${it.firstName} ${it.lastName}" }
 //        Toast.makeText(context, "GOT UR: $names", Toast.LENGTH_SHORT).show()
 
+        val names = datesAssign.DoctorDates.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
+        Toast.makeText(context, "GOT UR:$names", Toast.LENGTH_SHORT).show()
         return view
     }
 
@@ -94,6 +99,7 @@ class DoctorFragment : Fragment() {
         private const val ARG_PARAM1 = "param1"
         private const val ARG_PARAM2 = "param2"
         private const val ARG_DOCTOR_ASSIGN = "doctorAssign"
+        private const val ARG_DATES_ASSIGN = "datesAssign"
 
 //        fun newInstance(doctorAssign: PatientsDoctorAssign): DoctorFragment {
 //            val fragment = DoctorFragment()
@@ -112,12 +118,13 @@ class DoctorFragment : Fragment() {
 //        }
 
         @JvmStatic
-        fun newInstance(userID: Int, patientID: Int, doctorAssign: PatientsDoctorAssign): DoctorFragment {
+        fun newInstance(userID: Int, patientID: Int, doctorAssign: PatientsDoctorAssign, datesAssign: DoctorScheduleDates): DoctorFragment {
             val fragment = DoctorFragment()
             val args = Bundle()
             args.putInt(ARG_USER_ID, userID)
             args.putInt(ARG_PATIENT_ID, patientID)
             args.putParcelable(ARG_DOCTOR_ASSIGN, doctorAssign)
+            args.putParcelable(ARG_DATES_ASSIGN, datesAssign)
             fragment.arguments = args
             return fragment
         }

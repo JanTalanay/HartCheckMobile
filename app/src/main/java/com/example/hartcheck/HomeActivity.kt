@@ -10,9 +10,11 @@ import android.widget.Toast
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.PatientsDoctor
 import com.example.hartcheck.Model.Users
+import com.example.hartcheck.Remote.DoctorScheduleRemote.DoctorScheduleInstance
 import com.example.hartcheck.Remote.PatientsDoctor.PatientsDoctorInstance
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
 import com.example.hartcheck.Remote.UsersRemote.UsersInstance
+import com.example.hartcheck.Wrapper.DoctorScheduleDates
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
 import com.example.hartcheck.databinding.DoctorItemBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -147,12 +149,15 @@ class HomeActivity : AppCompatActivity() {
         val userID = intent.getIntExtra("userID", 0)
         getPatientID(userID) { patientID ->
             getDoctorAssign(patientID) { doctorAssign ->
-                val intent = Intent(this, NavActivity::class.java)
-                intent.putExtra("BUTTON_STATE", buttonState)
-                intent.putExtra("userID", userID)
-                intent.putExtra("patientID", patientID)
-                intent.putExtra("doctorAssign", doctorAssign)
-                startActivity(intent)
+                onDoctorDatesAssigned(patientID) {datesAssign ->
+                    val intent = Intent(this, NavActivity::class.java)
+                    intent.putExtra("BUTTON_STATE", buttonState)
+                    intent.putExtra("userID", userID)
+                    intent.putExtra("patientID", patientID)
+                    intent.putExtra("doctorAssign", doctorAssign)
+                    intent.putExtra("datesAssign", datesAssign)
+                    startActivity(intent)
+                }
             }
         }
     }
@@ -185,10 +190,7 @@ class HomeActivity : AppCompatActivity() {
         })
     }
 
-    private fun getDoctorAssign(
-        patientID: Int,
-        onDoctorAssignRetrieved: (doctorAssign: PatientsDoctorAssign) -> Unit
-    ) {
+    private fun getDoctorAssign(patientID: Int, onDoctorAssignRetrieved: (doctorAssign: PatientsDoctorAssign) -> Unit) {
         val service = PatientsDoctorInstance.retrofitBuilder
 
         service.getHealthCareProfessionals(patientID).enqueue(object : Callback<PatientsDoctorAssign> {
@@ -206,6 +208,26 @@ class HomeActivity : AppCompatActivity() {
                     Log.d("TestActivity", "Failure: ${t.message}")
                 }
             })
+    }
+    private fun onDoctorDatesAssigned(patientID: Int, onDoctorDatesAssignedRetrieved: (datesAssign: DoctorScheduleDates)-> Unit){
+        val doctorSchedService = DoctorScheduleInstance.retrofitBuilder
+
+        doctorSchedService.getDoctorSchedulesForPatient(patientID).enqueue(object : Callback<DoctorScheduleDates>{
+            override fun onResponse(call: Call<DoctorScheduleDates>, response: Response<DoctorScheduleDates>) {
+                if(response.isSuccessful){
+                    response.body()?.let{dateAssign ->
+                        onDoctorDatesAssignedRetrieved(dateAssign)
+                    }
+                }
+                else{
+                    Log.d("TestActivity", "Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<DoctorScheduleDates>, t: Throwable) {
+                Log.d("TestActivity", "Failure: ${t.message}")
+            }
+        })
     }
 }
 

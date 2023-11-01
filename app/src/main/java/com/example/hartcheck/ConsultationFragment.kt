@@ -53,9 +53,6 @@ class ConsultationFragment : Fragment() {
     private lateinit var doctorList: MutableList<DocData>
     private lateinit var btn_avail: Button
     private lateinit var txt_emp: TextView
-    private lateinit var line: ImageView
-    private lateinit var txt_appointment:TextView
-    private lateinit var txt_title:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

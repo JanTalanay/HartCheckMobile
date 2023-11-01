@@ -49,14 +49,27 @@ class ConfirmActivity : AppCompatActivity() {
             "btn_NewPass" ->{
                 header_confirm.setText(R.string.header_pass_change)
                 txt_confirm.setText(R.string.p_success_change)
+                btn_back_home.setText(R.string.btn_back_log)
+
             }
             "btn_request" ->{
                 header_confirm.setText(R.string.header_request_sent)
                 txt_confirm.setText(R.string.p_success_change)
+                btn_back_home.setText(R.string.btn_view_app)
+
             }
             "payment_success" ->{
                 header_confirm.setText(R.string.header_purchase_success)
                 txt_confirm.setText(R.string.p_booking_success)
+                btn_back_home.setText(R.string.btn_view_app)
+
+            }
+            "appointment_resched" ->{
+                img_report.setImageResource(R.drawable.ic_sad)
+                header_confirm.setText(R.string.header_resched)
+                txt_confirm.setText(R.string.p_resched_appointment)
+                btn_back_home.setText(R.string.btn_view_app)
+
             }
 
             else -> {

@@ -1,16 +1,21 @@
 package com.example.hartcheck
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.UsersRemote.UsersInstance
@@ -74,10 +79,38 @@ class EditProfileFragment : Fragment() {
             startActivity(intent)
         }
         deleteAccount.setOnClickListener {
-            deleteUser()
+            showModal()
         }
         return view
 
+    }
+
+    private fun showModal(){
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.popup_confirmation)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+        val modalText: TextView = dialog.findViewById(R.id.txt_modal)
+        val btnAccept:Button = dialog.findViewById(R.id.btn_modal_yes)
+        val btnClose:Button = dialog.findViewById(R.id.btn_modal_no)
+
+        modalText.setText(R.string.p_delete_acc)
+
+        //add bp manually details here
+        btnAccept.setOnClickListener {
+            val intent = Intent(requireContext(),LoginActivity::class.java)
+            deleteUser()
+            dialog.dismiss()
+            startActivity(intent)
+        }
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun updateProfile() {

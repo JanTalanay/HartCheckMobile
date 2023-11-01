@@ -50,6 +50,10 @@ class ConfirmActivity : AppCompatActivity() {
                 header_confirm.setText(R.string.header_pass_change)
                 txt_confirm.setText(R.string.p_success_change)
             }
+            "btn_AccReg" ->{
+                header_confirm.setText(R.string.header_acc_verify)
+                txt_confirm.setText(R.string.p_account_verified)
+            }
             "btn_request" ->{
                 header_confirm.setText(R.string.header_request_sent)
                 txt_confirm.setText(R.string.p_success_change)

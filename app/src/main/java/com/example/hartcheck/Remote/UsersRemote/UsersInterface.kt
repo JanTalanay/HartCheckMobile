@@ -3,6 +3,7 @@ package com.example.hartcheck.Remote.UsersRemote
 import com.example.hartcheck.Data.ChangePassword
 import com.example.hartcheck.Data.ForgotPassword
 import com.example.hartcheck.Data.OTPVerification
+import com.example.hartcheck.Data.ServerUser
 import com.example.hartcheck.Model.BugReport
 import com.example.hartcheck.Model.Login
 import com.example.hartcheck.Model.Patients

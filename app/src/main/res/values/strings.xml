@@ -54,6 +54,7 @@
     <string name="header_new_pass">Create new password</string>
     <string name="header_change_pass">Change password</string>
     <string name="header_pass_change">Password Changed!</string>
+    <string name="header_acc_verify">Account Verified!</string>
     <string name="header_faq">Frequently Asked Questions (FAQ)</string>
     <string name="header_home">Hello [User] What would you like to do?</string>
     <string name="header_educ">About High Blood Pressure</string>
@@ -82,7 +83,7 @@
     <string name="input_medical_condition">Medical Condition/s</string>
     <string name="input_medication">Current Medications</string>
     <string name="input_surgery">e.g. Kidney</string>
-    <string name="input_heredetary">e.g. Diabetes</string>
+    <string name="input_heredetary">E.g. Hypertension</string>
     <string name="input_phone">Phone No. 09xx-xxx-xxxx</string>
     <string name="input_email">Email</string>
     <string name="input_pass">Password</string>
@@ -101,6 +102,7 @@
     <string name="p_terms1">By checking the box, you are agreeing with the terms and conditions of the app</string>
     <string name="p_change_pass">Please enter your email to change your password.</string>
     <string name="p_forgot">Forgot Password?</string>
+    <string name="p_con_name">E.g. Asthma</string>
     <string name="p_med">E.g. Paracetamol</string>
     <string name="p_current_condition">Do you currently have a medical condition? if none then please add \"none\"</string>
     <string name="p_prev_med">Have you had any previous medications? if none then please add \"none\"</string>
@@ -112,6 +114,7 @@
     <string name="p_otp">Enter the verification code we just sent on your email address.</string>
     <string name="p_new_pass">Your new password must be unique from those previously used.</string>
     <string name="p_success_change">Your password has been changed successfully.</string>
+    <string name="p_account_verified">Your Account has been verified!</string>
     <string name="p_admin_review">Report will be viewed by an admin.</string>
     <string name="p_issue_resolved">Your issue has been resolved.</string>
     <string name="p_bp_modal">Please input the Systolic and Diastolic details below</string>

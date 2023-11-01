@@ -6,8 +6,9 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.example.hartcheck.Data.DoctorScheduleResponse
 import com.example.hartcheck.Remote.BloodPressureRemote.BloodPressureInstance
-import com.example.hartcheck.Wrapper.Test
+import com.example.hartcheck.Remote.DoctorScheduleRemote.DoctorScheduleInstance
 import com.example.hartcheck.Remote.PatientsDoctor.PatientsDoctorInstance
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
 import com.example.hartcheck.Wrapper.PrevBloodPressure
@@ -19,18 +20,18 @@ class TestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
-        val testView: TextView = findViewById<TextView>(R.id.view_test)
-        val editTest: EditText = findViewById<EditText>(R.id.edit_test)
-        val editTest2: EditText = findViewById<EditText>(R.id.edit_test2)
-        val editTest3: EditText = findViewById<EditText>(R.id.edit_test3)
-        val editTest4: EditText = findViewById<EditText>(R.id.edit_test4)
-        val editTest5: EditText = findViewById<EditText>(R.id.edit_test5)
-        val editTest6: EditText = findViewById<EditText>(R.id.edit_test6)
-        val editTest7: EditText = findViewById<EditText>(R.id.edit_test7)
-        val testGet: Button = findViewById<Button>(R.id.btn_test)
-        val testUpdate: Button = findViewById<Button>(R.id.btn_test2)
-        val testDelete: Button = findViewById<Button>(R.id.btn_test3)
-        val testInsert: Button = findViewById<Button>(R.id.btn_test4)
+        val testView: TextView = findViewById(R.id.view_test)
+        val editTest: EditText = findViewById(R.id.edit_test)
+        val editTest2: EditText = findViewById(R.id.edit_test2)
+        val editTest3: EditText = findViewById(R.id.edit_test3)
+        val editTest4: EditText = findViewById(R.id.edit_test4)
+        val editTest5: EditText = findViewById(R.id.edit_test5)
+        val editTest6: EditText = findViewById(R.id.edit_test6)
+        val editTest7: EditText = findViewById(R.id.edit_test7)
+        val testGet: Button = findViewById(R.id.btn_test)
+        val testUpdate: Button = findViewById(R.id.btn_test2)
+        val testDelete: Button = findViewById(R.id.btn_test3)
+        val testInsert: Button = findViewById(R.id.btn_test4)
 
         val patientID = intent.getIntExtra("patientID", 0)
 //        val userID = intent.getIntExtra("userID", 0)
@@ -41,7 +42,8 @@ class TestActivity : AppCompatActivity() {
         testGet.setOnClickListener {
 //            getPatientID()
 //            getDoctorID()
-            getPrevBP()
+//            getPrevBP()
+            getDoctorSchedulesForPatient()
         }
 
     }
@@ -97,4 +99,33 @@ class TestActivity : AppCompatActivity() {
             }
         })
     }
+    private fun getDoctorSchedulesForPatient() {
+        val patientID = intent.getIntExtra("patientID", 0)
+        if (patientID == 0) {
+            Log.d("TestActivity", "Error: patientID is not valid")
+            return
+        }
+        val service = DoctorScheduleInstance.retrofitBuilder
+
+        service.getDoctorSchedulesForPatient(patientID).enqueue(object : Callback<DoctorScheduleResponse> {
+            override fun onResponse(call: Call<DoctorScheduleResponse>, response: Response<DoctorScheduleResponse>) {
+                if (response.isSuccessful) {
+                    val doctorSchedulesForPatient = response.body()
+                    if (doctorSchedulesForPatient != null) {
+                        for ((doctorID, doctorScheduleWrapper) in doctorSchedulesForPatient.doctorSchedules) {
+                            Log.d("TestActivity", "Doctor ID: $doctorID, Schedule Dates: ${doctorScheduleWrapper.values}")
+                        }
+                    }
+                } else {
+                    Log.d("TestActivity", "Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<DoctorScheduleResponse>, t: Throwable) {
+                Log.d("TestActivity", "Failure: ${t.message}")
+            }
+        })
+    }
+
+
 }

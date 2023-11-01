@@ -85,6 +85,8 @@ class RegisterMedActivity : AppCompatActivity() {
     }
     private fun insertBodyMass() {
         val patientID = intent.getIntExtra("patientID", 0)
+        val email = intent.getStringExtra("email")
+        val otpHash = intent.getStringExtra("otpHash")
 
         val txtBodyMassHeight: EditText = findViewById(R.id.input_height)
         val txtBodyMassWeight: EditText = findViewById(R.id.input_weight)
@@ -114,10 +116,14 @@ class RegisterMedActivity : AppCompatActivity() {
             override fun onResponse(call: Call<BodyMass>, response: Response<BodyMass>) {
                 if (response.isSuccessful) {
                     // Successfully deleted the bug report
-                    goSignOut()
-
-//                    val intent = Intent(this@RegisterMedActivity, LoginMain::class.java)
-//                    startActivity(intent)
+//                    goSignOut()
+//                    val email = intent.getStringExtra("email")
+//                    val otpHash = intent.getStringExtra("otpHash")
+                    val intent = Intent(this@RegisterMedActivity, RegisterOtherActivity::class.java)
+                    intent.putExtra("email", email)
+                    intent.putExtra("otpHash", otpHash)
+                    intent.putExtra("patientID", patientID)
+                    startActivity(intent)
                 } else {
                     // Handle the error response
                 }

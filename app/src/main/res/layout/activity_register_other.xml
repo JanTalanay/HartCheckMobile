@@ -53,6 +53,21 @@
             tools:layout_editor_absoluteX="30dp"
             tools:layout_editor_absoluteY="129dp" />
 
+        <EditText
+            android:id="@+id/txt_condition_name"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/custom_input"
+            android:ems="10"
+            android:hint="@string/p_con_name"
+            android:inputType="text"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/grey"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="129dp" />
+
         <TextView
             android:id="@+id/q2"
             android:layout_width="match_parent"
@@ -64,7 +79,7 @@
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/txt_current_med"
+            android:id="@+id/txt_Prev_Med"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginBottom="30dp"

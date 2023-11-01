@@ -37,5 +37,8 @@ data class Users(
 
     @SerializedName("role")
     @Expose
-    val role: Int? = null
+    val role: Int? = null,
+
+    var otpHash: String? = null
+
 )

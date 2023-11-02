@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hartcheck.BookActivity
 import com.example.hartcheck.Data.DocData
 import com.example.hartcheck.R
+import com.example.hartcheck.Wrapper.DoctorScheduleDates
 
-class ListAdapter(private val doctorList: MutableList<DocData>,private val frag:Boolean) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+class ListAdapter(private val doctorList: MutableList<DocData>, private val frag:Boolean, private val datesAssign: DoctorScheduleDates?,
+                  private val patientID: Int?) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.doctor_item, parent, false)
@@ -45,6 +47,8 @@ class ListAdapter(private val doctorList: MutableList<DocData>,private val frag:
             contentTextView.text = doc.appointmentDate
             viewBtn.setOnClickListener {
                 val intent = Intent(itemView.context, BookActivity::class.java)
+                intent.putExtra("DATES_ASSIGN", datesAssign)
+                intent.putExtra("PATIENT_ID", patientID)
                 itemView.context.startActivity(intent)
             }
 

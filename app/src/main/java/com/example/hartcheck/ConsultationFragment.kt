@@ -110,7 +110,7 @@ class ConsultationFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList,frag)
+        listAdapter = ListAdapter(doctorList,frag,datesAssign,patientID)
         recyclerView.adapter = listAdapter
 
         //enable this as default

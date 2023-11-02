@@ -24,10 +24,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hartcheck.Adapter.ListAdapter
 import com.example.hartcheck.Data.DocData
+import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Wrapper.DoctorScheduleDates
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
 import okhttp3.internal.notify
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -68,6 +71,11 @@ class ConsultationFragment : Fragment() {
         val userID = arguments?.getInt(ARG_USER_ID)
         val doctorAssign = arguments?.getParcelable<PatientsDoctorAssign>(ARG_DOCTOR_ASSIGN)
         val datesAssign = arguments?.getParcelable<DoctorScheduleDates>(ARG_DATE_ASSIGN)
+        val doctorSchedules = arguments?.getParcelable<DoctorScheduleDates>(ARG_DOCTOR_SCHEDULE)
+        val doctorsInfo = arguments?.getParcelableArrayList<Users>(ARG_DOCTOR_INFO)
+
+
+
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_consultation, container, false)
         val frag = true
@@ -79,11 +87,26 @@ class ConsultationFragment : Fragment() {
 //        txt_appointment.visibility =View.VISIBLE
 //        txt_title.visibility = View.VISIBLE
 
-        doctorList = mutableListOf(
-            DocData("Doctor 1", "Info 1"),
-            DocData("Doctor 2", "Info 2"),
-            DocData("Doctor 3", "Info 3")
-        )
+//        doctorList = mutableListOf(
+//            DocData("Doctor 1", "Info 1"),
+//            DocData("Doctor 2", "Info 2"),
+//            DocData("Doctor 3", "Info 3")
+//        )
+
+        doctorList = mutableListOf<DocData>()
+        for ((index, doctor) in doctorsInfo!!.withIndex()) {
+            val doctorName = "${doctor.firstName} ${doctor.lastName}"
+            val scheduleInfo = doctorSchedules?.DoctorDates?.get(index)?.let {
+                "${it.schedDateTime?.let { it1 ->
+                    formatDateTime(
+                        it1
+                    )
+                }}"
+            } ?: "No schedule info available"
+            val docData = DocData(doctorName, scheduleInfo)
+            doctorList.add(docData)
+        }
+
 
         recyclerView = view.findViewById(R.id.consulList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -91,9 +114,9 @@ class ConsultationFragment : Fragment() {
         recyclerView.adapter = listAdapter
 
         //enable this as default
-        txt_emp.visibility = View.VISIBLE
+        txt_emp.visibility = View.GONE
         btn_avail.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
 
         btn_avail.setOnClickListener {//available doctors
             userID?.let { it1 -> patientID?.let { it2 ->
@@ -108,6 +131,19 @@ class ConsultationFragment : Fragment() {
         }
 //        val names = datesAssign?.DoctorDates?.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
 //        Toast.makeText(context, "GOT UR:$names", Toast.LENGTH_SHORT).show()
+
+//        val names = doctorSchedules?.DoctorDates?.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
+//        if (doctorsInfo != null) {
+//            val doctorsInfoString = StringBuilder()
+//            for (doctor in doctorsInfo) {
+//                doctorsInfoString.append("Name: ${doctor.firstName} ${doctor.lastName}\n")
+//            }
+//            Toast.makeText(context, doctorsInfoString.toString(), Toast.LENGTH_LONG).show()
+//        } else {
+//            Toast.makeText(context, "No doctors info available", Toast.LENGTH_LONG).show()
+//        }
+//
+//        Toast.makeText(context, "$names", Toast.LENGTH_SHORT).show()
 
         return view
     }
@@ -150,7 +186,7 @@ class ConsultationFragment : Fragment() {
         val hasPermission = ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
 
         val builder = NotificationCompat.Builder(requireContext(), CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_logo)
             .setContentTitle("Booked Doctor's Appointment")
             .setContentText("You have successfully booked an appointment.")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -165,6 +201,17 @@ class ConsultationFragment : Fragment() {
         }
     }
 
+    private fun formatDateTime(originalDateTime: String): String {
+        val inputPattern = "yyyy-MM-dd'T'HH:mm:ss"
+        val outputPattern = "MMMM dd, yyyy 'at' hh:mm a"
+
+        val inputFormat = SimpleDateFormat(inputPattern, Locale.US)
+        val outputFormat = SimpleDateFormat(outputPattern, Locale.US)
+
+        val dateTime = inputFormat.parse(originalDateTime)
+        return outputFormat.format(dateTime)
+    }
+
     companion object {
         private const val ARG_PATIENT_ID = "patientID"
         private const val ARG_USER_ID = "userID"
@@ -172,15 +219,20 @@ class ConsultationFragment : Fragment() {
         private const val ARG_PARAM2 = "param2"
         private const val ARG_DOCTOR_ASSIGN = "doctorAssign"
         private const val ARG_DATE_ASSIGN = "datesAssign"
+        private const val ARG_DOCTOR_INFO = "doctorSchedules"
+        private const val ARG_DOCTOR_SCHEDULE = "doctorsInfo"
 
         @JvmStatic
-        fun newInstance(userID: Int, patientID: Int, doctorAssign: PatientsDoctorAssign, datesAssign: DoctorScheduleDates): ConsultationFragment {
+        fun newInstance(userID: Int, patientID: Int, doctorAssign: PatientsDoctorAssign, datesAssign: DoctorScheduleDates,
+                        doctorSchedules: DoctorScheduleDates, doctorsInfo: ArrayList<Users>): ConsultationFragment {
             val fragment = ConsultationFragment()
             val args = Bundle()
             args.putInt(ARG_USER_ID, userID)
             args.putInt(ARG_PATIENT_ID, patientID)
             args.putParcelable(ARG_DOCTOR_ASSIGN, doctorAssign)
             args.putParcelable(ARG_DATE_ASSIGN, datesAssign)
+            args.putParcelable(ARG_DOCTOR_SCHEDULE, doctorSchedules)
+            args.putSerializable(ARG_DOCTOR_INFO, doctorsInfo)
             fragment.arguments = args
             return fragment
         }

@@ -88,8 +88,8 @@ class DoctorFragment : Fragment() {
 //        val names = doctorAssign.HealthCareName.joinToString(separator = ", ") { "${it.firstName} ${it.lastName}" }
 //        Toast.makeText(context, "GOT UR: $names", Toast.LENGTH_SHORT).show()
 
-        val names = datesAssign.DoctorDates.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
-        Toast.makeText(context, "GOT UR:$names", Toast.LENGTH_SHORT).show()
+//        val names = datesAssign.DoctorDates.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
+//        Toast.makeText(context, "GOT UR:$names", Toast.LENGTH_SHORT).show()
         return view
     }
 

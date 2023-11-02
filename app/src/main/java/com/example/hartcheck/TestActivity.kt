@@ -6,18 +6,22 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import com.example.hartcheck.Model.DoctorSchedule
+import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.BloodPressureRemote.BloodPressureInstance
+import com.example.hartcheck.Remote.ConsultationRemote.ConsultationInstance
 import com.example.hartcheck.Remote.DoctorScheduleRemote.DoctorScheduleInstance
 import com.example.hartcheck.Remote.PatientsDoctor.PatientsDoctorInstance
 import com.example.hartcheck.Wrapper.DoctorScheduleDates
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
 import com.example.hartcheck.Wrapper.PrevBloodPressure
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.HttpException
 import retrofit2.Response
+import retrofit2.await
 
 class TestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +51,7 @@ class TestActivity : AppCompatActivity() {
 //            getDoctorID()
 //            getPrevBP()
 //            getDoctorSchedulesForPatient()
+            getConsultationAssign()
         }
 
     }
@@ -125,4 +130,44 @@ class TestActivity : AppCompatActivity() {
             }
         })
     }
+    private fun getConsultationAssign() {
+        val patientID = intent.getIntExtra("patientID", 0)
+        val service = ConsultationInstance.retrofitBuilder
+
+        service.getConsultationAssign(patientID).enqueue(object : Callback<DoctorScheduleDates> {
+            override fun onResponse(call: Call<DoctorScheduleDates>, response: Response<DoctorScheduleDates>) {
+                if (response.isSuccessful) {
+                    val doctorSchedules = response.body()
+                    if (doctorSchedules != null) {
+                        val doctorIds = doctorSchedules.DoctorDates.map { it.doctorID }
+                        GlobalScope.launch(Dispatchers.Main) {
+                            getDoctorInfo(doctorIds)
+                        }
+                    }
+                } else {
+                    Log.d("TestActivity", "Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<DoctorScheduleDates>, t: Throwable) {
+                Log.d("TestActivity", "Failure: ${t.message}")
+            }
+        })
+    }
+
+
+
+    private suspend fun getDoctorInfo(doctorIDs: List<Int?>) {
+        val service = ConsultationInstance.retrofitBuilder
+        val doctorsInfo = mutableListOf<Users>()
+
+        for (doctorID in doctorIDs) {
+            val doctorInfo = service.getConsultationDoctor(doctorID!!).await()
+            if (doctorInfo != null) {
+                doctorsInfo.add(doctorInfo)
+                Log.d("TestActivity", "${doctorInfo.firstName}, ${doctorInfo.lastName}")
+            }
+        }
+    }
+
 }

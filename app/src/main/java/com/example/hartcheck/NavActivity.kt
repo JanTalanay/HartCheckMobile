@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.hartcheck.Model.Patients
+import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
 import com.example.hartcheck.Wrapper.DoctorScheduleDates
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
@@ -30,8 +31,25 @@ class NavActivity : AppCompatActivity() {
         val patientID = intent.getIntExtra("patientID", 0)
         val doctorAssign = intent.getParcelableExtra<PatientsDoctorAssign>("doctorAssign")
         val dateAssign = intent.getParcelableExtra<DoctorScheduleDates>("datesAssign")
-//        val names = dateAssign?.DoctorDates?.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
-//        Toast.makeText(this, "GOT UR: $userID AND $patientID AND $names", Toast.LENGTH_SHORT).show()
+        val doctorSchedules = intent.getParcelableExtra<DoctorScheduleDates>("doctorSchedules")
+        val doctorsInfo = intent.getSerializableExtra("doctorsInfo") as ArrayList<Users>
+//        val doctorSchedules = intent.getParcelableExtra<DoctorScheduleDates>("doctorSchedules")
+//        val doctorsInfo = intent.getSerializableExtra("doctorsInfo") as ArrayList<Users>
+
+
+//        val names = doctorSchedules?.DoctorDates?.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
+//        if (doctorsInfo != null) {
+//            val doctorsInfoString = StringBuilder()
+//            for (doctor in doctorsInfo) {
+//                doctorsInfoString.append("Name: ${doctor.firstName} ${doctor.lastName}\n")
+//                Log.d("TestActivity", "${doctor.firstName}, ${doctor.lastName}")
+//            }
+//            Toast.makeText(this, doctorsInfoString.toString(), Toast.LENGTH_LONG).show()
+//        } else {
+//            Toast.makeText(this, "No doctors info available", Toast.LENGTH_LONG).show()
+//        }
+//
+//        Toast.makeText(this, "$names", Toast.LENGTH_SHORT).show()
 
         btn_states()
 //        val userID = intent.getIntExtra("userID", 0)
@@ -39,11 +57,10 @@ class NavActivity : AppCompatActivity() {
 
         binding.navBar.setOnItemSelectedListener {
             when(it){
-
                 R.id.nav_profile -> replaceFragment(UserFragment.newInstance(userID))
                 R.id.nav_consultations ->
                     if (doctorAssign != null) {
-                        replaceFragment(ConsultationFragment.newInstance(userID,patientID,doctorAssign,dateAssign!!))
+                        replaceFragment(ConsultationFragment.newInstance(userID,patientID,doctorAssign,dateAssign!!, doctorSchedules!!, doctorsInfo))
                     }
                 R.id.nav_bp -> replaceFragment(BPFragment.newInstance(userID,patientID))
                 R.id.nav_chat -> replaceFragment(ChatFragment())
@@ -62,6 +79,8 @@ class NavActivity : AppCompatActivity() {
         val patientID = intent.getIntExtra("patientID", 0)
         val doctorAssign = intent.getParcelableExtra<PatientsDoctorAssign>("doctorAssign")
         val dateAssign = intent.getParcelableExtra<DoctorScheduleDates>("datesAssign")
+        val doctorSchedules = intent.getParcelableExtra<DoctorScheduleDates>("doctorSchedules")
+        val doctorsInfo = intent.getSerializableExtra("doctorsInfo") as ArrayList<Users>
 
         when (buttonState) {
             "btn_bp" -> {
@@ -69,7 +88,7 @@ class NavActivity : AppCompatActivity() {
             }
             "btn_consul" -> {// have to think first
                 if (doctorAssign != null) {
-                    replaceFragment(ConsultationFragment.newInstance(userID,patientID, doctorAssign,dateAssign!!))
+                    replaceFragment(ConsultationFragment.newInstance(userID,patientID,doctorAssign,dateAssign!!, doctorSchedules!!, doctorsInfo))
                 }
             }
             "btn_chat" -> {

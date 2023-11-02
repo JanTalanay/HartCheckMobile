@@ -3,6 +3,8 @@ package com.example.hartcheck.Remote.ConsultationRemote
 import com.example.hartcheck.Model.BugReport
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.PreviousMedication
+import com.example.hartcheck.Model.Users
+import com.example.hartcheck.Wrapper.DoctorScheduleDates
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -22,5 +24,11 @@ interface ConsultationInterface {
     fun deleteConsultation(@Path("consultationID") resourceId: String): Call<PreviousMedication>
     @PUT("api/Consultation/{consultationID}")
     fun updateConsultation(@Path("consultationID") resourceId: String, @Body updatedResource: PreviousMedication): Call<PreviousMedication>
+
+    @GET("api/Consultation/{patientID}/dates")
+    fun getConsultationAssign(@Path("patientID") patientID: Int): Call<DoctorScheduleDates>
+
+    @GET("api/Consultation/doctor/{doctorID}/name")
+    fun getConsultationDoctor(@Path("doctorID") doctorID: Int): Call<Users>
 
 }

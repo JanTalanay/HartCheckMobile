@@ -1,5 +1,6 @@
 package com.example.hartcheck
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.widget.Toast
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.PatientsDoctor
 import com.example.hartcheck.Model.Users
+import com.example.hartcheck.Remote.ConsultationRemote.ConsultationInstance
 import com.example.hartcheck.Remote.DoctorScheduleRemote.DoctorScheduleInstance
 import com.example.hartcheck.Remote.PatientsDoctor.PatientsDoctorInstance
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
@@ -20,10 +22,14 @@ import com.example.hartcheck.databinding.DoctorItemBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
+import retrofit2.await
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var gsc: GoogleSignInClient
@@ -149,18 +155,29 @@ class HomeActivity : AppCompatActivity() {
         val userID = intent.getIntExtra("userID", 0)
         getPatientID(userID) { patientID ->
             getDoctorAssign(patientID) { doctorAssign ->
-                onDoctorDatesAssigned(patientID) {datesAssign ->
-                    val intent = Intent(this, NavActivity::class.java)
-                    intent.putExtra("BUTTON_STATE", buttonState)
-                    intent.putExtra("userID", userID)
-                    intent.putExtra("patientID", patientID)
-                    intent.putExtra("doctorAssign", doctorAssign)
-                    intent.putExtra("datesAssign", datesAssign)
-                    startActivity(intent)
+                onDoctorDatesAssigned(patientID) { datesAssign ->
+                    getConsultationAssign(patientID) { doctorSchedules ->
+                        val uniqueDoctorIds = doctorSchedules.DoctorDates.map { it.doctorID }
+                        GlobalScope.launch(Dispatchers.Main) {
+                            getDoctorInfo(this@HomeActivity, uniqueDoctorIds) { doctorsInfo ->
+                                val intent = Intent(this@HomeActivity, NavActivity::class.java)
+                                intent.putExtra("BUTTON_STATE", buttonState)
+                                intent.putExtra("userID", userID)
+                                intent.putExtra("patientID", patientID)
+                                intent.putExtra("doctorAssign", doctorAssign)
+                                intent.putExtra("datesAssign", datesAssign)
+                                intent.putExtra("doctorSchedules", doctorSchedules)
+                                intent.putExtra("doctorsInfo", doctorsInfo)
+                                startActivity(intent)
+                            }
+                        }
+                    }
                 }
             }
         }
     }
+
+
 
     private fun getPatientID(userID: Int, onPatientIDRetrieved: (patientID: Int) -> Unit) {
         val service = PatientsInstance.retrofitBuilder
@@ -229,6 +246,43 @@ class HomeActivity : AppCompatActivity() {
             }
         })
     }
+
+    private fun getConsultationAssign(patientID: Int, onConsultationAssignRetrieved: (doctorSchedules: DoctorScheduleDates) -> Unit) {
+        val service = ConsultationInstance.retrofitBuilder
+
+        service.getConsultationAssign(patientID).enqueue(object : Callback<DoctorScheduleDates> {
+            override fun onResponse(call: Call<DoctorScheduleDates>, response: Response<DoctorScheduleDates>) {
+                if (response.isSuccessful) {
+                    val doctorSchedules = response.body()
+                    if (doctorSchedules != null) {
+                        onConsultationAssignRetrieved(doctorSchedules)
+                    }
+                } else {
+                    Log.d("TestActivity", "Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<DoctorScheduleDates>, t: Throwable) {
+                Log.d("TestActivity", "Failure: ${t.message}")
+            }
+        })
+    }
+
+    private suspend fun getDoctorInfo(context: Context, doctorIDs: List<Int?>, onDoctorInfoRetrieved: (doctorsInfo: ArrayList<Users>) -> Unit) {
+        val service = ConsultationInstance.retrofitBuilder
+        val doctorsInfo = ArrayList<Users>()
+
+        for (doctorID in doctorIDs) {
+            val doctorInfo = service.getConsultationDoctor(doctorID!!).await()
+            if (doctorInfo != null) {
+                doctorsInfo.add(doctorInfo)
+                onDoctorInfoRetrieved(doctorsInfo)
+            }
+        }
+    }
+
+
+
 }
 
 

@@ -239,7 +239,7 @@ class BPFragment : Fragment() {
 
         if (hasPermission) {
             val builder = NotificationCompat.Builder(requireActivity(), CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_logo)
                 .setContentTitle("Blood Pressure Alert")
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

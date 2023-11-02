@@ -2,7 +2,9 @@ package com.example.hartcheck.Model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+@Parcelize
 data class Users(
     @SerializedName("usersID")
     @Expose
@@ -41,4 +43,4 @@ data class Users(
 
     var otpHash: String? = null
 
-)
+): Parcelable

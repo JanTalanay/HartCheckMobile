@@ -179,7 +179,7 @@ class ConsultationFragment : Fragment() {
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({
             createNotification()
-        }, 10000)  // Delay of 8 seconds
+        }, 10000)  // Delay of 10 seconds
     }
     private fun createNotification() {
         val permission = "android.permission.POST_NOTIFICATIONS"

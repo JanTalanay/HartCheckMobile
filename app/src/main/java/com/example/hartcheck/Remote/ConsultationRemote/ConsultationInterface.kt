@@ -1,6 +1,7 @@
 package com.example.hartcheck.Remote.ConsultationRemote
 
 import com.example.hartcheck.Model.BugReport
+import com.example.hartcheck.Model.Consultation
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.PreviousMedication
 import com.example.hartcheck.Model.Users
@@ -15,15 +16,15 @@ import retrofit2.http.Path
 
 interface ConsultationInterface {
     @POST("api/Consultation")
-    fun insertConsultation(@Body request: PreviousMedication): Call<PreviousMedication>
+    fun insertConsultation(@Body request: Consultation): Call<Consultation>
     @GET("api/Consultation")
     fun getConsultation(): Call<List<BugReport>>
     @GET("api/Consultation/{patientID}")
-    fun getConsultationID(@Path("patientID") patientID: Int): Call<PreviousMedication>
+    fun getConsultationID(@Path("patientID") patientID: Int): Call<Consultation>
     @DELETE("api/Consultation/{consultationID}")
-    fun deleteConsultation(@Path("consultationID") resourceId: String): Call<PreviousMedication>
+    fun deleteConsultation(@Path("consultationID") resourceId: String): Call<Consultation>
     @PUT("api/Consultation/{consultationID}")
-    fun updateConsultation(@Path("consultationID") resourceId: String, @Body updatedResource: PreviousMedication): Call<PreviousMedication>
+    fun updateConsultation(@Path("consultationID") resourceId: String, @Body updatedResource: Consultation): Call<Consultation>
 
     @GET("api/Consultation/{patientID}/dates")
     fun getConsultationAssign(@Path("patientID") patientID: Int): Call<DoctorScheduleDates>

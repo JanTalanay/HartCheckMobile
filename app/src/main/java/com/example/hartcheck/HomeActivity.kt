@@ -50,41 +50,6 @@ class HomeActivity : AppCompatActivity() {
         val li_faq = findViewById<TextView>(R.id.li_faq)
         val reportProblem = findViewById<TextView>(R.id.report_problem)
 
-//        GoogleSignInOptions()
-//        if (isTokenAvailable(token)) {
-//            setContentView(R.layout.activity_home)
-//        btnInfo.setOnClickListener {
-//                val intent = Intent(this, EducationalActivity::class.java)
-//                intent.putExtra("userID", userID)
-//                startActivity(intent)
-//            }
-//            li_faq.setOnClickListener {
-//                val intent = Intent(this, FAQ::class.java)
-//                intent.putExtra("userID", userID)
-//                startActivity(intent)
-//            }
-//            btn_bp.setOnClickListener {
-//                startNextActivity("btn_bp")
-//            }
-//
-//            btn_consul.setOnClickListener {
-//                startNextActivity("btn_consul")
-//            }
-//
-//            btn_chat.setOnClickListener {
-//                startNextActivity("btn_chat")
-//            }
-//
-//            btn_profile.setOnClickListener {
-//                startNextActivity("btn_profile")
-//
-//            }
-//        }
-//        else {
-//            redirectToLoginActivity()
-//        }
-
-
         btnInfo.setOnClickListener {
             val intent = Intent(this, EducationalActivity::class.java)
             intent.putExtra("userID", userID)

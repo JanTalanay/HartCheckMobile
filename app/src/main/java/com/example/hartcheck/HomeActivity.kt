@@ -116,31 +116,17 @@ class HomeActivity : AppCompatActivity() {
         gsc = GoogleSignIn.getClient(this, gso)
     }
 
-    fun startNextActivity(buttonState: String) {
+    private fun startNextActivity(buttonState: String) {
         val userID = intent.getIntExtra("userID", 0)
         getPatientID(userID) { patientID ->
-            getDoctorAssign(patientID) { doctorAssign ->
-                onDoctorDatesAssigned(patientID) { datesAssign ->
-                    getConsultationAssign(patientID) { doctorSchedules ->
-                        val uniqueDoctorIds = doctorSchedules.DoctorDates.map { it.doctorID }
-                        GlobalScope.launch(Dispatchers.Main) {
-                            getDoctorInfo(this@HomeActivity, uniqueDoctorIds) { doctorsInfo ->
-                                val intent = Intent(this@HomeActivity, NavActivity::class.java)
-                                intent.putExtra("BUTTON_STATE", buttonState)
-                                intent.putExtra("userID", userID)
-                                intent.putExtra("patientID", patientID)
-                                intent.putExtra("doctorAssign", doctorAssign)
-                                intent.putExtra("datesAssign", datesAssign)
-                                intent.putExtra("doctorSchedules", doctorSchedules)
-                                intent.putExtra("doctorsInfo", doctorsInfo)
-                                startActivity(intent)
-                            }
-                        }
-                    }
-                }
-            }
+            val intent = Intent(this@HomeActivity, NavActivity::class.java)
+            intent.putExtra("BUTTON_STATE", buttonState)
+            intent.putExtra("userID", userID)
+            intent.putExtra("patientID", patientID)
+            startActivity(intent)
         }
     }
+
 
 
 
@@ -245,9 +231,6 @@ class HomeActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
 }
 
 

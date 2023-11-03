@@ -29,10 +29,10 @@ class NavActivity : AppCompatActivity() {
         setContentView(binding.root)
         val userID = intent.getIntExtra("userID", 0)
         val patientID = intent.getIntExtra("patientID", 0)
-        val doctorAssign = intent.getParcelableExtra<PatientsDoctorAssign>("doctorAssign")
-        val dateAssign = intent.getParcelableExtra<DoctorScheduleDates>("datesAssign")
-        val doctorSchedules = intent.getParcelableExtra<DoctorScheduleDates>("doctorSchedules")
-        val doctorsInfo = intent.getSerializableExtra("doctorsInfo") as ArrayList<Users>
+//        val doctorAssign = intent.getParcelableExtra<PatientsDoctorAssign>("doctorAssign")
+//        val dateAssign = intent.getParcelableExtra<DoctorScheduleDates>("datesAssign")
+//        val doctorSchedules = intent.getParcelableExtra<DoctorScheduleDates>("doctorSchedules")
+//        val doctorsInfo = intent.getSerializableExtra("doctorsInfo") as ArrayList<Users>
 //        val doctorSchedules = intent.getParcelableExtra<DoctorScheduleDates>("doctorSchedules")
 //        val doctorsInfo = intent.getSerializableExtra("doctorsInfo") as ArrayList<Users>
 
@@ -58,10 +58,7 @@ class NavActivity : AppCompatActivity() {
         binding.navBar.setOnItemSelectedListener {
             when(it){
                 R.id.nav_profile -> replaceFragment(UserFragment.newInstance(userID))
-                R.id.nav_consultations ->
-                    if (doctorAssign != null) {
-                        replaceFragment(ConsultationFragment.newInstance(userID,patientID,doctorAssign,dateAssign!!, doctorSchedules!!, doctorsInfo))
-                    }
+                R.id.nav_consultations -> replaceFragment(ConsultationFragment.newInstance(userID,patientID))
                 R.id.nav_bp -> replaceFragment(BPFragment.newInstance(userID,patientID))
                 R.id.nav_chat -> replaceFragment(ChatFragment())
                 else ->{
@@ -77,19 +74,17 @@ class NavActivity : AppCompatActivity() {
         val buttonState = intent.getStringExtra("BUTTON_STATE")
         val userID = intent.getIntExtra("userID", 0)
         val patientID = intent.getIntExtra("patientID", 0)
-        val doctorAssign = intent.getParcelableExtra<PatientsDoctorAssign>("doctorAssign")
-        val dateAssign = intent.getParcelableExtra<DoctorScheduleDates>("datesAssign")
-        val doctorSchedules = intent.getParcelableExtra<DoctorScheduleDates>("doctorSchedules")
-        val doctorsInfo = intent.getSerializableExtra("doctorsInfo") as ArrayList<Users>
+//        val doctorAssign = intent.getParcelableExtra<PatientsDoctorAssign>("doctorAssign")
+//        val dateAssign = intent.getParcelableExtra<DoctorScheduleDates>("datesAssign")
+//        val doctorSchedules = intent.getParcelableExtra<DoctorScheduleDates>("doctorSchedules")
+//        val doctorsInfo = intent.getSerializableExtra("doctorsInfo") as ArrayList<Users>
 
         when (buttonState) {
             "btn_bp" -> {
                 replaceFragment(BPFragment.newInstance(userID,patientID))
             }
             "btn_consul" -> {// have to think first
-                if (doctorAssign != null) {
-                    replaceFragment(ConsultationFragment.newInstance(userID,patientID,doctorAssign,dateAssign!!, doctorSchedules!!, doctorsInfo))
-                }
+                    replaceFragment(ConsultationFragment.newInstance(userID,patientID))
             }
             "btn_chat" -> {
                 replaceFragment(ChatFragment())

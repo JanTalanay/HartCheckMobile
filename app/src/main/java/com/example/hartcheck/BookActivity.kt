@@ -38,23 +38,25 @@ class BookActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book)
-
-        val datesAssign = intent.getParcelableExtra<DoctorScheduleDates>("datesAssign")
         val patientID = intent.getIntExtra("patientID", 0)
 
-//        val names = datesAssign?.DoctorDates?.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
-//        Toast.makeText(this, "GOT UR:$names", Toast.LENGTH_SHORT).show()
-//        Toast.makeText(this, "GOT UR:$patientID", Toast.LENGTH_SHORT).show()
 
         txtdoctorname = findViewById(R.id.txt_doctor_name)
         btn_book = findViewById(R.id.btn_book_appointment)
 
         btn_book.setOnClickListener {
-//            val intent = Intent(this,PaymentActivity::class.java)
-//            startActivity(intent)
             insertConsultation()
         }
-        featureDropdown()
+    onDoctorDatesAssigned(patientID) { datesAssign ->
+        val dates = datesAssign.DoctorDates.map { it.schedDateTime }
+        val options = listOf("Features", *dates.toTypedArray())
+
+        val input_bug_feature = findViewById<Spinner>(R.id.input_booking_date)
+        val adapter = ArrayAdapter(this, R.layout.app_list_item, options)
+        adapter.setDropDownViewResource(R.layout.app_list_item)
+        input_bug_feature.adapter = adapter
+    }
+//        featureDropdown()
     }
     private fun Booked() {
         val startMillis: Long = Calendar.getInstance().run {
@@ -104,39 +106,41 @@ class BookActivity : AppCompatActivity() {
     }
     private fun insertConsultation() {
         val patientID = intent.getIntExtra("patientID", 0)
-        val datesAssign = intent.getParcelableExtra<DoctorScheduleDates>("datesAssign")
 
         val input_bug_feature = findViewById<Spinner>(R.id.input_booking_date)
         val selectedDateTime = input_bug_feature.selectedItem.toString()
-        val doctorSchedID = datesAssign?.DoctorDates?.find { it.schedDateTime == selectedDateTime }?.doctorSchedID
 
-        if (doctorSchedID == null) {
-            // Handle the case where the selected schedDateTime does not exist in the DoctorDates list
-            Toast.makeText(this, "Invalid date and time selected.", Toast.LENGTH_SHORT).show()
-            return
+        onDoctorDatesAssigned(patientID) { datesAssign ->
+            val doctorSchedID = datesAssign.DoctorDates.find { it.schedDateTime == selectedDateTime }?.doctorSchedID
+
+            if (doctorSchedID == null) {
+                // Handle the case where the selected schedDateTime does not exist in the DoctorDates list
+                Toast.makeText(this, "Invalid date and time selected.", Toast.LENGTH_SHORT).show()
+            }
+
+            val Consultationservice = ConsultationInstance.retrofitBuilder
+            val ConInfo = Consultation(patientID = patientID, doctorSchedID = doctorSchedID)
+            Consultationservice.insertConsultation(ConInfo).enqueue(object : Callback<Consultation> {
+                override fun onResponse(call: Call<Consultation>, response: Response<Consultation>) {
+                    if (response.isSuccessful) {
+                        val intent = Intent(this@BookActivity, PaymentActivity::class.java)
+                        startActivity(intent)
+                        Log.d("MainActivity", "Response: ${response.body()}")
+                    }
+                    else {
+                        // Handle the error response
+                        Log.d("MainActivity", "Response: ${response.body()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<Consultation>, t: Throwable) {
+                    // Handle network or other exceptions
+                    Log.d("MainActivity", "Exception: ", t)
+                }
+            })
         }
-
-        val Consultationservice = ConsultationInstance.retrofitBuilder
-        val ConInfo = Consultation(patientID = patientID, doctorSchedID = doctorSchedID)
-        Consultationservice.insertConsultation(ConInfo).enqueue(object : Callback<Consultation> {
-            override fun onResponse(call: Call<Consultation>, response: Response<Consultation>) {
-                if (response.isSuccessful) {
-                    val intent = Intent(this@BookActivity, PaymentActivity::class.java)
-                    startActivity(intent)
-                    Log.d("MainActivity", "Response: ${response.body()}")
-                }
-                else {
-                    // Handle the error response
-                    Log.d("MainActivity", "Response: ${response.body()}")
-                }
-            }
-
-            override fun onFailure(call: Call<Consultation>, t: Throwable) {
-                // Handle network or other exceptions
-                Log.d("MainActivity", "Exception: ", t)
-            }
-        })
     }
+
 
 
 
@@ -162,5 +166,25 @@ class BookActivity : AppCompatActivity() {
                 Log.d("TestActivity", "${doctorInfo.firstName}, ${doctorInfo.lastName}")
             }
         }
+    }
+    private fun onDoctorDatesAssigned(patientID: Int, onDoctorDatesAssignedRetrieved: (datesAssign: DoctorScheduleDates)-> Unit){
+        val doctorSchedService = DoctorScheduleInstance.retrofitBuilder
+
+        doctorSchedService.getDoctorSchedulesForPatient(patientID).enqueue(object : Callback<DoctorScheduleDates>{
+            override fun onResponse(call: Call<DoctorScheduleDates>, response: Response<DoctorScheduleDates>) {
+                if(response.isSuccessful){
+                    response.body()?.let{dateAssign ->
+                        onDoctorDatesAssignedRetrieved(dateAssign)
+                    }
+                }
+                else{
+                    Log.d("TestActivity", "Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<DoctorScheduleDates>, t: Throwable) {
+                Log.d("TestActivity", "Failure: ${t.message}")
+            }
+        })
     }
 }

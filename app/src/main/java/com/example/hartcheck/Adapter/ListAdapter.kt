@@ -12,8 +12,7 @@ import com.example.hartcheck.Data.DocData
 import com.example.hartcheck.R
 import com.example.hartcheck.Wrapper.DoctorScheduleDates
 
-class ListAdapter(private val doctorList: MutableList<DocData>, private val frag:Boolean, private val datesAssign: DoctorScheduleDates,
-                  private val patientID: Int?
+class ListAdapter(private val doctorList: MutableList<DocData>, private val frag:Boolean, private val patientID: Int?
 ) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -41,14 +40,14 @@ class ListAdapter(private val doctorList: MutableList<DocData>, private val frag
             titleTextView.text = doc.name
 
             if(!frag) run {
-                docLine.visibility = View.VISIBLE
-                appointTitle.visibility = View.VISIBLE
+                docLine.visibility = View.GONE
+                appointTitle.visibility = View.GONE
                 contentTextView.visibility = View.VISIBLE
             }
             contentTextView.text = doc.appointmentDate
             viewBtn.setOnClickListener {
                 val intent = Intent(itemView.context, BookActivity::class.java)
-                intent.putExtra("datesAssign", datesAssign)
+//                intent.putExtra("datesAssign", datesAssign)
                 intent.putExtra("patientID", patientID)
                 itemView.context.startActivity(intent)
             }

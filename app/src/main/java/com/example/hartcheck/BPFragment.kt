@@ -340,7 +340,7 @@ class BPFragment : Fragment() {
         }
     }
 
-    private fun displayNextPair(view: View) {
+    private fun displayNextPair(view: View) {//checks the blood pressure threshold
         val systolic = view.findViewById<EditText>(R.id.edit_systolic)
         val diastolic = view.findViewById<EditText>(R.id.edit_diastolic)
 

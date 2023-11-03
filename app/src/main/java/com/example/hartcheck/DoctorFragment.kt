@@ -1,14 +1,11 @@
 package com.example.hartcheck
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hartcheck.Adapter.ListAdapter
@@ -77,7 +74,7 @@ class DoctorFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList)//test
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList,frag)
+        listAdapter = ListAdapter(doctorList,frag,datesAssign,patientID)
         recyclerView.adapter = listAdapter
 
         recyclerView.visibility = View.VISIBLE
@@ -101,21 +98,6 @@ class DoctorFragment : Fragment() {
         private const val ARG_DOCTOR_ASSIGN = "doctorAssign"
         private const val ARG_DATES_ASSIGN = "datesAssign"
 
-//        fun newInstance(doctorAssign: PatientsDoctorAssign): DoctorFragment {
-//            val fragment = DoctorFragment()
-//            val args = Bundle()
-//            args.putParcelable(ARG_DOCTOR_ASSIGN, doctorAssign)
-//            fragment.arguments = args
-//            return fragment
-//        }
-//        fun newInstance(userID: Int, patientID: Int): DoctorFragment {
-//            val fragment = DoctorFragment()
-//            val args = Bundle()
-//            args.putInt(ARG_USER_ID, userID)
-//            args.putInt(ARG_PATIENT_ID, patientID)
-//            fragment.arguments = args
-//            return fragment
-//        }
 
         @JvmStatic
         fun newInstance(userID: Int, patientID: Int, doctorAssign: PatientsDoctorAssign, datesAssign: DoctorScheduleDates): DoctorFragment {
@@ -137,24 +119,5 @@ class DoctorFragment : Fragment() {
             fragment.arguments = args
             return fragment
         }
-
-
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DoctorFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            DoctorFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
     }
 }

@@ -2,8 +2,6 @@ package com.example.hartcheck
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,13 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker.checkCallingOrSelfPermission
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hartcheck.Adapter.ListAdapter
@@ -27,7 +22,6 @@ import com.example.hartcheck.Data.DocData
 import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Wrapper.DoctorScheduleDates
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
-import okhttp3.internal.notify
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -110,7 +104,7 @@ class ConsultationFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList,frag,datesAssign,patientID)
+        listAdapter = ListAdapter(doctorList,frag,datesAssign!!, patientID)
         recyclerView.adapter = listAdapter
 
         //enable this as default

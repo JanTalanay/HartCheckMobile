@@ -11,18 +11,23 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.hartcheck.Model.BugReport
+import com.example.hartcheck.Plugin.Sheets
 import com.example.hartcheck.Remote.BugReportRemote.BugReportInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class BugReportActivity : AppCompatActivity() {
+
+    private lateinit var sheets: Sheets
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bug_report)
+        sheets = Sheets()
         featureDropdown()
         val btn_bug_report:Button = findViewById(R.id.btn_report_prob)
         btn_bug_report.setOnClickListener {
+            sheets.bugReportData(this)
             confirmActivity("btn_bug_reported")
             bugInsert()
         }

@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.example.hartcheck.Model.Login
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.Users
+import com.example.hartcheck.Plugin.Sheets
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
 import com.example.hartcheck.Remote.UsersRemote.UsersInstance
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -28,13 +29,14 @@ class LoginMain : AppCompatActivity() {
     private lateinit var googleSignIn: ImageButton
     private lateinit var gso: GoogleSignInOptions
     private lateinit var gsc: GoogleSignInClient
+    private lateinit var sheets: Sheets
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_main)
 
         //Logged in as google needs to be fix to get userID
         //register as google is good
-
+        sheets = Sheets()
         googleSignIn = findViewById(R.id.btn_GoogleSignIn)
         val btn_login = findViewById<Button>(R.id.btn_login_main)
         val noAccbtn = findViewById<TextView>(R.id.txt_dont_have_acc)
@@ -43,9 +45,11 @@ class LoginMain : AppCompatActivity() {
         googleSignInAccount()
 
         btn_login.setOnClickListener {
+            sheets.loginData(this)
             loginPatient()
         }
         googleSignIn.setOnClickListener{
+            sheets.loginData(this)
             goToSignIn()
 
         }

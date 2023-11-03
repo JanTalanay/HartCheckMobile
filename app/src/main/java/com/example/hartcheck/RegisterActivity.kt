@@ -11,6 +11,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import com.example.hartcheck.Model.Users
+import com.example.hartcheck.Plugin.Sheets
 import com.example.hartcheck.Remote.UsersRemote.UsersInstance
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -29,10 +30,13 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var gso: GoogleSignInOptions
     private lateinit var gsc: GoogleSignInClient
 
+    private lateinit var sheets: Sheets
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         val btn_register = findViewById<Button>(R.id.btn_register)
+        sheets = Sheets()
         gGivenName = findViewById(R.id.input_fn)
         gFamilyName = findViewById(R.id.input_ln)
         gEmail = findViewById(R.id.input_email)
@@ -52,6 +56,7 @@ class RegisterActivity : AppCompatActivity() {
 
 
         btn_register.setOnClickListener {
+            sheets.registerData(this)
             insertPatient()
 //            goSignOut()
 //            val intent = Intent(this, RegisterFinActivity::class.java)

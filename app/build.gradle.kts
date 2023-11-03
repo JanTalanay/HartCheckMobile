@@ -98,6 +98,9 @@ dependencies {
     //MSSQL Thing
     implementation ("com.microsoft.sqlserver:mssql-jdbc:9.4.0.jre11")
 
+    //Live Data
+    implementation ("com.android.volley:volley:1.2.1")
+
 
 
 }

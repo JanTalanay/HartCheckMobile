@@ -13,7 +13,6 @@ import com.example.hartcheck.Model.Login
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
-import com.example.hartcheck.Remote.Token.TokenInstance
 import com.example.hartcheck.Remote.UsersRemote.UsersInstance
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount

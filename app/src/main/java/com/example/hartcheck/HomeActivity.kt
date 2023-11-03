@@ -39,8 +39,6 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         val userID = intent.getIntExtra("userID", 0)
-//        val patientID = intent.getIntExtra("patientID", 0)
-//        token = intent.getStringExtra("token") ?: ""
 
         val btnBP = findViewById<Button>(R.id.btn_view_bp)
         val btnConsul = findViewById<Button>(R.id.btn_consul)
@@ -54,20 +52,16 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, EducationalActivity::class.java)
             intent.putExtra("userID", userID)
             startActivity(intent)
-//            intent.putExtra("patientID", patientID)
-//            GoogleSignOut()
         }
         li_faq.setOnClickListener {
             val intent = Intent(this, FAQ::class.java)
             intent.putExtra("userID", userID)
             startActivity(intent)
-//            intent.putExtra("patientID", patientID)
         }
         reportProblem.setOnClickListener {
             val intent = Intent(this, BugReportActivity::class.java)
             intent.putExtra("userID", userID)
             startActivity(intent)
-//            intent.putExtra("patientID", patientID)
         }
 
 
@@ -89,18 +83,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
     }
-
-    private fun isTokenAvailable(token: String): Boolean {
-        return token.isNotEmpty()
-    }
-
-    private fun redirectToLoginActivity() {
-        val intent = Intent(this, LoginMain::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-
     private fun GoogleSignOut() {
         gsc.signOut().addOnSuccessListener {
             startActivity(Intent(this, LoginMain::class.java))

@@ -74,10 +74,6 @@ class NavActivity : AppCompatActivity() {
         val buttonState = intent.getStringExtra("BUTTON_STATE")
         val userID = intent.getIntExtra("userID", 0)
         val patientID = intent.getIntExtra("patientID", 0)
-//        val doctorAssign = intent.getParcelableExtra<PatientsDoctorAssign>("doctorAssign")
-//        val dateAssign = intent.getParcelableExtra<DoctorScheduleDates>("datesAssign")
-//        val doctorSchedules = intent.getParcelableExtra<DoctorScheduleDates>("doctorSchedules")
-//        val doctorsInfo = intent.getSerializableExtra("doctorsInfo") as ArrayList<Users>
 
         when (buttonState) {
             "btn_bp" -> {
@@ -134,12 +130,6 @@ class NavActivity : AppCompatActivity() {
 //                }
 //            }
 //        })
-    }
-    private fun getDoctorUserID(){//use doctorID to get the userID
-
-    }
-    private fun getDoctorInfo(){//use userID to get the info assigned to the patient
-
     }
 
 }

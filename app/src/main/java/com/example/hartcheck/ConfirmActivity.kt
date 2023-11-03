@@ -1,13 +1,25 @@
 package com.example.hartcheck
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.provider.CalendarContract
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class ConfirmActivity : AppCompatActivity() {
+    private val CHANNEL_ID ="Your_Channel_ID"
+    private val notificationID = 101
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm)
@@ -67,6 +79,7 @@ class ConfirmActivity : AppCompatActivity() {
                 txt_confirm.setText(R.string.p_booking_success)
                 btn_back_home.setText(R.string.btn_view_app)
 
+                Booked()
             }
             "appointment_resched" ->{
                 img_report.setImageResource(R.drawable.ic_sad)
@@ -80,5 +93,64 @@ class ConfirmActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    private fun Booked() {
+        val selectedDateTime = intent.getStringExtra("selectedDateTime")
+
+        val inputPattern = "MMMM dd, yyyy 'at' hh:mm a"
+        val inputFormat = SimpleDateFormat(inputPattern, Locale.ENGLISH)
+        val dateTime = inputFormat.parse(selectedDateTime)
+
+        val startMillis: Long = dateTime.time
+        val endMillis: Long = startMillis + 60 * 60 * 1000
+
+        val intent = Intent(Intent.ACTION_INSERT)
+            .setData(CalendarContract.Events.CONTENT_URI)
+            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
+            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
+            .putExtra(CalendarContract.Events.TITLE, "Doctor's Check-Up")
+            .putExtra(CalendarContract.Events.DESCRIPTION, "Online Meeting")
+            .putExtra(CalendarContract.Events.EVENT_LOCATION, "Google/Zoom")
+            .putExtra(
+                CalendarContract.Events.AVAILABILITY,
+                CalendarContract.Events.AVAILABILITY_BUSY
+            )
+        startActivity(intent)
+        // Check if the event has been created
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({
+            createNotification()
+        }, 10000)  // Delay of 10 seconds
+    }
+    private fun createNotification() {
+        val permission = "android.permission.POST_NOTIFICATIONS"
+        val hasPermission = ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_logo)
+            .setContentTitle("Booked Doctor's Appointment")
+            .setContentText("You have successfully booked an appointment.")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        if(hasPermission){
+            with(NotificationManagerCompat.from(this)) {
+                notify(notificationID, builder.build())
+            }
+        }
+        else{
+
+        }
+    }
+
+    private fun formatDateTime(originalDateTime: String): String {
+        val inputPattern = "yyyy-MM-dd'T'HH:mm:ss"
+        val outputPattern = "MMMM dd, yyyy 'at' hh:mm a"
+
+        val inputFormat = SimpleDateFormat(inputPattern, Locale.US)
+        val outputFormat = SimpleDateFormat(outputPattern, Locale.US)
+
+        val dateTime = inputFormat.parse(originalDateTime)
+        return outputFormat.format(dateTime)
     }
 }

@@ -127,9 +127,6 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-
-
-
     private fun getPatientID(userID: Int, onPatientIDRetrieved: (patientID: Int) -> Unit) {
         val service = PatientsInstance.retrofitBuilder
 
@@ -156,80 +153,6 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    private fun getDoctorAssign(patientID: Int, onDoctorAssignRetrieved: (doctorAssign: PatientsDoctorAssign) -> Unit) {
-        val service = PatientsDoctorInstance.retrofitBuilder
-
-        service.getHealthCareProfessionals(patientID).enqueue(object : Callback<PatientsDoctorAssign> {
-                override fun onResponse(call: Call<PatientsDoctorAssign>, response: Response<PatientsDoctorAssign>) {
-                    if (response.isSuccessful) {
-                        response.body()?.let { doctorAssign ->
-                            onDoctorAssignRetrieved(doctorAssign)
-                        }
-                    } else {
-                        Log.d("TestActivity", "Error: ${response.code()}")
-                    }
-                }
-
-                override fun onFailure(call: Call<PatientsDoctorAssign>, t: Throwable) {
-                    Log.d("TestActivity", "Failure: ${t.message}")
-                }
-            })
-    }
-    private fun onDoctorDatesAssigned(patientID: Int, onDoctorDatesAssignedRetrieved: (datesAssign: DoctorScheduleDates)-> Unit){
-        val doctorSchedService = DoctorScheduleInstance.retrofitBuilder
-
-        doctorSchedService.getDoctorSchedulesForPatient(patientID).enqueue(object : Callback<DoctorScheduleDates>{
-            override fun onResponse(call: Call<DoctorScheduleDates>, response: Response<DoctorScheduleDates>) {
-                if(response.isSuccessful){
-                    response.body()?.let{dateAssign ->
-                        onDoctorDatesAssignedRetrieved(dateAssign)
-                    }
-                }
-                else{
-                    Log.d("TestActivity", "Error: ${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<DoctorScheduleDates>, t: Throwable) {
-                Log.d("TestActivity", "Failure: ${t.message}")
-            }
-        })
-    }
-
-    private fun getConsultationAssign(patientID: Int, onConsultationAssignRetrieved: (doctorSchedules: DoctorScheduleDates) -> Unit) {
-        val service = ConsultationInstance.retrofitBuilder
-
-        service.getConsultationAssign(patientID).enqueue(object : Callback<DoctorScheduleDates> {
-            override fun onResponse(call: Call<DoctorScheduleDates>, response: Response<DoctorScheduleDates>) {
-                if (response.isSuccessful) {
-                    val doctorSchedules = response.body()
-                    if (doctorSchedules != null) {
-                        onConsultationAssignRetrieved(doctorSchedules)
-                    }
-                } else {
-                    Log.d("TestActivity", "Error: ${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<DoctorScheduleDates>, t: Throwable) {
-                Log.d("TestActivity", "Failure: ${t.message}")
-            }
-        })
-    }
-
-    private suspend fun getDoctorInfo(context: Context, doctorIDs: List<Int?>, onDoctorInfoRetrieved: (doctorsInfo: ArrayList<Users>) -> Unit) {
-        val service = ConsultationInstance.retrofitBuilder
-        val doctorsInfo = ArrayList<Users>()
-
-        for (doctorID in doctorIDs) {
-            val doctorInfo = service.getConsultationDoctor(doctorID!!).await()
-            if (doctorInfo != null) {
-                doctorsInfo.add(doctorInfo)
-                onDoctorInfoRetrieved(doctorsInfo)
-            }
-        }
     }
 }
 

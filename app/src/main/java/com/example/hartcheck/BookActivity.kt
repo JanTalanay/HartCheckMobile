@@ -28,12 +28,12 @@ import retrofit2.Response
 import retrofit2.await
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class BookActivity : AppCompatActivity() {
-    private val CHANNEL_ID ="Your_Channel_ID"
-    private val notificationID = 101
     private lateinit var btn_book: Button
     private lateinit var txtdoctorname: TextView
+    private lateinit var datesAndIds: List<Pair<String, Int>>
 //    private lateinit var txtBook: Spinner
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,61 +47,16 @@ class BookActivity : AppCompatActivity() {
         btn_book.setOnClickListener {
             insertConsultation()
         }
-    onDoctorDatesAssigned(patientID) { datesAssign ->
-        val dates = datesAssign.DoctorDates.map { it.schedDateTime }
-        val options = listOf("Features", *dates.toTypedArray())
+        onDoctorDatesAssigned(patientID) { datesAssign ->
+            datesAndIds = datesAssign.DoctorDates.map { Pair(formatDateTime(it.schedDateTime!!), it.doctorSchedID!!) }
 
-        val input_bug_feature = findViewById<Spinner>(R.id.input_booking_date)
-        val adapter = ArrayAdapter(this, R.layout.app_list_item, options)
-        adapter.setDropDownViewResource(R.layout.app_list_item)
-        input_bug_feature.adapter = adapter
-    }
-//        featureDropdown()
-    }
-    private fun Booked() {
-        val startMillis: Long = Calendar.getInstance().run {
-            set(2023, 10, 19, 7, 30)
-            timeInMillis
-        }
-        val endMillis: Long = Calendar.getInstance().run {
-            set(2023, 10, 19, 8, 30)
-            timeInMillis
-        }
-        val intent = Intent(Intent.ACTION_INSERT)
-            .setData(CalendarContract.Events.CONTENT_URI)
-            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
-            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
-            .putExtra(CalendarContract.Events.TITLE, "Meeting")
-            .putExtra(CalendarContract.Events.DESCRIPTION, "Team Meeting")
-            .putExtra(CalendarContract.Events.EVENT_LOCATION, "Office")
-            .putExtra(
-                CalendarContract.Events.AVAILABILITY,
-                CalendarContract.Events.AVAILABILITY_BUSY
-            )
-        startActivity(intent)
-        // Check if the event has been created
-        val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed({
-            createNotification()
-        }, 10000)  // Delay of 10 seconds
-    }
-    private fun createNotification() {
-        val permission = "android.permission.POST_NOTIFICATIONS"
-        val hasPermission = ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+            val dates = datesAndIds.map { it.first }
+            val options = listOf("Features", *dates.toTypedArray())
 
-        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_logo)
-            .setContentTitle("Booked Doctor's Appointment")
-            .setContentText("You have successfully booked an appointment.")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-        if(hasPermission){
-            with(NotificationManagerCompat.from(this)) {
-                notify(notificationID, builder.build())
-            }
-        }
-        else{
-
+            val input_bug_feature = findViewById<Spinner>(R.id.input_booking_date)
+            val adapter = ArrayAdapter(this, R.layout.app_list_item, options)
+            adapter.setDropDownViewResource(R.layout.app_list_item)
+            input_bug_feature.adapter = adapter
         }
     }
     private fun insertConsultation() {
@@ -110,13 +65,7 @@ class BookActivity : AppCompatActivity() {
         val input_bug_feature = findViewById<Spinner>(R.id.input_booking_date)
         val selectedDateTime = input_bug_feature.selectedItem.toString()
 
-        onDoctorDatesAssigned(patientID) { datesAssign ->
-            val doctorSchedID = datesAssign.DoctorDates.find { it.schedDateTime == selectedDateTime }?.doctorSchedID
-
-            if (doctorSchedID == null) {
-                // Handle the case where the selected schedDateTime does not exist in the DoctorDates list
-                Toast.makeText(this, "Invalid date and time selected.", Toast.LENGTH_SHORT).show()
-            }
+        val doctorSchedID = datesAndIds.find { it.first == selectedDateTime }?.second
 
             val Consultationservice = ConsultationInstance.retrofitBuilder
             val ConInfo = Consultation(patientID = patientID, doctorSchedID = doctorSchedID)
@@ -124,7 +73,9 @@ class BookActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<Consultation>, response: Response<Consultation>) {
                     if (response.isSuccessful) {
                         val intent = Intent(this@BookActivity, PaymentActivity::class.java)
+                        intent.putExtra("selectedDateTime", selectedDateTime)
                         startActivity(intent)
+
                         Log.d("MainActivity", "Response: ${response.body()}")
                     }
                     else {
@@ -140,19 +91,15 @@ class BookActivity : AppCompatActivity() {
             })
         }
     }
+    private fun formatDateTime(originalDateTime: String): String {
+        val inputPattern = "yyyy-MM-dd'T'HH:mm:ss"
+        val outputPattern = "MMMM dd, yyyy 'at' hh:mm a"
 
+        val inputFormat = SimpleDateFormat(inputPattern, Locale.US)
+        val outputFormat = SimpleDateFormat(outputPattern, Locale.US)
 
-
-
-    private fun featureDropdown() {
-        val datesAssign = intent.getParcelableExtra<DoctorScheduleDates>("datesAssign")
-        val dates = datesAssign?.DoctorDates?.map { it.schedDateTime }
-        val options = listOf("Features", *dates!!.toTypedArray())
-
-        val input_bug_feature = findViewById<Spinner>(R.id.input_booking_date)
-        val adapter = ArrayAdapter(this, R.layout.app_list_item, options)
-        adapter.setDropDownViewResource(R.layout.app_list_item)
-        input_bug_feature.adapter = adapter
+        val dateTime = inputFormat.parse(originalDateTime)
+        return outputFormat.format(dateTime)
     }
 
     private suspend fun getDoctorInfo(doctorIDs: List<Int?>) {
@@ -187,4 +134,3 @@ class BookActivity : AppCompatActivity() {
             }
         })
     }
-}

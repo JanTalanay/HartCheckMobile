@@ -32,6 +32,8 @@ class PaymentActivity : AppCompatActivity() {
         //payment logic here
     }
     private fun paymentBooking(){
+        val selectedDateTime = intent.getStringExtra("selectedDateTime")
+
         input_email = findViewById(R.id.txt_email_payment)
         val Paymentservice = PaymentInstance.retrofitBuilder
         val emailBook = input_email.text.toString()
@@ -44,6 +46,7 @@ class PaymentActivity : AppCompatActivity() {
                     Log.d("MainActivity", "Wrong: " + response.code())
                     val intent = Intent(this@PaymentActivity, ConfirmActivity::class.java)
                     intent.putExtra("BUTTON_STATE","payment_success")
+                    intent.putExtra("selectedDateTime", selectedDateTime)
                     startActivity(intent)
                 }
                 else {

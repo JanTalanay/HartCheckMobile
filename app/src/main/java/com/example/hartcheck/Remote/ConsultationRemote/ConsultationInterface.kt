@@ -15,14 +15,16 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ConsultationInterface {
+    @GET("api/Consultation")
+    fun getConsultation(): Call<List<Consultation>>
     @POST("api/Consultation")
     fun insertConsultation(@Body request: Consultation): Call<Consultation>
-    @GET("api/Consultation")
-    fun getConsultation(): Call<List<BugReport>>
+    @GET("api/Consultation/{doctorSchedID}/schedule")
+    fun getConsultationDoctorSchedID(@Path("doctorSchedID") doctorSchedID: Int): Call<Consultation>
     @GET("api/Consultation/{patientID}")
     fun getConsultationID(@Path("patientID") patientID: Int): Call<Consultation>
-    @DELETE("api/Consultation/{consultationID}")
-    fun deleteConsultation(@Path("consultationID") resourceId: String): Call<Consultation>
+    @DELETE("api/Consultation/{doctorSchedID}")
+    fun deleteConsultation(@Path("doctorSchedID") resourceId: Int): Call<Consultation>
     @PUT("api/Consultation/{consultationID}")
     fun updateConsultation(@Path("consultationID") resourceId: String, @Body updatedResource: Consultation): Call<Consultation>
 

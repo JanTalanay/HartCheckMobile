@@ -1,6 +1,5 @@
-package com.example.hartcheck.Remote.PatientsDoctor
+package com.example.hartcheck.Remote.PatientsDoctorRemote
 
-import com.example.hartcheck.Remote.UsersRemote.UsersInterface
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

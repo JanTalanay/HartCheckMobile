@@ -6,21 +6,21 @@ import com.google.gson.annotations.SerializedName
 data class BloodPressureThreshold(
     @SerializedName("thresholdID")
     @Expose
-    val thresholdID: Int,
+    val thresholdID: Int? = null,
 
     @SerializedName("patientID")
     @Expose
-    val patientID: Int,
+    val patientID: Int? = null,
 
     @SerializedName("doctorID")
     @Expose
-    val doctorID: Int,
+    val doctorID: Int? = null,
 
     @SerializedName("systolicLevel")
     @Expose
-    val systolicLevel: Int,
+    val systolicLevel: Float,
 
     @SerializedName("diastolicLevel")
     @Expose
-    val diastolicLevel: Int
+    val diastolicLevel: Float
 )

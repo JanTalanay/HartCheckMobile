@@ -16,7 +16,7 @@
         app:layout_constraintTop_toBottomOf="@+id/appointDetails">
 
         <TextView
-            android:id="@+id/txt_doctor_name"
+            android:id="@+id/txt_doctor_name_appointment_details"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

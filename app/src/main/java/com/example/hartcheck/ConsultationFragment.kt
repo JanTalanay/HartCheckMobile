@@ -74,10 +74,6 @@ class ConsultationFragment : Fragment() {
     ): View? {
         val patientID = arguments?.getInt(ARG_PATIENT_ID)
         val userID = arguments?.getInt(ARG_USER_ID)
-//        val doctorAssign = arguments?.getParcelable<PatientsDoctorAssign>(ARG_DOCTOR_ASSIGN)
-//        val datesAssign = arguments?.getParcelable<DoctorScheduleDates>(ARG_DATE_ASSIGN)
-//        val doctorSchedules = arguments?.getParcelable<DoctorScheduleDates>(ARG_DOCTOR_SCHEDULE)
-//        val doctorsInfo = arguments?.getParcelableArrayList<Users>(ARG_DOCTOR_INFO)
 
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_consultation, container, false)
@@ -86,29 +82,6 @@ class ConsultationFragment : Fragment() {
         btn_avail = view.findViewById(R.id.btn_view_avail)
         txt_emp = view.findViewById(R.id.txt_empty)
 
-//        line.visibility = View.VISIBLE
-//        txt_appointment.visibility =View.VISIBLE
-//        txt_title.visibility = View.VISIBLE
-
-//        doctorList = mutableListOf(
-//            DocData("Doctor 1", "Info 1"),
-//            DocData("Doctor 2", "Info 2"),
-//            DocData("Doctor 3", "Info 3")
-//        )
-
-//        doctorList = mutableListOf<DocData>()
-//        for ((index, doctor) in doctorsInfo!!.withIndex()) {
-//            val doctorName = "${doctor.firstName} ${doctor.lastName}"
-//            val scheduleInfo = doctorSchedules?.DoctorDates?.get(index)?.let {
-//                "${it.schedDateTime?.let { it1 ->
-//                    formatDateTime(
-//                        it1
-//                    )
-//                }}"
-//            } ?: "No schedule info available"
-//            val docData = DocData(doctorName, scheduleInfo)
-//            doctorList.add(docData)
-//        }
 
         doctorList = mutableListOf()
         getConsultationAssign(patientID!!) { doctorSchedules ->
@@ -116,11 +89,13 @@ class ConsultationFragment : Fragment() {
             GlobalScope.launch(Dispatchers.Main) {
                 getDoctorInfo(requireContext(), doctorIDs) { doctorsInfo ->
                     for ((index, doctor) in doctorsInfo.withIndex()) {
+                        val doctorSchedID = doctorSchedules.DoctorDates[index].doctorSchedID
+                        val doctorID = doctorSchedules.DoctorDates[index].doctorID
                         val doctorName = "${doctor.firstName} ${doctor.lastName}"
                         val scheduleInfo = doctorSchedules.DoctorDates[index].schedDateTime
-                        doctorList.add(DocData(doctorName, formatDateTime(scheduleInfo!!)))
+                        doctorList.add(DocData(doctorSchedID!!,doctorID,doctorName, formatDateTime(scheduleInfo!!)))
                     }
-                    listAdapter = ListAdapter(doctorList,frag, patientID)
+                    listAdapter = ListAdapter(doctorList,frag, patientID, AppointmentDetailsActivity::class.java)
                     recyclerView.adapter = listAdapter
                 }
             }
@@ -130,7 +105,7 @@ class ConsultationFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList,frag, patientID)
+        listAdapter = ListAdapter(doctorList,frag, patientID, AppointmentDetailsActivity::class.java)
         recyclerView.adapter = listAdapter
 
         //enable this as default
@@ -141,21 +116,6 @@ class ConsultationFragment : Fragment() {
         btn_avail.setOnClickListener {//available doctors
             replaceFragment(DoctorFragment.newInstance(userID!!,patientID))
         }
-//        val names = datesAssign?.DoctorDates?.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
-//        Toast.makeText(context, "GOT UR:$names", Toast.LENGTH_SHORT).show()
-
-//        val names = doctorSchedules?.DoctorDates?.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
-//        if (doctorsInfo != null) {
-//            val doctorsInfoString = StringBuilder()
-//            for (doctor in doctorsInfo) {
-//                doctorsInfoString.append("Name: ${doctor.firstName} ${doctor.lastName}\n")
-//            }
-//            Toast.makeText(context, doctorsInfoString.toString(), Toast.LENGTH_LONG).show()
-//        } else {
-//            Toast.makeText(context, "No doctors info available", Toast.LENGTH_LONG).show()
-//        }
-//
-//        Toast.makeText(context, "$patientID and $userID", Toast.LENGTH_SHORT).show()
 
         return view
     }
@@ -167,17 +127,16 @@ class ConsultationFragment : Fragment() {
         fragmentTransaction?.commit()
     }
     private fun getConsultationAssign(patientID: Int, onConsultationAssignRetrieved: (doctorSchedules: DoctorScheduleDates) -> Unit) {
-        val service = ConsultationInstance.retrofitBuilder
-
-        service.getConsultationAssign(patientID).enqueue(object : Callback<DoctorScheduleDates> {
+        val consultationAssignService = ConsultationInstance.retrofitBuilder
+        consultationAssignService.getConsultationAssign(patientID).enqueue(object : Callback<DoctorScheduleDates> {
             override fun onResponse(call: Call<DoctorScheduleDates>, response: Response<DoctorScheduleDates>) {
                 if (response.isSuccessful) {
                     val doctorSchedules = response.body()
                     if (doctorSchedules != null) {
+                        onConsultationAssignRetrieved(doctorSchedules)
                         val doctorIDs = doctorSchedules.DoctorDates.map { it.doctorID }
                         GlobalScope.launch(Dispatchers.Main) {
                             getDoctorInfo(requireContext(), doctorIDs) { doctorsInfo ->
-                                onConsultationAssignRetrieved(doctorSchedules)
                                 // Handle the doctorsInfo
                             }
                         }
@@ -194,7 +153,9 @@ class ConsultationFragment : Fragment() {
     }
 
 
+
     private suspend fun getDoctorInfo(context: Context, doctorIDs: List<Int?>, onDoctorInfoRetrieved: (doctorsInfo: ArrayList<Users>) -> Unit) {
+        //getting the doctor first and last name base on the doctorID from getConsultationAssign
         val service = ConsultationInstance.retrofitBuilder
         val doctorsInfo = ArrayList<Users>()
 
@@ -207,53 +168,6 @@ class ConsultationFragment : Fragment() {
         onDoctorInfoRetrieved(doctorsInfo)
     }
 
-
-    private fun Booked() {
-        val startMillis: Long = Calendar.getInstance().run {
-            set(2023, 10, 19, 7, 30)
-            timeInMillis
-        }
-        val endMillis: Long = Calendar.getInstance().run {
-            set(2023, 10, 19, 8, 30)
-            timeInMillis
-        }
-        val intent = Intent(Intent.ACTION_INSERT)
-            .setData(CalendarContract.Events.CONTENT_URI)
-            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
-            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
-            .putExtra(CalendarContract.Events.TITLE, "Meeting")
-            .putExtra(CalendarContract.Events.DESCRIPTION, "Team Meeting")
-            .putExtra(CalendarContract.Events.EVENT_LOCATION, "Office")
-            .putExtra(
-                CalendarContract.Events.AVAILABILITY,
-                CalendarContract.Events.AVAILABILITY_BUSY
-            )
-        startActivity(intent)
-        // Check if the event has been created
-        val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed({
-            createNotification()
-        }, 10000)  // Delay of 10 seconds
-    }
-    private fun createNotification() {
-        val permission = "android.permission.POST_NOTIFICATIONS"
-        val hasPermission = ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
-
-        val builder = NotificationCompat.Builder(requireContext(), CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_logo)
-            .setContentTitle("Booked Doctor's Appointment")
-            .setContentText("You have successfully booked an appointment.")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-        if(hasPermission){
-            with(NotificationManagerCompat.from(requireContext())) {
-                notify(notificationID, builder.build())
-            }
-        }
-        else{
-
-        }
-    }
 
     private fun formatDateTime(originalDateTime: String): String {
         val inputPattern = "yyyy-MM-dd'T'HH:mm:ss"
@@ -271,10 +185,6 @@ class ConsultationFragment : Fragment() {
         private const val ARG_USER_ID = "userID"
         private const val ARG_PARAM1 = "param1"
         private const val ARG_PARAM2 = "param2"
-//        private const val ARG_DOCTOR_ASSIGN = "doctorAssign"
-//        private const val ARG_DATE_ASSIGN = "datesAssign"
-//        private const val ARG_DOCTOR_INFO = "doctorSchedules"
-//        private const val ARG_DOCTOR_SCHEDULE = "doctorsInfo"
 
         @JvmStatic
         fun newInstance(userID: Int, patientID: Int): ConsultationFragment {

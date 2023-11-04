@@ -49,7 +49,7 @@ class EducationalActivity : AppCompatActivity() {
                     if(educResource != null){
                         for(educResource in educResource.EducResource){
                             educResources.add(educResource)
-                            Log.d("MainActivity", "resourceID: ${educResource.resourceID}, text: ${educResource.text}, link: ${educResource.link}")
+//                            Log.d("MainActivity", "resourceID: ${educResource.resourceID}, text: ${educResource.text}, link: ${educResource.link}")
                         }
                     }
                 }

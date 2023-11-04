@@ -6,20 +6,24 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.example.hartcheck.Model.BloodPressureThreshold
 import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.BloodPressureRemote.BloodPressureInstance
+import com.example.hartcheck.Remote.BloodPressureThresholdRemote.BloodPressureThresholdInstance
 import com.example.hartcheck.Remote.ConsultationRemote.ConsultationInstance
 import com.example.hartcheck.Remote.DoctorScheduleRemote.DoctorScheduleInstance
-import com.example.hartcheck.Remote.PatientsDoctor.PatientsDoctorInstance
+import com.example.hartcheck.Remote.PatientsDoctorRemote.PatientsDoctorInstance
+import com.example.hartcheck.Wrapper.DoctorInfoList
 import com.example.hartcheck.Wrapper.DoctorScheduleDates
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
+import com.example.hartcheck.Wrapper.PatientsDoctorList
 import com.example.hartcheck.Wrapper.PrevBloodPressure
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.await
 
@@ -51,10 +55,66 @@ class TestActivity : AppCompatActivity() {
 //            getDoctorID()
 //            getPrevBP()
 //            getDoctorSchedulesForPatient()
-            getConsultationAssign()
+//            getConsultationAssign()
+//            getBPThreshold()
+//            getPatientsDoctorList()
+//            GetDoctorsByPatientId()
         }
 
     }
+
+    private fun GetDoctorsByPatientId() {
+        val patientID = intent.getIntExtra("patientID", 0)
+        val service = PatientsDoctorInstance.retrofitBuilder
+
+        service.getDoctorsByPatientId(patientID).enqueue(object : Callback<DoctorInfoList> {
+            override fun onResponse(call: Call<DoctorInfoList>, response: Response<DoctorInfoList>) {
+                if (response.isSuccessful) {
+                    val healthCareProfessionals = response.body()
+                    if (healthCareProfessionals != null) {
+                        for (professional in healthCareProfessionals.DoctorInfo) {
+                            Log.d("TestActivity", "DoctorIDs: ${professional.doctorID}, first: ${professional.firstName}, last ${professional.lastName}")
+                        }
+                    }
+                } else {
+                    Log.d("TestActivity", "Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<DoctorInfoList>, t: Throwable) {
+                Log.d("TestActivity", "Failure: ${t.message}")
+            }
+        })
+
+    }
+
+    private fun getBPThreshold() {
+        val patientID = intent.getIntExtra("patientID", 0)
+        val service = BloodPressureThresholdInstance.retrofitBuilder
+
+        service.getBloodPressureThreshold(patientID).enqueue(object : Callback<BloodPressureThreshold> {
+            override fun onResponse(call: Call<BloodPressureThreshold>, response: Response<BloodPressureThreshold>) {
+                if(response.isSuccessful){
+                    val BPThreshold = response.body()
+                    if(BPThreshold != null){
+                        Log.d ("MainActivity", "Set Threshold: ${BPThreshold.systolicLevel} and ${BPThreshold.diastolicLevel}")
+                    }
+                }
+                else{
+                    Log.d("MainActivity", "Error response: ${response.body()}")
+                }
+
+            }
+            override fun onFailure(call: Call<BloodPressureThreshold>, t: Throwable) {
+                Log.d ("MainActivity", "Failed to connect: : " + t.message)
+                if (t is HttpException) {
+                    val errorResponse = t.response()?.errorBody()?.string()
+                    Log.d("MainActivity", "Error response: $errorResponse")
+                }
+            }
+        })
+    }
+
     private fun getDoctorID(){
         val patientID = intent.getIntExtra("patientID", 0)
         val service = PatientsDoctorInstance.retrofitBuilder
@@ -154,9 +214,29 @@ class TestActivity : AppCompatActivity() {
             }
         })
     }
+    private fun getPatientsDoctorList(){
+        val patientID = intent.getIntExtra("patientID", 0)
+        val service = PatientsDoctorInstance.retrofitBuilder
 
+        service.getPatientsPatientID(patientID).enqueue(object : Callback<PatientsDoctorList> {
+            override fun onResponse(call: Call<PatientsDoctorList>, response: Response<PatientsDoctorList>) {
+                if (response.isSuccessful) {
+                    val healthCareProfessionals = response.body()
+                    if (healthCareProfessionals != null) {
+                        for (professional in healthCareProfessionals.PatientsDoctor) {
+                            Log.d("TestActivity", "DoctorIDs: ${professional.doctorID}")
+                        }
+                    }
+                } else {
+                    Log.d("TestActivity", "Error: ${response.code()}")
+                }
+            }
 
-
+            override fun onFailure(call: Call<PatientsDoctorList>, t: Throwable) {
+                Log.d("TestActivity", "Failure: ${t.message}")
+            }
+        })
+    }
     private suspend fun getDoctorInfo(doctorIDs: List<Int?>) {
         val service = ConsultationInstance.retrofitBuilder
         val doctorsInfo = mutableListOf<Users>()

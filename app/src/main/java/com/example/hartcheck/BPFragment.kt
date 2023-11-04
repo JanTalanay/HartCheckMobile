@@ -25,7 +25,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.hartcheck.Model.BloodPressure
+import com.example.hartcheck.Model.BloodPressureThreshold
 import com.example.hartcheck.Remote.BloodPressureRemote.BloodPressureInstance
+import com.example.hartcheck.Remote.BloodPressureThresholdRemote.BloodPressureThresholdInstance
 import com.example.hartcheck.Wrapper.PrevBloodPressure
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Description
@@ -38,6 +40,7 @@ import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.HttpException
 import retrofit2.Response
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -70,6 +73,8 @@ class BPFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private val list = mutableListOf<Pair<String, String>>()
+    private var systolicThreshold: Float = 0f
+    private var diastolicThreshold: Float = 0f
     private var currentIndex = 0
     private val CHANNEL_ID ="Your_Channel_ID"
     private val notificationID = 101
@@ -350,16 +355,15 @@ class BPFragment : Fragment() {
             diastolic?.setText(pair.second)
 
             // Check if systolic or diastolic value has reached specific stage
-            val systolic = pair.first.toInt()
-            val diastolic = pair.second.toInt()
-            val specificStage = 120 // Replace with your specific stage
-            if (systolic >= 140 || diastolic >= 90) {
+            val systolicValue = pair.first.toFloat()
+            val diastolicValue = pair.second.toFloat()
+            if (systolicValue >= systolicThreshold || diastolicValue >= diastolicThreshold) {
                 sendNotification("High Blood Pressure (hypertension)")
-            } else if (systolic >= 130 || (systolic >= 120 && diastolic >= 80)) {
+            } else if (systolicValue >= (systolicThreshold - 10) || (systolicValue >= (systolicThreshold - 20) && diastolicValue >= (diastolicThreshold - 10))) {
                 sendNotification("Elevated")
-            } else if ((systolic >= 120 && systolic < 130) || (diastolic >= 80 && diastolic < 89)) {
+            } else if ((systolicValue >= (systolicThreshold - 20) && systolicValue < systolicThreshold) || (diastolicValue >= (diastolicThreshold - 10) && diastolicValue < diastolicThreshold)) {
                 sendNotification("At Risk (prehypertension)")
-            } else if (systolic < 120 && diastolic < 80) {
+            } else if (systolicValue < (systolicThreshold - 20) && diastolicValue < (diastolicThreshold - 10)) {
                 sendNotification("Normal")
             }
 
@@ -368,6 +372,34 @@ class BPFragment : Fragment() {
             systolic?.setText("No more pairs in the list.")
             diastolic?.setText("")
         }
+    }
+    private fun getBPThreshold() {
+        val service = BloodPressureThresholdInstance.retrofitBuilder
+        val patientID = arguments?.getInt(ARG_PATIENT_ID)
+
+        service.getBloodPressureThreshold(patientID!!).enqueue(object : Callback<BloodPressureThreshold> {
+            override fun onResponse(call: Call<BloodPressureThreshold>, response: Response<BloodPressureThreshold>) {
+                if(response.isSuccessful){
+                    val BPThreshold = response.body()
+                    if(BPThreshold != null){
+                        systolicThreshold = BPThreshold.systolicLevel
+                        diastolicThreshold = BPThreshold.diastolicLevel
+                        Log.d ("MainActivity", "Set Threshold: $systolicThreshold and $diastolicThreshold")
+                    }
+                }
+                else{
+                    Log.d("MainActivity", "Error response: ${response.body()}")
+                }
+
+            }
+            override fun onFailure(call: Call<BloodPressureThreshold>, t: Throwable) {
+                Log.d ("MainActivity", "Failed to connect: : " + t.message)
+                if (t is HttpException) {
+                    val errorResponse = t.response()?.errorBody()?.string()
+                    Log.d("MainActivity", "Error response: $errorResponse")
+                }
+            }
+        })
     }
     fun String.isNumeric(): Boolean = this.matches("\\d+".toRegex())
 

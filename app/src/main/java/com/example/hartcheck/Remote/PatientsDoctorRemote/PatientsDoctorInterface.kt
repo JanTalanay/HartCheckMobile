@@ -1,8 +1,9 @@
-package com.example.hartcheck.Remote.PatientsDoctor
+package com.example.hartcheck.Remote.PatientsDoctorRemote
 
-import com.example.hartcheck.Wrapper.Test
 import com.example.hartcheck.Model.PatientsDoctor
+import com.example.hartcheck.Wrapper.DoctorInfoList
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
+import com.example.hartcheck.Wrapper.PatientsDoctorList
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -15,9 +16,11 @@ interface PatientsDoctorInterface {
     @GET("api/PatientsDoctor")
     fun getPatientsDoctor(): Call<List<PatientsDoctor>>
     @GET("api/PatientsDoctor/{patientID}")
-    fun getPatientsDoctorID(@Path("patientID") patientID: Int): Call<PatientsDoctor>
+    fun getPatientsPatientID(@Path("patientID") patientID: Int): Call<PatientsDoctorList>
     @GET("api/PatientsDoctor/{patientID}/healthcareprofessionals")
     fun getHealthCareProfessionals(@Path("patientID") patientID: Int): Call<PatientsDoctorAssign>
+    @GET("api/PatientsDoctor/{patientID}/doctors")
+    fun getDoctorsByPatientId(@Path("patientID") patientID: Int): Call<DoctorInfoList>
 
 //    @GET("api/PatientsDoctor/{patientID}/healthcareprofessionals")
 //    fun getHealthCareProfessionals(@Path("patientID") patientID: Int): Call<List<HealthCareProfName>>

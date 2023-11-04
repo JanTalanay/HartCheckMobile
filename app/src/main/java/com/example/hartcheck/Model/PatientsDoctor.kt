@@ -1,8 +1,11 @@
 package com.example.hartcheck.Model
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class PatientsDoctor(
     @SerializedName("patientDoctorID")
     @Expose
@@ -15,4 +18,4 @@ data class PatientsDoctor(
     @SerializedName("doctorID")
     @Expose
     var doctorID: Int? = null
-)
+):Parcelable

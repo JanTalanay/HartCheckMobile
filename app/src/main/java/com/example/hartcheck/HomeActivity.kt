@@ -1,35 +1,20 @@
 package com.example.hartcheck
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import com.example.hartcheck.Model.Patients
-import com.example.hartcheck.Model.PatientsDoctor
-import com.example.hartcheck.Model.Users
-import com.example.hartcheck.Remote.ConsultationRemote.ConsultationInstance
-import com.example.hartcheck.Remote.DoctorScheduleRemote.DoctorScheduleInstance
-import com.example.hartcheck.Remote.PatientsDoctor.PatientsDoctorInstance
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
-import com.example.hartcheck.Remote.UsersRemote.UsersInstance
-import com.example.hartcheck.Wrapper.DoctorScheduleDates
-import com.example.hartcheck.Wrapper.PatientsDoctorAssign
-import com.example.hartcheck.databinding.DoctorItemBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
-import retrofit2.await
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var gsc: GoogleSignInClient

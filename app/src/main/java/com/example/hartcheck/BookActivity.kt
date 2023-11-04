@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import com.example.hartcheck.Data.DocData
 import com.example.hartcheck.Model.Consultation
 import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.ConsultationRemote.ConsultationInstance
@@ -34,21 +35,24 @@ class BookActivity : AppCompatActivity() {
     private lateinit var btn_book: Button
     private lateinit var txtdoctorname: TextView
     private lateinit var datesAndIds: List<Pair<String, Int>>
-//    private lateinit var txtBook: Spinner
+    //    private lateinit var txtBook: Spinner
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book)
         val patientID = intent.getIntExtra("patientID", 0)
-
+        val selectedDoctor = intent.getParcelableExtra<DocData>("selectedDoctor")
 
         txtdoctorname = findViewById(R.id.txt_doctor_name)
+        txtdoctorname.text = selectedDoctor?.name
         btn_book = findViewById(R.id.btn_book_appointment)
 
         btn_book.setOnClickListener {
             insertConsultation()
         }
         onDoctorDatesAssigned(patientID) { datesAssign ->
-            datesAndIds = datesAssign.DoctorDates.map { Pair(formatDateTime(it.schedDateTime!!), it.doctorSchedID!!) }
+            val selectedDoctorID = selectedDoctor?.doctorID
+            val selectedDates = datesAssign.DoctorDates.filter { it.doctorID == selectedDoctorID }
+            datesAndIds = selectedDates.map { Pair(formatDateTime(it.schedDateTime!!), it.doctorSchedID!!) }
 
             val dates = datesAndIds.map { it.first }
             val options = listOf("Features", *dates.toTypedArray())
@@ -58,6 +62,7 @@ class BookActivity : AppCompatActivity() {
             adapter.setDropDownViewResource(R.layout.app_list_item)
             input_bug_feature.adapter = adapter
         }
+
     }
     private fun insertConsultation() {
         val patientID = intent.getIntExtra("patientID", 0)
@@ -67,29 +72,28 @@ class BookActivity : AppCompatActivity() {
 
         val doctorSchedID = datesAndIds.find { it.first == selectedDateTime }?.second
 
-            val Consultationservice = ConsultationInstance.retrofitBuilder
-            val ConInfo = Consultation(patientID = patientID, doctorSchedID = doctorSchedID)
-            Consultationservice.insertConsultation(ConInfo).enqueue(object : Callback<Consultation> {
-                override fun onResponse(call: Call<Consultation>, response: Response<Consultation>) {
-                    if (response.isSuccessful) {
-                        val intent = Intent(this@BookActivity, PaymentActivity::class.java)
-                        intent.putExtra("selectedDateTime", selectedDateTime)
-                        startActivity(intent)
+        val Consultationservice = ConsultationInstance.retrofitBuilder
+        val ConInfo = Consultation(patientID = patientID, doctorSchedID = doctorSchedID)
+        Consultationservice.insertConsultation(ConInfo).enqueue(object : Callback<Consultation> {
+            override fun onResponse(call: Call<Consultation>, response: Response<Consultation>) {
+                if (response.isSuccessful) {
+                    val intent = Intent(this@BookActivity, PaymentActivity::class.java)
+                    intent.putExtra("selectedDateTime", selectedDateTime)
+                    startActivity(intent)
 
-                        Log.d("MainActivity", "Response: ${response.body()}")
-                    }
-                    else {
-                        // Handle the error response
-                        Log.d("MainActivity", "Response: ${response.body()}")
-                    }
+                    Log.d("MainActivity", "Response: ${response.body()}")
                 }
+                else {
+                    // Handle the error response
+                    Log.d("MainActivity", "Response: ${response.body()}")
+                }
+            }
 
-                override fun onFailure(call: Call<Consultation>, t: Throwable) {
-                    // Handle network or other exceptions
-                    Log.d("MainActivity", "Exception: ", t)
-                }
-            })
-        }
+            override fun onFailure(call: Call<Consultation>, t: Throwable) {
+                // Handle network or other exceptions
+                Log.d("MainActivity", "Exception: ", t)
+            }
+        })
     }
     private fun formatDateTime(originalDateTime: String): String {
         val inputPattern = "yyyy-MM-dd'T'HH:mm:ss"
@@ -115,8 +119,8 @@ class BookActivity : AppCompatActivity() {
         }
     }
     private fun onDoctorDatesAssigned(patientID: Int, onDoctorDatesAssignedRetrieved: (datesAssign: DoctorScheduleDates)-> Unit){
-        val doctorSchedService = DoctorScheduleInstance.retrofitBuilder
 
+        val doctorSchedService = DoctorScheduleInstance.retrofitBuilder
         doctorSchedService.getDoctorSchedulesForPatient(patientID).enqueue(object : Callback<DoctorScheduleDates>{
             override fun onResponse(call: Call<DoctorScheduleDates>, response: Response<DoctorScheduleDates>) {
                 if(response.isSuccessful){
@@ -134,3 +138,4 @@ class BookActivity : AppCompatActivity() {
             }
         })
     }
+}

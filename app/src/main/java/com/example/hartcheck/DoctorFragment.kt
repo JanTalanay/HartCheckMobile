@@ -7,15 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hartcheck.Adapter.ListAdapter
 import com.example.hartcheck.Data.DocData
-import com.example.hartcheck.Remote.DoctorScheduleRemote.DoctorScheduleInstance
-import com.example.hartcheck.Remote.PatientsDoctor.PatientsDoctorInstance
-import com.example.hartcheck.Wrapper.DoctorScheduleDates
+import com.example.hartcheck.Remote.PatientsDoctorRemote.PatientsDoctorInstance
+import com.example.hartcheck.Wrapper.DoctorInfoList
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
+import com.example.hartcheck.Wrapper.PatientsDoctorList
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -60,40 +59,32 @@ class DoctorFragment : Fragment() {
 
         txt_emp = view.findViewById(R.id.txt_empty)
 
-
-
-//        doctorList = mutableListOf(
-//            DocData("Doctor 1", "Info 1"),
-//            DocData("Doctor 2", "Info 2"),
-//            DocData("Doctor 3", "Info 3")
-//        )
         doctorList = mutableListOf()
-        getDoctorAssign(patientID!!) { doctorAssign ->
-            for (doctor in doctorAssign.HealthCareName) {
+        GetDoctorsByPatientId(patientID!!) { doctorInfoList ->
+            for (doctor in doctorInfoList.DoctorInfo) {
                 val doctorName = "${doctor.firstName} ${doctor.lastName}"
-                val docData = DocData(doctorName, "")
+                val docData = DocData(doctorSchedID = null, doctorID = doctor.doctorID, doctorName, "")
                 doctorList.add(docData)
             }
             listAdapter.notifyDataSetChanged()
         }
 
+//        getDoctorAssign(patientID!!) { doctorAssign ->
+//            for (doctor in doctorAssign.HealthCareName) {
+//                val doctorName = "${doctor.firstName} ${doctor.lastName}"
+//                val docData = DocData(doctorSchedID = null, doctorName, "")
+//                doctorList.add(docData)
+//            }
+//            listAdapter.notifyDataSetChanged()
+//        }
+
         recyclerView = view.findViewById(R.id.consulList)//test
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList,frag, patientID)
+        listAdapter = ListAdapter(doctorList,frag, patientID, BookActivity::class.java)
         recyclerView.adapter = listAdapter
         //Default
         txt_emp.visibility = View.GONE//there are no currently available doctors (put a null checker to show or not)
         recyclerView.visibility = View.VISIBLE
-
-//        val names = doctorAssign.HealthCareName.joinToString(separator = ", ") { "${it.firstName} ${it.lastName}" }
-//        Toast.makeText(context, "GOT UR: $userID", Toast.LENGTH_SHORT).show()
-//        Toast.makeText(context, "GOT UR: $patientID", Toast.LENGTH_SHORT).show()
-//        val names = doctorAssign.HealthCareName.joinToString(separator = ", ") { "${it.firstName} ${it.lastName}" }
-//        Toast.makeText(context, "GOT UR: $names", Toast.LENGTH_SHORT).show()
-
-//        val names = datesAssign.DoctorDates.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
-//        Toast.makeText(context, "GOT UR:$names", Toast.LENGTH_SHORT).show
-//        Toast.makeText(context, "$patientID and $userID", Toast.LENGTH_SHORT).show()
 
         return view
     }
@@ -116,6 +107,26 @@ class DoctorFragment : Fragment() {
             }
         })
     }
+    private fun GetDoctorsByPatientId(patientID: Int, onDoctorsRetrieved: (doctorInfoList: DoctorInfoList) -> Unit) {
+        val service = PatientsDoctorInstance.retrofitBuilder
+
+        service.getDoctorsByPatientId(patientID).enqueue(object : Callback<DoctorInfoList> {
+            override fun onResponse(call: Call<DoctorInfoList>, response: Response<DoctorInfoList>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { doctorInfoList ->
+                        onDoctorsRetrieved(doctorInfoList)
+                    }
+                } else {
+                    Log.d("TestActivity", "Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<DoctorInfoList>, t: Throwable) {
+                Log.d("TestActivity", "Failure: ${t.message}")
+            }
+        })
+    }
+
 
 
 

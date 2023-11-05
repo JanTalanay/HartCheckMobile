@@ -14,8 +14,12 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.hartcheck.Data.DocData
+import com.example.hartcheck.Data.RescheduleAppointment
 import com.example.hartcheck.Model.Consultation
 import com.example.hartcheck.Remote.ConsultationRemote.ConsultationInstance
+import com.example.hartcheck.Remote.PatientsDoctorRemote.PatientsDoctorInstance
+import com.example.hartcheck.Remote.PaymentRemote.PaymentInstance
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +29,7 @@ class AppointmentDetailsActivity : AppCompatActivity() {
     private lateinit var btn_request:Button
     private lateinit var btn_cancel_sched:Button
     private lateinit var txtDoctorName:TextView
+    private lateinit var txtappointsched:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_appointment_details)
@@ -46,7 +51,9 @@ class AppointmentDetailsActivity : AppCompatActivity() {
 //        Toast.makeText(this, "Received data: ${selectedDoctor?.doctorSchedID}", Toast.LENGTH_LONG).show()
 //        Toast.makeText(this, "Received data: ${selectedDoctor?.appointmentDate}", Toast.LENGTH_LONG).show()
         txtDoctorName = findViewById(R.id.txt_doctor_name_appointment_details)
+        txtappointsched = findViewById(R.id.txt_appoint_sched)
         txtDoctorName.text = selectedDoctor?.name
+        txtappointsched.text = selectedDoctor?.appointmentDate
     }
     private fun showReschedModal(){
         val dialog = Dialog(this)
@@ -55,14 +62,14 @@ class AppointmentDetailsActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.popup_resched_input)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val email: EditText = dialog.findViewById(R.id.modal_edit_email)
+//        val email: EditText = dialog.findViewById(R.id.modal_edit_email)
         val btnSend:Button = dialog.findViewById(R.id.btn_modal_send)
         val btnClose:Button = dialog.findViewById(R.id.btn_modal_cancel)
 
 
         btnSend.setOnClickListener {
             //add cancel appoint here
-            cancelConsultation(dialog)
+            rescheduleAppointment(dialog)
             dialog.dismiss()
 
         }
@@ -117,6 +124,32 @@ class AppointmentDetailsActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<Consultation>, t: Throwable) {
                 Log.d("MainActivity", "Failure: ${t.message}")
+            }
+        })
+    }
+    private fun rescheduleAppointment(dialog: Dialog){
+        val selectedDoctor = intent.getParcelableExtra<DocData>("selectedDoctor")
+        val email: EditText = dialog.findViewById(R.id.modal_edit_email)
+
+        val rescheduleAppointmentService = PatientsDoctorInstance.retrofitBuilder
+
+        val patientEmail = email.text.toString()
+        val name = selectedDoctor?.name.toString()
+
+        val reschedAppointment = RescheduleAppointment(email = patientEmail, doctorName = name)
+
+        rescheduleAppointmentService.rescheduleAppointmentRequest(reschedAppointment).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>){
+                if (response.isSuccessful) {
+                    Toast.makeText(this@AppointmentDetailsActivity, "Reschedule Sent!", Toast.LENGTH_LONG).show()
+                }
+                else {
+                    val errorBody = response.errorBody()?.string()
+                    Log.d("MainActivity", "Error: $errorBody")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d ("MainActivity", "Registration failed: ${t}\"")
             }
         })
     }

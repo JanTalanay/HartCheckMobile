@@ -19,7 +19,4 @@ interface DoctorScheduleInterface {
     @GET("api/DoctorSchedule/patient/{patientID}/schedules")
     fun getDoctorSchedulesForPatient(@Path("patientID") patientID: Int): Call<DoctorScheduleDates>
 
-
-
-
 }

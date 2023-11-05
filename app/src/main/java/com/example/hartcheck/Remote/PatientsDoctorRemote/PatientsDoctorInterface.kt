@@ -1,9 +1,12 @@
 package com.example.hartcheck.Remote.PatientsDoctorRemote
 
+import com.example.hartcheck.Data.PaymentBook
+import com.example.hartcheck.Data.RescheduleAppointment
 import com.example.hartcheck.Model.PatientsDoctor
 import com.example.hartcheck.Wrapper.DoctorInfoList
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
 import com.example.hartcheck.Wrapper.PatientsDoctorList
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,5 +22,8 @@ interface PatientsDoctorInterface {
     fun getHealthCareProfessionals(@Path("patientID") patientID: Int): Call<PatientsDoctorAssign>
     @GET("api/PatientsDoctor/{patientID}/doctors")
     fun getDoctorsByPatientId(@Path("patientID") patientID: Int): Call<DoctorInfoList>
+
+    @POST("api/PatientsDoctor/RescheduleAppointment")
+    fun rescheduleAppointmentRequest(@Body request: RescheduleAppointment): Call<ResponseBody>
 
 }

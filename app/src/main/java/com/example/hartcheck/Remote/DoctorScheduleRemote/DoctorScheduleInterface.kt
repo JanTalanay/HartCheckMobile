@@ -16,21 +16,10 @@ interface DoctorScheduleInterface {
     @GET("api/DoctorSchedule/{doctorSchedID}")
     fun getDoctorScheduleID(@Path("doctorSchedID") doctorSchedID: Int): Call<DoctorSchedule>
 
-//    @GET("api/DoctorSchedule/patient/{patientID}/schedules")
-//    fun getDoctorSchedulesForPatient(@Path("patientID") patientID: Int): Call<List<DoctorSchedule>>
-
     @GET("api/DoctorSchedule/patient/{patientID}/schedules")
     fun getDoctorSchedulesForPatient(@Path("patientID") patientID: Int): Call<DoctorScheduleDates>
 
-//    @GET("api/DoctorSchedule/patient/{patientID}/schedules")
-//    fun getDoctorSchedulesForPatient(@Path("patientID") patientID: Int): Call<List<String>>
 
 
 
-//    @GET("api/DoctorSchedule/{patientID}")
-//    fun getMedicalHisID(@Path("patientID") patientID: Int): Call<PreviousMedication>
-//    @DELETE("api/MedicalHistory/{medicalHistoryID}")
-//    fun deleteMedHis(@Path("medicalHistoryID") resourceId: String): Call<MedicalHistory>
-//    @PUT("api/MedicalHistory/{medicalHistoryID}")
-//    fun updateMedHis(@Path("medicalHistoryID") resourceId: String, @Body updatedResource: MedicalHistory): Call<MedicalHistory>
 }

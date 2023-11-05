@@ -88,25 +88,25 @@ class DoctorFragment : Fragment() {
 
         return view
     }
-    private fun getDoctorAssign(patientID: Int, onDoctorAssignRetrieved: (doctorAssign: PatientsDoctorAssign) -> Unit) {
-        val service = PatientsDoctorInstance.retrofitBuilder
-
-        service.getHealthCareProfessionals(patientID).enqueue(object : Callback<PatientsDoctorAssign> {
-            override fun onResponse(call: Call<PatientsDoctorAssign>, response: Response<PatientsDoctorAssign>) {
-                if (response.isSuccessful) {
-                    response.body()?.let { doctorAssign ->
-                        onDoctorAssignRetrieved(doctorAssign)
-                    }
-                } else {
-                    Log.d("TestActivity", "Error: ${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<PatientsDoctorAssign>, t: Throwable) {
-                Log.d("TestActivity", "Failure: ${t.message}")
-            }
-        })
-    }
+//    private fun getDoctorAssign(patientID: Int, onDoctorAssignRetrieved: (doctorAssign: PatientsDoctorAssign) -> Unit) {
+//        val service = PatientsDoctorInstance.retrofitBuilder
+//
+//        service.getHealthCareProfessionals(patientID).enqueue(object : Callback<PatientsDoctorAssign> {
+//            override fun onResponse(call: Call<PatientsDoctorAssign>, response: Response<PatientsDoctorAssign>) {
+//                if (response.isSuccessful) {
+//                    response.body()?.let { doctorAssign ->
+//                        onDoctorAssignRetrieved(doctorAssign)
+//                    }
+//                } else {
+//                    Log.d("TestActivity", "Error: ${response.code()}")
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<PatientsDoctorAssign>, t: Throwable) {
+//                Log.d("TestActivity", "Failure: ${t.message}")
+//            }
+//        })
+//    }
     private fun GetDoctorsByPatientId(patientID: Int, onDoctorsRetrieved: (doctorInfoList: DoctorInfoList) -> Unit) {
         val service = PatientsDoctorInstance.retrofitBuilder
 

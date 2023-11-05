@@ -19,14 +19,14 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:textColor="@color/primary_black"
-            android:text ="@string/p_bp_modal"
+            android:text ="@string/p_resched_appoint"
             android:fontFamily="@font/font_urbanist_bold"
             android:textSize="23sp"
             android:layout_marginBottom="25dp"
             />
 
         <EditText
-            android:id="@+id/edit_systolic"
+            android:id="@+id/modal_edit_email"
             android:layout_width="250dp"
             android:layout_height="55dp"
             android:background="@drawable/custom_input"
@@ -34,48 +34,25 @@
             android:paddingEnd="10dp"
             android:ems="10"
             android:inputType="text"
-            android:hint="@string/input_systolic"
+            android:hint="@string/input_email"
             android:textColor="@color/grey"
             android:layout_marginBottom="20dp"
             />
-        <EditText
-            android:id="@+id/edit_diastolic"
-            android:layout_width="250dp"
-            android:layout_height="55dp"
-            android:background="@drawable/custom_input"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:ems="10"
-            android:inputType="text"
-            android:hint="@string/input_diastolic"
-            android:textColor="@color/grey" />
 
         <Button
-            android:id="@+id/btn_modal_confirm"
+            android:id="@+id/btn_modal_send"
             android:layout_width="250dp"
             android:layout_height="55dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_primary"
             android:fontFamily="@font/font_urbanist_medium"
-            android:text="@string/btn_add"
+            android:text="@string/btn_send"
             android:textAllCaps="false"
             android:textColor="@drawable/btn_text_color_white"
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/btn_modal_sync"
-            android:layout_width="250dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/btn_secondary"
-            android:fontFamily="@font/font_urbanist_medium"
-            android:text="@string/btn_sync"
-            android:textAllCaps="false"
-            android:textColor="@drawable/btn_text_color"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/btn_modal_deny"
+            android:id="@+id/btn_modal_cancel"
             android:layout_width="250dp"
             android:layout_height="55dp"
             android:layout_marginTop="20dp"

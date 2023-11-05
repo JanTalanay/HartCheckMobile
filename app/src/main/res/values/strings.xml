@@ -5,6 +5,7 @@
     <!--  buttons -->
     <string name="filler"> </string>
     <string name="btn_login">Login</string>
+    <string name="btn_send">Send</string>
     <string name="btn_logout">Logout</string>
     <string name="btn_register">Register</string>
     <string name="btn_yes">Yes</string>
@@ -131,6 +132,7 @@
     <string name="p_payment_info">Please input your email where the payment link will be sent. Once it is paid then your appointment will be booked.</string>
     <string name="p_no_avail">There are currently no available doctors.</string>
     <string name="p_no_bp">No BP history.</string>
+    <string name="p_resched_appoint">Please enter your email to request a reschedule to the doctor.</string>
     <string name="p_resched_appointment">There was an overlapping with the scheduled date, if you want to see the new date please click on the button below, you may also opt to reschedule again.</string>
     <!--    links-->
     <string name="li_reg_now">Don’t have an account?</string>

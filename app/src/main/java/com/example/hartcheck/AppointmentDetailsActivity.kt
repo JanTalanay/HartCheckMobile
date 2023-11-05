@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.hartcheck.Data.DocData
@@ -30,8 +31,13 @@ class AppointmentDetailsActivity : AppCompatActivity() {
         val selectedDoctor = intent.getParcelableExtra<DocData>("selectedDoctor")
 //        val doctorID = intent.getIntExtra("doctorID", -1)
 
-        btn_request = findViewById(R.id.btn_request_appointment)
+        btn_request = findViewById(R.id.btn_request_appointment)//add input modal
+
         btn_cancel_sched = findViewById(R.id.btn_cancel_appointment)
+
+        btn_request.setOnClickListener {
+            showReschedModal()
+        }
 
         btn_cancel_sched.setOnClickListener {
             showModal()
@@ -41,6 +47,30 @@ class AppointmentDetailsActivity : AppCompatActivity() {
 //        Toast.makeText(this, "Received data: ${selectedDoctor?.appointmentDate}", Toast.LENGTH_LONG).show()
         txtDoctorName = findViewById(R.id.txt_doctor_name_appointment_details)
         txtDoctorName.text = selectedDoctor?.name
+    }
+    private fun showReschedModal(){
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.popup_resched_input)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val email: EditText = dialog.findViewById(R.id.modal_edit_email)
+        val btnSend:Button = dialog.findViewById(R.id.btn_modal_send)
+        val btnClose:Button = dialog.findViewById(R.id.btn_modal_cancel)
+
+
+        btnSend.setOnClickListener {
+            //add cancel appoint here
+            cancelConsultation(dialog)
+            dialog.dismiss()
+
+        }
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun showModal(){

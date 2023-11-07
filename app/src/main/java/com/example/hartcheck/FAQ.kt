@@ -21,6 +21,7 @@ class FAQ : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_faq)
         val userID = intent.getIntExtra("userID", 0)
+        val firstName = intent.getStringExtra("firstName")
         val btnBackFAQ = findViewById<Button>(R.id.btn_back_FAQ)
 
         recyclerView = findViewById(R.id.recyclerView)
@@ -39,6 +40,7 @@ class FAQ : AppCompatActivity() {
         btnBackFAQ.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java)
             intent.putExtra("userID", userID)
+            intent.putExtra("firstName", firstName)
             startActivity(intent)
         }
     }

@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.hartcheck.Data.DocData
 import com.example.hartcheck.Data.RescheduleAppointment
 import com.example.hartcheck.Model.Consultation
@@ -28,18 +29,26 @@ class AppointmentDetailsActivity : AppCompatActivity() {
 
     private lateinit var btn_request:Button
     private lateinit var btn_cancel_sched:Button
+    private lateinit var btnbackappointdetails:Button
     private lateinit var txtDoctorName:TextView
     private lateinit var txtappointsched:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_appointment_details)
         val selectedDoctor = intent.getParcelableExtra<DocData>("selectedDoctor")
+        val userID = intent.getIntExtra("userID", 0)
+        val patientID = intent.getIntExtra("patientID", 0)
 //        val doctorID = intent.getIntExtra("doctorID", -1)
 
         btn_request = findViewById(R.id.btn_request_appointment)//add input modal
-
         btn_cancel_sched = findViewById(R.id.btn_cancel_appointment)
-
+        btnbackappointdetails = findViewById(R.id.btn_back_appoint_details)
+        btnbackappointdetails.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("patientID", patientID)
+            intent.putExtra("userID", userID)
+            startActivity(intent)
+        }
         btn_request.setOnClickListener {
             showReschedModal()
         }
@@ -54,6 +63,13 @@ class AppointmentDetailsActivity : AppCompatActivity() {
         txtappointsched = findViewById(R.id.txt_appoint_sched)
         txtDoctorName.text = selectedDoctor?.name
         txtappointsched.text = selectedDoctor?.appointmentDate
+    }
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+
+        fragmentTransaction.replace(R.id.frame_layout, fragment)
+        fragmentTransaction.commit()
     }
     private fun showReschedModal(){
         val dialog = Dialog(this)

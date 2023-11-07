@@ -82,7 +82,7 @@
             android:background="@drawable/custom_input"
             android:ems="10"
             android:hint="@string/input_confirm_pass"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:textColor="@color/grey"

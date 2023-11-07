@@ -60,6 +60,7 @@ class ConsultationFragment : Fragment() {
     private lateinit var listAdapter: ListAdapter
     private lateinit var doctorList: MutableList<DocData>
     private lateinit var btn_avail: Button
+    private lateinit var btnbackconsultation: Button
     private lateinit var txt_emp: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,6 +81,7 @@ class ConsultationFragment : Fragment() {
         val frag = true
 
         btn_avail = view.findViewById(R.id.btn_view_avail)
+        btnbackconsultation = view.findViewById(R.id.btn_back_consultation)
         txt_emp = view.findViewById(R.id.txt_empty)
 
 
@@ -95,7 +97,7 @@ class ConsultationFragment : Fragment() {
                         val scheduleInfo = doctorSchedules.DoctorDates[index].schedDateTime
                         doctorList.add(DocData(doctorSchedID!!,doctorID,doctorName, formatDateTime(scheduleInfo!!)))
                     }
-                    listAdapter = ListAdapter(doctorList,frag, patientID, AppointmentDetailsActivity::class.java)
+                    listAdapter = ListAdapter(doctorList,frag, patientID, userID, AppointmentDetailsActivity::class.java)
                     recyclerView.adapter = listAdapter
                 }
             }
@@ -105,7 +107,7 @@ class ConsultationFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList,frag, patientID, AppointmentDetailsActivity::class.java)
+        listAdapter = ListAdapter(doctorList,frag, patientID, userID, AppointmentDetailsActivity::class.java)
         recyclerView.adapter = listAdapter
 
         //enable this as default
@@ -116,7 +118,12 @@ class ConsultationFragment : Fragment() {
         btn_avail.setOnClickListener {//available doctors
             replaceFragment(DoctorFragment.newInstance(userID!!,patientID))
         }
-
+        btnbackconsultation.setOnClickListener {
+            val intent = Intent(context, HomeActivity::class.java)
+            intent.putExtra("patientID", patientID)
+            intent.putExtra("userID", userID)
+            startActivity(intent)
+        }
         return view
     }
     private fun replaceFragment(fragment: Fragment){

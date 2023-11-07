@@ -60,7 +60,10 @@ class PreviousBPActivity : AppCompatActivity() {
         recyclerView.adapter = bpAdapter
 
         backPrevBP.setOnClickListener {
-            replaceFragment(BPFragment.newInstance(userID,patientID))
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("patientID", patientID)
+            intent.putExtra("userID", userID)
+            startActivity(intent)
         }
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.hartcheck.Model.Patients
@@ -29,31 +30,7 @@ class NavActivity : AppCompatActivity() {
         setContentView(binding.root)
         val userID = intent.getIntExtra("userID", 0)
         val patientID = intent.getIntExtra("patientID", 0)
-//        val doctorAssign = intent.getParcelableExtra<PatientsDoctorAssign>("doctorAssign")
-//        val dateAssign = intent.getParcelableExtra<DoctorScheduleDates>("datesAssign")
-//        val doctorSchedules = intent.getParcelableExtra<DoctorScheduleDates>("doctorSchedules")
-//        val doctorsInfo = intent.getSerializableExtra("doctorsInfo") as ArrayList<Users>
-//        val doctorSchedules = intent.getParcelableExtra<DoctorScheduleDates>("doctorSchedules")
-//        val doctorsInfo = intent.getSerializableExtra("doctorsInfo") as ArrayList<Users>
-
-
-//        val names = doctorSchedules?.DoctorDates?.joinToString(separator = ", ") { "${it.doctorID} ${it.doctorSchedID} ${it.schedDateTime}" }
-//        if (doctorsInfo != null) {
-//            val doctorsInfoString = StringBuilder()
-//            for (doctor in doctorsInfo) {
-//                doctorsInfoString.append("Name: ${doctor.firstName} ${doctor.lastName}\n")
-//                Log.d("TestActivity", "${doctor.firstName}, ${doctor.lastName}")
-//            }
-//            Toast.makeText(this, doctorsInfoString.toString(), Toast.LENGTH_LONG).show()
-//        } else {
-//            Toast.makeText(this, "No doctors info available", Toast.LENGTH_LONG).show()
-//        }
-//
-//        Toast.makeText(this, "$names", Toast.LENGTH_SHORT).show()
-
         btn_states()
-//        val userID = intent.getIntExtra("userID", 0)
-//        val patientID = intent.getIntExtra("patientID", 0)
 
         binding.navBar.setOnItemSelectedListener {
             when(it){

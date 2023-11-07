@@ -35,7 +35,6 @@ class RegisterMedActivity : AppCompatActivity() {
 //            val intent = Intent(this, LoginMain::class.java)
 //            startActivity(intent)
             insertMedHis()
-            insertBodyMass()
         }
 
 
@@ -72,7 +71,7 @@ class RegisterMedActivity : AppCompatActivity() {
             override fun onResponse(call: Call<MedicalHistory>, response: Response<MedicalHistory>) {
                 if (response.isSuccessful) {
                     // Successfully deleted the bug report
-
+                    insertBodyMass()
                 } else {
                     // Handle the error response
                 }

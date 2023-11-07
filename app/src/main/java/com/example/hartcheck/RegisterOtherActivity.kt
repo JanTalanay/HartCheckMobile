@@ -31,7 +31,6 @@ class RegisterOtherActivity : AppCompatActivity() {
 
         btn_current.setOnClickListener {
             insertMedicalCond()
-            insertPrevMed()
         }
 
 
@@ -52,7 +51,7 @@ class RegisterOtherActivity : AppCompatActivity() {
         MedicalCondservice.insertMedCond(MedicalCondInfo).enqueue(object : Callback<MedicalCondition> {
             override fun onResponse(call: Call<MedicalCondition>, response: Response<MedicalCondition>) {
                 if(response.isSuccessful){
-
+                    insertPrevMed()
                 } else {
                     Log.d("MainActivity", "Failed to connect: " + response.code())
 

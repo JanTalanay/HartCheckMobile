@@ -18,12 +18,14 @@ import retrofit2.Response
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var gsc: GoogleSignInClient
+//    private lateinit var userLoggedIn: TextView
     private lateinit var token: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         val userID = intent.getIntExtra("userID", 0)
+        val firstName = intent.getStringExtra("firstName")
 
         val btnBP = findViewById<Button>(R.id.btn_view_bp)
         val btnConsul = findViewById<Button>(R.id.btn_consul)
@@ -32,20 +34,31 @@ class HomeActivity : AppCompatActivity() {
         val btnInfo = findViewById<Button>(R.id.btn_info)
         val li_faq = findViewById<TextView>(R.id.li_faq)
         val reportProblem = findViewById<TextView>(R.id.report_problem)
+        val userLoggedIn = findViewById<TextView>(R.id.txt_home)
+
+        if(firstName != null){
+            userLoggedIn.setText("Hello $firstName What would you like to do?")
+        }
+        else{
+            userLoggedIn.setText("What would you like to do?")
+        }
 
         btnInfo.setOnClickListener {
             val intent = Intent(this, EducationalActivity::class.java)
             intent.putExtra("userID", userID)
+            intent.putExtra("firstName", firstName)
             startActivity(intent)
         }
         li_faq.setOnClickListener {
             val intent = Intent(this, FAQ::class.java)
             intent.putExtra("userID", userID)
+            intent.putExtra("firstName", firstName)
             startActivity(intent)
         }
         reportProblem.setOnClickListener {
             val intent = Intent(this, BugReportActivity::class.java)
             intent.putExtra("userID", userID)
+            intent.putExtra("firstName", firstName)
             startActivity(intent)
         }
 

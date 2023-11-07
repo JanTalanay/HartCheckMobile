@@ -59,23 +59,6 @@ class RegisterFinActivity : AppCompatActivity() {
         dialog.show()
     }
 
-//    private fun confirmCredOld() {
-//        val email = intent.getStringExtra("email")
-//        val password = intent.getStringExtra("password")
-//
-//        val confirmEmail = findViewById<EditText>(R.id.txt_confirm_email)
-//        val confirmPass = findViewById<EditText>(R.id.txt_confirm_pass)
-//
-//
-//
-//
-//        if (confirmEmail.text.toString() == email && confirmPass.text.toString() == password) {
-//            Toast.makeText(this, "Email and password match", Toast.LENGTH_SHORT).show()
-//            getPatientID()
-//        } else {
-//            Toast.makeText(this, "Email or password does not match", Toast.LENGTH_SHORT).show()
-//        }
-//    }
     private fun confirmCred() {
         val email = intent.getStringExtra("email")
         val password = intent.getStringExtra("password")
@@ -117,8 +100,8 @@ class RegisterFinActivity : AppCompatActivity() {
                 if(response.isSuccessful){
                     response.body()?.let { patients ->
                         if(userID.equals(patients.usersID)){
-                            Log.d("MainActivity", "connected: ${patients.patientID}")//Intent
-                            Toast.makeText(this@RegisterFinActivity, "Registration Successful ${patients.patientID}", Toast.LENGTH_SHORT).show()
+//                            Log.d("MainActivity", "connected: ${patients.patientID}")//Intent
+//                            Toast.makeText(this@RegisterFinActivity, "Registration Successful ${patients.patientID}", Toast.LENGTH_SHORT).show()
 
                             val intent = Intent(this@RegisterFinActivity, RegisterMedActivity::class.java)
                             intent.putExtra("patientID", patients.patientID)

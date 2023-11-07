@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,6 +38,7 @@ class DoctorFragment : Fragment() {
     private var patientID: Int? = null
 
     private lateinit var txt_emp:TextView
+    private lateinit var btnbackdoctor: Button
     private lateinit var recyclerView: RecyclerView
     private lateinit var listAdapter: ListAdapter
     private lateinit var doctorList: MutableList<DocData>
@@ -58,6 +60,7 @@ class DoctorFragment : Fragment() {
         val frag = false
 
         txt_emp = view.findViewById(R.id.txt_empty)
+        btnbackdoctor = view.findViewById(R.id.btn_back_doctor)
 
         doctorList = mutableListOf()
         GetDoctorsByPatientId(patientID!!) { doctorInfoList ->
@@ -80,12 +83,15 @@ class DoctorFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList)//test
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList,frag, patientID, BookActivity::class.java)
+        listAdapter = ListAdapter(doctorList,frag, patientID, userID, BookActivity::class.java)
         recyclerView.adapter = listAdapter
         //Default
         txt_emp.visibility = View.GONE//there are no currently available doctors (put a null checker to show or not)
         recyclerView.visibility = View.VISIBLE
 
+        btnbackdoctor.setOnClickListener {
+            replaceFragment(ConsultationFragment.newInstance(userID!!, patientID!!))
+        }
         return view
     }
 //    private fun getDoctorAssign(patientID: Int, onDoctorAssignRetrieved: (doctorAssign: PatientsDoctorAssign) -> Unit) {
@@ -107,6 +113,7 @@ class DoctorFragment : Fragment() {
 //            }
 //        })
 //    }
+
     private fun GetDoctorsByPatientId(patientID: Int, onDoctorsRetrieved: (doctorInfoList: DoctorInfoList) -> Unit) {
         val service = PatientsDoctorInstance.retrofitBuilder
 
@@ -127,7 +134,13 @@ class DoctorFragment : Fragment() {
         })
     }
 
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = activity?.supportFragmentManager
+        val fragmentTransaction = fragmentManager?.beginTransaction()
 
+        fragmentTransaction?.replace(R.id.frame_layout, fragment)
+        fragmentTransaction?.commit()
+    }
 
 
     companion object {

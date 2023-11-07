@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.example.hartcheck.Data.DocData
 import com.example.hartcheck.Model.Consultation
 import com.example.hartcheck.Model.Users
@@ -33,6 +34,7 @@ import java.util.Locale
 
 class BookActivity : AppCompatActivity() {
     private lateinit var btn_book: Button
+    private lateinit var btnbackbook: Button
     private lateinit var txtdoctorname: TextView
     private lateinit var datesAndIds: List<Pair<String, Int>>
     //    private lateinit var txtBook: Spinner
@@ -41,11 +43,16 @@ class BookActivity : AppCompatActivity() {
         setContentView(R.layout.activity_book)
         val patientID = intent.getIntExtra("patientID", 0)
         val selectedDoctor = intent.getParcelableExtra<DocData>("selectedDoctor")
+        val userID = intent.getIntExtra("userID", 0)
 
         txtdoctorname = findViewById(R.id.txt_doctor_name)
-        txtdoctorname.text = selectedDoctor?.name
         btn_book = findViewById(R.id.btn_book_appointment)
+        btnbackbook = findViewById(R.id.btn_back_book)
 
+        txtdoctorname.text = selectedDoctor?.name
+        btnbackbook.setOnClickListener {
+            replaceFragment(ConsultationFragment.newInstance(userID,patientID))
+        }
         btn_book.setOnClickListener {
             insertConsultation()
         }
@@ -63,6 +70,13 @@ class BookActivity : AppCompatActivity() {
             input_bug_feature.adapter = adapter
         }
 
+    }
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager?.beginTransaction()
+
+        fragmentTransaction?.replace(R.id.frame_layout, fragment)
+        fragmentTransaction?.commit()
     }
     private fun insertConsultation() {
         val patientID = intent.getIntExtra("patientID", 0)

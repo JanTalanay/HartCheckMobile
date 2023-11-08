@@ -16,6 +16,8 @@ import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
 import com.example.hartcheck.Remote.UsersRemote.UsersInstance
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -37,6 +39,7 @@ class UserFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var gsc: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,27 +52,34 @@ class UserFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         val userID = arguments?.getInt(ARG_USER_ID)
+        val patientID = arguments?.getInt(ARG_PATIENT_ID)
+        val patientName = arguments?.getString(ARG_PATIENT_NAME)
         val view = inflater.inflate(R.layout.fragment_user, container, false)
+
 
         val btn_back_userProfile = view.findViewById<Button>(R.id.btn_back_userProfile)
         val btn_edit_profile = view.findViewById<Button>(R.id.btn_edit_profile)
         val btn_logout = view.findViewById<Button>(R.id.btn_logout)
         val btn_change = view.findViewById<Button>(R.id.btn_change_pass)
+        GoogleSignInOptions()
 
         btn_back_userProfile.setOnClickListener {
             val intent = Intent(activity, HomeActivity::class.java)
             intent.putExtra("userID", userID)
+            intent.putExtra("patientID", patientID)
+            intent.putExtra("patientName", patientName)
             startActivity(intent)
         }
         btn_logout.setOnClickListener {
             val intent = Intent(activity, LoginMain::class.java)
+            GoogleSignOut()
             startActivity(intent)
         }
         btn_edit_profile.setOnClickListener {
-            val editProfileFragment = userID?.let { it1 -> EditProfileFragment.newInstance(it1) }
-            editProfileFragment?.let { it1 -> replaceFragment(it1) }
+            replaceFragment(EditProfileFragment.newInstance(userID!!, patientName!!))
         }
         btn_change.setOnClickListener {
             val intent = Intent(activity, ForgotActivity::class.java)
@@ -143,16 +153,37 @@ class UserFragment : Fragment() {
         fragmentTransaction?.replace(R.id.frame_layout, fragment)
         fragmentTransaction?.commit()
     }
+    private fun GoogleSignOut() {
+        gsc.signOut().addOnSuccessListener {
+            startActivity(Intent(context, LoginMain::class.java))
+//            finish()
+        }
+    }
+
+    private fun GoogleSignInOptions() {
+        val gso = com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder(com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        val activity = activity
+        if (activity != null) {
+            gsc = GoogleSignIn.getClient(activity, gso)
+        }
+    }
     companion object {
         private const val ARG_USER_ID = "userID"
+        private const val ARG_PATIENT_ID = "patientID"
+        private const val ARG_PATIENT_NAME = "patientName"
         private const val ARG_PARAM1 = "param1"
         private const val ARG_PARAM2 = "param2"
 
         @JvmStatic
-        fun newInstance(userID: Int): UserFragment {
+        fun newInstance(userID: Int, patientID: Int, patientName: String): UserFragment {
             val fragment = UserFragment()
             val args = Bundle()
             args.putInt(ARG_USER_ID, userID)
+            args.putInt(ARG_PATIENT_ID, patientID)
+            args.putString(ARG_PATIENT_NAME, patientName)
             fragment.arguments = args
             return fragment
         }

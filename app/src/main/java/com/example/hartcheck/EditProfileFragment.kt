@@ -42,6 +42,7 @@ class EditProfileFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var userID: Int? = null
+    private var patientName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +50,7 @@ class EditProfileFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
             userID = it.getInt(ARG_USER_ID)
+            patientName = it.getString(ARG_PATIENT_NAME)
         }
 
     }
@@ -76,6 +78,7 @@ class EditProfileFragment : Fragment() {
         backEditProfile.setOnClickListener {
             val intent = Intent(activity, HomeActivity::class.java)
             intent.putExtra("userID", userID)
+            intent.putExtra("patientName", patientName)
             startActivity(intent)
         }
         deleteAccount.setOnClickListener {
@@ -226,12 +229,14 @@ class EditProfileFragment : Fragment() {
         private const val ARG_PARAM1 = "param1"
         private const val ARG_PARAM2 = "param2"
         private const val ARG_USER_ID = "userID"
+        private const val ARG_PATIENT_NAME = "patientName"
 
         @JvmStatic
-        fun newInstance(userID: Int): EditProfileFragment {
+        fun newInstance(userID: Int, patientName: String): EditProfileFragment {
             val fragment = EditProfileFragment()
             val args = Bundle()
             args.putInt(ARG_USER_ID, userID)
+            args.putString(ARG_PATIENT_NAME, patientName)
             fragment.arguments = args
             return fragment
         }

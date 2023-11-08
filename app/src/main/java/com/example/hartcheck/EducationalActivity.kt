@@ -27,6 +27,8 @@ class EducationalActivity : AppCompatActivity() {
         setContentView(R.layout.activity_educational)
         val userID = intent.getIntExtra("userID", 0)
         val firstName = intent.getStringExtra("firstName")
+        val patientName = intent.getStringExtra("patientName")
+
         val btnBackEduc = findViewById<Button>(R.id.btn_back_Educ)
         viewEduc()
 
@@ -35,6 +37,7 @@ class EducationalActivity : AppCompatActivity() {
             val intent = Intent(this, HomeActivity::class.java)
             intent.putExtra("userID", userID)
             intent.putExtra("firstName", firstName)
+            intent.putExtra("patientName", patientName)
             startActivity(intent)
         }
     }

@@ -36,6 +36,7 @@ class DoctorFragment : Fragment() {
     private var param2: String? = null
     private var userID: Int? = null
     private var patientID: Int? = null
+    private var patientName: String? = null
 
     private lateinit var txt_emp:TextView
     private lateinit var btnbackdoctor: Button
@@ -50,6 +51,7 @@ class DoctorFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
             userID = it.getInt(ARG_USER_ID)
             patientID = it.getInt(ARG_PATIENT_ID)
+            patientName = it.getString(ARG_PATIENT_NAME)
         }
     }
 
@@ -83,14 +85,14 @@ class DoctorFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList)//test
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList,frag, patientID, userID, BookActivity::class.java)
+        listAdapter = ListAdapter(doctorList,frag, patientID, patientName = null,userID, BookActivity::class.java)
         recyclerView.adapter = listAdapter
         //Default
         txt_emp.visibility = View.GONE//there are no currently available doctors (put a null checker to show or not)
         recyclerView.visibility = View.VISIBLE
 
         btnbackdoctor.setOnClickListener {
-            replaceFragment(ConsultationFragment.newInstance(userID!!, patientID!!))
+            replaceFragment(ConsultationFragment.newInstance(userID!!, patientID!!, patientName!!))
         }
         return view
     }
@@ -145,17 +147,19 @@ class DoctorFragment : Fragment() {
 
     companion object {
         private const val ARG_PATIENT_ID = "patientID"
+        private const val ARG_PATIENT_NAME = "patientName"
         private const val ARG_USER_ID = "userID"
         private const val ARG_PARAM1 = "param1"
         private const val ARG_PARAM2 = "param2"
 
 
         @JvmStatic
-        fun newInstance(userID: Int, patientID: Int): DoctorFragment {
+        fun newInstance(userID: Int, patientID: Int, patientName: String): DoctorFragment {
             val fragment = DoctorFragment()
             val args = Bundle()
             args.putInt(ARG_USER_ID, userID)
             args.putInt(ARG_PATIENT_ID, patientID)
+            args.putString(ARG_PATIENT_NAME, patientName)
             fragment.arguments = args
             return fragment
         }

@@ -46,15 +46,17 @@ class ChatFragment : Fragment() {
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
-            userID = it.getInt(ChatFragment.ARG_USER_ID)
-            patientID = it.getInt(ChatFragment.ARG_PATIENT_ID)
+//            userID = it.getInt(ARG_USER_ID)
+//            patientID = it.getInt(ARG_PATIENT_ID)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
+        val patientID = arguments?.getInt(ARG_PATIENT_ID)
+        val userID = arguments?.getInt(ARG_USER_ID)
+        val patientName = arguments?.getString(ARG_PATIENT_NAME)
+
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
         val frag = false
 
@@ -72,7 +74,7 @@ class ChatFragment : Fragment() {
         }//this
         recyclerView = view.findViewById(R.id.consulList)//test
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList,frag, patientID, userID, ChatMainActivity::class.java)
+        listAdapter = ListAdapter(doctorList,frag, patientID,patientName, userID, ChatMainActivity::class.java)
         recyclerView.adapter = listAdapter
         //Default
         txt_emp.visibility = View.GONE//there are no currently available doctors (put a null checker to show or not)
@@ -82,6 +84,7 @@ class ChatFragment : Fragment() {
             val intent = Intent(context, HomeActivity::class.java)
             intent.putExtra("patientID", patientID)
             intent.putExtra("userID", userID)
+            intent.putExtra("patientName", patientName)
             startActivity(intent)
         }
         return view
@@ -108,22 +111,30 @@ class ChatFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ChatFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+        private const val ARG_PATIENT_ID = "patientID"
+        private const val ARG_USER_ID = "userID"
+        private const val ARG_PATIENT_NAME = "patientName"
+        private const val ARG_PARAM1 = "param1"
+        private const val ARG_PARAM2 = "param2"
+
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ChatFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        fun newInstance(userID: Int, patientID: Int, patientName: String): ChatFragment {
+            val fragment = ChatFragment()
+            val args = Bundle()
+            args.putInt(ARG_USER_ID, userID)
+            args.putInt(ARG_PATIENT_ID, patientID)
+            args.putString(ARG_PATIENT_NAME, patientName)
+            fragment.arguments = args
+            return fragment
+        }
+        @JvmStatic
+        fun newInstance(param1: String, param2: String): UserFragment {
+            val fragment = UserFragment()
+            val args = Bundle()
+            args.putString(ARG_PARAM1, param1)
+            args.putString(ARG_PARAM2, param2)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

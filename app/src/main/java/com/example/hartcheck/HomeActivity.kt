@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -26,6 +27,8 @@ class HomeActivity : AppCompatActivity() {
 
         val userID = intent.getIntExtra("userID", 0)
         val firstName = intent.getStringExtra("firstName")
+        val patientName = intent.getStringExtra("patientName")
+
 
         val btnBP = findViewById<Button>(R.id.btn_view_bp)
         val btnConsul = findViewById<Button>(R.id.btn_consul)
@@ -44,22 +47,25 @@ class HomeActivity : AppCompatActivity() {
         }
         GoogleSignInOptions()
         btnInfo.setOnClickListener {
-//            val intent = Intent(this, EducationalActivity::class.java)
-//            intent.putExtra("userID", userID)
-//            intent.putExtra("firstName", firstName)
-//            startActivity(intent)
-            GoogleSignOut()
+            val intent = Intent(this, EducationalActivity::class.java)
+            intent.putExtra("userID", userID)
+            intent.putExtra("firstName", firstName)
+            intent.putExtra("patientName", patientName)
+            startActivity(intent)
+//            GoogleSignOut()
         }
         li_faq.setOnClickListener {
             val intent = Intent(this, FAQ::class.java)
             intent.putExtra("userID", userID)
             intent.putExtra("firstName", firstName)
+            intent.putExtra("patientName", patientName)
             startActivity(intent)
         }
         reportProblem.setOnClickListener {
             val intent = Intent(this, BugReportActivity::class.java)
             intent.putExtra("userID", userID)
             intent.putExtra("firstName", firstName)
+            intent.putExtra("patientName", patientName)
             startActivity(intent)
         }
 
@@ -99,11 +105,14 @@ class HomeActivity : AppCompatActivity() {
 
     private fun startNextActivity(buttonState: String) {
         val userID = intent.getIntExtra("userID", 0)
+        val patientName = intent.getStringExtra("patientName")
+
         getPatientID(userID) { patientID ->
             val intent = Intent(this@HomeActivity, NavActivity::class.java)
             intent.putExtra("BUTTON_STATE", buttonState)
             intent.putExtra("userID", userID)
             intent.putExtra("patientID", patientID)
+            intent.putExtra("patientName", patientName)
             startActivity(intent)
         }
     }

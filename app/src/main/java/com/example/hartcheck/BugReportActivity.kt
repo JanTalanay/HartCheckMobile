@@ -36,10 +36,12 @@ class BugReportActivity : AppCompatActivity() {
     fun confirmActivity(buttonState: String) {
         val userID = intent.getIntExtra("userID", 0)
         val firstName = intent.getStringExtra("firstName")
+        val patientName = intent.getStringExtra("patientName")
         val intent = Intent(this, ConfirmActivity::class.java)
         intent.putExtra("BUTTON_STATE", buttonState)
         intent.putExtra("userID", userID)
         intent.putExtra("firstName", firstName)
+        intent.putExtra("patientName", patientName)
         startActivity(intent)
     }
     private fun featureDropdown() {

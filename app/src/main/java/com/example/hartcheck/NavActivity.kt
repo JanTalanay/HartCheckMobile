@@ -30,14 +30,17 @@ class NavActivity : AppCompatActivity() {
         setContentView(binding.root)
         val userID = intent.getIntExtra("userID", 0)
         val patientID = intent.getIntExtra("patientID", 0)
+        val patientName = intent.getStringExtra("patientName")
+
+
         btn_states()
 
         binding.navBar.setOnItemSelectedListener {
             when(it){
-                R.id.nav_profile -> replaceFragment(UserFragment.newInstance(userID))
-                R.id.nav_consultations -> replaceFragment(ConsultationFragment.newInstance(userID,patientID))
-                R.id.nav_bp -> replaceFragment(BPFragment.newInstance(userID,patientID))
-                R.id.nav_chat -> replaceFragment(ChatFragment())
+                R.id.nav_profile -> replaceFragment(UserFragment.newInstance(userID, patientID, patientName!!))
+                R.id.nav_consultations -> replaceFragment(ConsultationFragment.newInstance(userID,patientID, patientName!!))
+                R.id.nav_bp -> replaceFragment(BPFragment.newInstance(userID,patientID, patientName!!))
+                R.id.nav_chat -> replaceFragment(ChatFragment.newInstance(userID, patientID, patientName!!))
                 else ->{
 
                 }
@@ -51,19 +54,21 @@ class NavActivity : AppCompatActivity() {
         val buttonState = intent.getStringExtra("BUTTON_STATE")
         val userID = intent.getIntExtra("userID", 0)
         val patientID = intent.getIntExtra("patientID", 0)
+        val patientName = intent.getStringExtra("patientName")
+
 
         when (buttonState) {
             "btn_bp" -> {
-                replaceFragment(BPFragment.newInstance(userID,patientID))
+                replaceFragment(BPFragment.newInstance(userID,patientID, patientName!!))
             }
-            "btn_consul" -> {// have to think first
-                    replaceFragment(ConsultationFragment.newInstance(userID,patientID))
+            "btn_consul" -> {
+                replaceFragment(ConsultationFragment.newInstance(userID,patientID, patientName!!))
             }
             "btn_chat" -> {
-                replaceFragment(ChatFragment())
+                replaceFragment(ChatFragment.newInstance(userID, patientID, patientName!!))
             }
             "btn_profile" -> {
-                replaceFragment(UserFragment.newInstance(userID))
+                replaceFragment(UserFragment.newInstance(userID,patientID, patientName!!))
             }
             else -> {
 

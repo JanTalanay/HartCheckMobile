@@ -75,6 +75,7 @@ class ConsultationFragment : Fragment() {
     ): View? {
         val patientID = arguments?.getInt(ARG_PATIENT_ID)
         val userID = arguments?.getInt(ARG_USER_ID)
+        val patientName = arguments?.getString(ARG_PATIENT_NAME)
 
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_consultation, container, false)
@@ -97,7 +98,7 @@ class ConsultationFragment : Fragment() {
                         val scheduleInfo = doctorSchedules.DoctorDates[index].schedDateTime
                         doctorList.add(DocData(doctorSchedID!!,doctorID,doctorName, formatDateTime(scheduleInfo!!)))
                     }
-                    listAdapter = ListAdapter(doctorList,frag, patientID, userID, AppointmentDetailsActivity::class.java)
+                    listAdapter = ListAdapter(doctorList,frag, patientID, patientName = null, userID, AppointmentDetailsActivity::class.java)
                     recyclerView.adapter = listAdapter
                 }
             }
@@ -107,7 +108,7 @@ class ConsultationFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList,frag, patientID, userID, AppointmentDetailsActivity::class.java)
+        listAdapter = ListAdapter(doctorList,frag, patientID,patientName = null, userID, AppointmentDetailsActivity::class.java)
         recyclerView.adapter = listAdapter
 
         //enable this as default
@@ -116,11 +117,12 @@ class ConsultationFragment : Fragment() {
         recyclerView.visibility = View.VISIBLE
 
         btn_avail.setOnClickListener {//available doctors
-            replaceFragment(DoctorFragment.newInstance(userID!!,patientID))
+            replaceFragment(DoctorFragment.newInstance(userID!!,patientID, patientName!!))
         }
         btnbackconsultation.setOnClickListener {
             val intent = Intent(context, HomeActivity::class.java)
             intent.putExtra("patientID", patientID)
+            intent.putExtra("patientName", patientName)
             intent.putExtra("userID", userID)
             startActivity(intent)
         }
@@ -190,15 +192,17 @@ class ConsultationFragment : Fragment() {
     companion object {
         private const val ARG_PATIENT_ID = "patientID"
         private const val ARG_USER_ID = "userID"
+        private const val ARG_PATIENT_NAME = "patientName"
         private const val ARG_PARAM1 = "param1"
         private const val ARG_PARAM2 = "param2"
 
         @JvmStatic
-        fun newInstance(userID: Int, patientID: Int): ConsultationFragment {
+        fun newInstance(userID: Int, patientID: Int, patientName: String): ConsultationFragment {
             val fragment = ConsultationFragment()
             val args = Bundle()
             args.putInt(ARG_USER_ID, userID)
             args.putInt(ARG_PATIENT_ID, patientID)
+            args.putString(ARG_PATIENT_NAME, patientName)
             fragment.arguments = args
             return fragment
         }

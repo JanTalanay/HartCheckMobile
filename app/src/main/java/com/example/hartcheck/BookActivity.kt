@@ -44,6 +44,8 @@ class BookActivity : AppCompatActivity() {
         val patientID = intent.getIntExtra("patientID", 0)
         val selectedDoctor = intent.getParcelableExtra<DocData>("selectedDoctor")
         val userID = intent.getIntExtra("userID", 0)
+        val patientName = intent.getStringExtra("patientName")
+
 
         txtdoctorname = findViewById(R.id.txt_doctor_name)
         btn_book = findViewById(R.id.btn_book_appointment)
@@ -51,7 +53,7 @@ class BookActivity : AppCompatActivity() {
 
         txtdoctorname.text = selectedDoctor?.name
         btnbackbook.setOnClickListener {
-            replaceFragment(ConsultationFragment.newInstance(userID,patientID))
+            replaceFragment(ConsultationFragment.newInstance(userID,patientID, patientName!!))
         }
         btn_book.setOnClickListener {
             insertConsultation()

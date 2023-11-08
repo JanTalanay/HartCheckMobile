@@ -32,6 +32,7 @@ class PreviousBPActivity : AppCompatActivity() {
         setContentView(R.layout.activity_previous_bpactivity)
         val userID = intent.getIntExtra("userID", 0)
         val patientID = intent.getIntExtra("patientID", 0)
+        val patientName = intent.getStringExtra("patientName")
         val prevBPList = intent.getParcelableArrayListExtra<BloodPressure>("prevBPList")
         val backPrevBP = findViewById<Button>(R.id.btn_back_prevbp)
 
@@ -60,10 +61,11 @@ class PreviousBPActivity : AppCompatActivity() {
         recyclerView.adapter = bpAdapter
 
         backPrevBP.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
-            intent.putExtra("patientID", patientID)
-            intent.putExtra("userID", userID)
-            startActivity(intent)
+//            val intent = Intent(this, HomeActivity::class.java)
+//            intent.putExtra("patientID", patientID)
+//            intent.putExtra("userID", userID)
+//            startActivity(intent)
+            replaceFragment(BPFragment.newInstance(userID, patientID, patientName!!))
         }
     }
 

@@ -101,6 +101,7 @@ class BPFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_b_p, container, false)
         val patientID = arguments?.getInt(ARG_PATIENT_ID)
         val userID = arguments?.getInt(ARG_USER_ID)
+        val patientName = arguments?.getString(ARG_PATIENT_NAME)
 
         val addBP: Button = view.findViewById(R.id.btn_add_bp)
         val backBP: Button = view.findViewById(R.id.btn_back_BloodP)
@@ -118,6 +119,7 @@ class BPFragment : Fragment() {
             val intent = Intent(activity, HomeActivity::class.java)
             intent.putExtra("userID", userID)
             intent.putExtra("patientID", patientID)
+            intent.putExtra("patientName", patientName)
             startActivity(intent)
         }
         prevBP.setOnClickListener {
@@ -303,6 +305,7 @@ class BPFragment : Fragment() {
     }
     private fun getprevBP(userID: Int, patientID: Int) {
         val service = BloodPressureInstance.retrofitBuilder
+        val patientName = arguments?.getString(ARG_PATIENT_NAME)
 
         service.getBloodPressureID(patientID).enqueue(object : Callback<PrevBloodPressure> {
             override fun onResponse(call: Call<PrevBloodPressure>, response: Response<PrevBloodPressure>) {
@@ -315,6 +318,7 @@ class BPFragment : Fragment() {
                         val intent = Intent(activity, PreviousBPActivity::class.java)
                         intent.putExtra("userID", userID)
                         intent.putExtra("patientID", patientID)
+                        intent.putExtra("patientName", patientName)
                         intent.putParcelableArrayListExtra("prevBPList", ArrayList(prevBPList))
                         startActivity(intent)
                     }
@@ -406,15 +410,17 @@ class BPFragment : Fragment() {
     companion object {
         private const val ARG_PATIENT_ID = "patientID"
         private const val ARG_USER_ID = "userID"
+        private const val ARG_PATIENT_NAME = "patientName"
         private const val ARG_PARAM1 = "param1"
         private const val ARG_PARAM2 = "param2"
 
         @JvmStatic
-        fun newInstance(userID: Int, patientID: Int): BPFragment {
+        fun newInstance(userID: Int, patientID: Int, patientName: String): BPFragment {
             val fragment = BPFragment()
             val args = Bundle()
             args.putInt(ARG_USER_ID, userID)
             args.putInt(ARG_PATIENT_ID, patientID)
+            args.putString(ARG_PATIENT_NAME, patientName)
             fragment.arguments = args
             return fragment
         }

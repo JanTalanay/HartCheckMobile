@@ -27,8 +27,9 @@ class ChatMainActivity : AppCompatActivity() {
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
+                val patientName = intent.getStringExtra("patientName")
 
-                val userName = "Android"
+                val userName = patientName
                 val jsCode = "document.getElementById(\"userInput\").value ='$userName';"
                 wbWeb.evaluateJavascript(jsCode, null)
             }

@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:fontFamily="@font/font_urbanist_bold"
-        android:text="@string/header_appointments"
+        android:text="@string/nav_chat"
         android:textColor="@color/primary_black"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -13,6 +13,8 @@ import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -20,13 +22,17 @@ import java.util.Locale
 class ConfirmActivity : AppCompatActivity() {
     private val CHANNEL_ID ="Your_Channel_ID"
     private val notificationID = 101
+    private lateinit var gsc: GoogleSignInClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm)
         val userID = intent.getIntExtra("userID", 0)
         val patientID = intent.getIntExtra("patientID", 0)
-        val btn_back_home: Button = findViewById(R.id.btn_back_home)
+        val patientName = intent.getStringExtra("patientName")
 
+        val btn_back_home: Button = findViewById(R.id.btn_back_home)
+        GoogleSignInOptions()
         btn_states()
 
 
@@ -37,16 +43,32 @@ class ConfirmActivity : AppCompatActivity() {
                 val intent = Intent(this,HomeActivity::class.java)
                 intent.putExtra("userID", userID)
                 intent.putExtra("patientID", patientID)
+                intent.putExtra("patientName", patientName)
                 startActivity(intent)
             }
-            val intent = Intent(this,LoginMain::class.java)
-            intent.putExtra("patientID", patientID)
-            startActivity(intent)
+            else{
+                val intent = Intent(this,LoginMain::class.java)
+                GoogleSignOut()
+                startActivity(intent)
+            }
         }
 
 
     }
+    private fun GoogleSignOut() {
+        gsc.signOut().addOnSuccessListener {
+            startActivity(Intent(this, LoginMain::class.java))
+            finish()
+        }
+    }
 
+    private fun GoogleSignInOptions() {
+        val gso = com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder(com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        gsc = GoogleSignIn.getClient(this, gso)
+    }
     private fun btn_states(){
         val buttonState = intent.getStringExtra("BUTTON_STATE")
         val img_report: ImageView = findViewById(R.id.img_report)

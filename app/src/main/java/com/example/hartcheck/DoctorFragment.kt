@@ -70,7 +70,7 @@ class DoctorFragment : Fragment() {
                 doctorList.add(docData)
             }
             listAdapter.notifyDataSetChanged()
-        }
+        }//this
 
 //        getDoctorAssign(patientID!!) { doctorAssign ->
 //            for (doctor in doctorAssign.HealthCareName) {

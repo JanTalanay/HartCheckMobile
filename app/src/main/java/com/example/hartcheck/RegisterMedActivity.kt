@@ -25,7 +25,7 @@ class RegisterMedActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registermed)
-        GoogleRegisterFinal()
+//        GoogleRegisterFinal()
 
 //        val patientID = intent.getIntExtra("patientID", 0)
 //        Toast.makeText(this, "Registration Successful ${patientID}", Toast.LENGTH_SHORT).show()
@@ -115,7 +115,6 @@ class RegisterMedActivity : AppCompatActivity() {
             override fun onResponse(call: Call<BodyMass>, response: Response<BodyMass>) {
                 if (response.isSuccessful) {
                     // Successfully deleted the bug report
-//                    goSignOut()
 //                    val email = intent.getStringExtra("email")
 //                    val otpHash = intent.getStringExtra("otpHash")
                     val intent = Intent(this@RegisterMedActivity, RegisterOtherActivity::class.java)

@@ -9,15 +9,20 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.hartcheck.Data.OTPVerification
 import com.example.hartcheck.Remote.UsersRemote.UsersInstance
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class RegisterOTPActivity : AppCompatActivity() {
+    private lateinit var gsc: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_otpactivity)
+        GoogleRegisterFinal()
 
         val verifyRegisterOTP = findViewById<Button>(R.id.btn_verify_register_OTP)
 
@@ -46,6 +51,7 @@ class RegisterOTPActivity : AppCompatActivity() {
 //                        val jsonObject = JSONObject(responseBody)
 //                        val otpHash = jsonObject.getString("OtpHash")
                         Toast.makeText(this@RegisterOTPActivity, "Account Verified", Toast.LENGTH_SHORT).show()
+                        goSignOut()
                         val intent = Intent(this@RegisterOTPActivity, LoginMain::class.java)
 //                        intent.putExtra("email", email)
 //                        intent.putExtra("otpHash", otpHash)
@@ -72,10 +78,18 @@ class RegisterOTPActivity : AppCompatActivity() {
         }
 
     }
-    private fun backup(){
-//        val intent = Intent(this@NewPassActivity, ConfirmActivity::class.java)
-//        intent.putExtra("BUTTON_STATE","btn_NewPass")
-//        intent.putExtra("isForgot",true)
-//        startActivity(intent)
+    private fun GoogleRegisterFinal() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        gsc = GoogleSignIn.getClient(this, gso)
+    }
+
+    private fun goSignOut() {
+        gsc.signOut().addOnSuccessListener {
+            startActivity(Intent(this, LoginMain::class.java))
+            finish()
+        }
     }
 }

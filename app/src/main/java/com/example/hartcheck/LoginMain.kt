@@ -86,21 +86,20 @@ class LoginMain : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-
         if(requestCode==1000){
             val task: Task<GoogleSignInAccount> = GoogleSignIn
                 .getSignedInAccountFromIntent(data)
 
             try{
                 val account = task.getResult(ApiException::class.java)
-                goToHome(account.email)
-
+                GoogleLoginUserID(account.email!!)
             }
             catch (e:java.lang.Exception){
                 Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
+
 
     private fun goToHome(email: String?) {
         val intent = Intent(this, HomeActivity::class.java)
@@ -147,51 +146,31 @@ class LoginMain : AppCompatActivity() {
                 Log.d ("MainActivity", "Registration failed: ")
             }
         })
-//        loginUser.loginUser(loginRequest).enqueue(object : Callback<Users> {
-//            override fun onResponse(call: Call<Users>, response: Response<Users>) {
-//                if (response.isSuccessful) {
-//                    handleSuccessfulResponse(response.body())
-//                } else {
-//                    handleUnsuccessfulResponse()
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<Users>, t: Throwable) {
-//                Log.d("MainActivity", "Registration failed: ")
-//            }
-//
-//            private fun handleSuccessfulResponse(user: Users?) {
-//                if (user != null) {
-//                    val userID = user.usersID
-//                    if (userID != null) {
-//                        if(TokenInstance.isTokenAvailable()){
-//                            showToast("Logged In $userID")
-//                            startHomeActivity(userID,TokenInstance.getToken())
-//                        }else{
-//                            TokenInstance.generateToken(16)
-//                            startHomeActivity(userID,TokenInstance.getToken())
-//                        }
-//
-//                    } else {
-//                        showToast("User ID is null")
-//                    }
-//                }
-//            }
-//
-//            private fun handleUnsuccessfulResponse() {
-//                showToast("Registration DENIED")
-//            }
-//
-//            private fun showToast(message: String) {
-//                Toast.makeText(this@LoginMain, message, Toast.LENGTH_SHORT).show()
-//            }
-//
-//            private fun startHomeActivity(userID: Int, token:String?) {
-//                val intent = Intent(this@LoginMain, HomeActivity::class.java)
-//                intent.putExtra("userID", userID)
-//                intent.putExtra("token", token)
-//                startActivity(intent)
-//            }
-//        })
     }
+    private fun GoogleLoginUserID(email: String) {
+        val service = UsersInstance.retrofitBuilder
+        service.getRegisterEmail(email).enqueue(object : Callback<Users> {
+            override fun onResponse(call: Call<Users>, response: Response<Users>) {
+                if (response.isSuccessful) {
+                    val user = response.body()
+                    val userID = user?.usersID
+                    if (userID != null) {
+                        val intent = Intent(this@LoginMain, HomeActivity::class.java)
+                        intent.putExtra("userID", userID)
+                        intent.putExtra("email", email)
+                        startActivity(intent)
+                    } else {
+                        Log.d("MainActivity", "User ID is null")
+                    }
+                } else {
+                    Log.d("MainActivity", "Failed to connect: " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<Users>, t: Throwable) {
+                Log.d("MainActivity", "Failed to connect: : " + t.message)
+            }
+        })
+    }
+
 }

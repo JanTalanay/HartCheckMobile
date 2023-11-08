@@ -70,10 +70,6 @@ class UserFragment : Fragment() {
         btn_edit_profile.setOnClickListener {
             val editProfileFragment = userID?.let { it1 -> EditProfileFragment.newInstance(it1) }
             editProfileFragment?.let { it1 -> replaceFragment(it1) }
-//                updateProfile()
-//            val intent = Intent(activity, EditProfileFragment::class.java)
-//            intent.putExtra("userID", userID)
-//            startActivity(intent)
         }
         btn_change.setOnClickListener {
             val intent = Intent(activity, ForgotActivity::class.java)
@@ -85,43 +81,9 @@ class UserFragment : Fragment() {
 
         viewUser()
 
-//        return inflater.inflate(R.layout.fragment_user, container, false)
 
         return view
     }
-
-    private fun updateProfile() {
-        val updatedUser = Users(
-            usersID = currentUser?.usersID,
-            email = view?.findViewById<EditText>(R.id.input_email_profile)?.text.toString(),
-            firstName = view?.findViewById<EditText>(R.id.input_fn_profile)?.text.toString(),
-            lastName = view?.findViewById<EditText>(R.id.input_ln_profile)?.text.toString(),
-            password = currentUser?.password, // Assuming you want to keep the password unchanged
-            birthdate = view?.findViewById<EditText>(R.id.input_birthdate_profile)?.text.toString(),
-            gender = currentUser?.gender, // Assuming you want to keep the password unchanged
-            phoneNumber = view?.findViewById<EditText>(R.id.input_phone_profile)?.text.toString().toLong(),
-            role = currentUser?.role // Assuming you want to keep the role unchanged
-        )
-        val service = UsersInstance.retrofitBuilder
-        service.updateUser(currentUser?.usersID.toString(), updatedUser).enqueue(object : Callback<Users> {
-            override fun onResponse(call: Call<Users>, response: Response<Users>) {
-                if(response.isSuccessful){
-                    Toast.makeText(context, "User updated successfully", Toast.LENGTH_SHORT).show()
-                    currentUser = response.body()
-                } else {
-                    Log.d("MainActivity", "Failed to connect: " + response.code())
-                }
-            }
-            override fun onFailure(call: Call<Users>, t: Throwable) {
-                Log.d ("MainActivity", "Failed to connect: : " + t.message)
-                if (t is HttpException) {
-                    val errorResponse = t.response()?.errorBody()?.string()
-                    Log.d("MainActivity", "Error response: $errorResponse")
-                }
-            }
-        })
-    }
-
 
     private fun viewUser() {
         val userID = arguments?.getInt(ARG_USER_ID)

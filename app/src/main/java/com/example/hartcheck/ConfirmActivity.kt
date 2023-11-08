@@ -24,6 +24,7 @@ class ConfirmActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm)
         val userID = intent.getIntExtra("userID", 0)
+        val patientID = intent.getIntExtra("patientID", 0)
         val btn_back_home: Button = findViewById(R.id.btn_back_home)
 
         btn_states()
@@ -35,9 +36,11 @@ class ConfirmActivity : AppCompatActivity() {
             if(!pageState){
                 val intent = Intent(this,HomeActivity::class.java)
                 intent.putExtra("userID", userID)
+                intent.putExtra("patientID", patientID)
                 startActivity(intent)
             }
             val intent = Intent(this,LoginMain::class.java)
+            intent.putExtra("patientID", patientID)
             startActivity(intent)
         }
 

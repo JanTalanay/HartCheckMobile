@@ -42,12 +42,13 @@ class HomeActivity : AppCompatActivity() {
         else{
             userLoggedIn.setText("What would you like to do?")
         }
-
+        GoogleSignInOptions()
         btnInfo.setOnClickListener {
-            val intent = Intent(this, EducationalActivity::class.java)
-            intent.putExtra("userID", userID)
-            intent.putExtra("firstName", firstName)
-            startActivity(intent)
+//            val intent = Intent(this, EducationalActivity::class.java)
+//            intent.putExtra("userID", userID)
+//            intent.putExtra("firstName", firstName)
+//            startActivity(intent)
+            GoogleSignOut()
         }
         li_faq.setOnClickListener {
             val intent = Intent(this, FAQ::class.java)

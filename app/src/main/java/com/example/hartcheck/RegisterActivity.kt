@@ -41,7 +41,7 @@ class RegisterActivity : AppCompatActivity() {
         gFamilyName = findViewById(R.id.input_ln)
         gEmail = findViewById(R.id.input_email)
         genderDropdown()
-//        GoogleSigned()
+        GoogleSigned()
 
         //needs helper and observer to add 2nd register page
         //"register btn should be hidden"

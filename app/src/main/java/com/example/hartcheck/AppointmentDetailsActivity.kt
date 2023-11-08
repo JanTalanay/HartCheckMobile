@@ -38,7 +38,8 @@ class AppointmentDetailsActivity : AppCompatActivity() {
         val selectedDoctor = intent.getParcelableExtra<DocData>("selectedDoctor")
         val userID = intent.getIntExtra("userID", 0)
         val patientID = intent.getIntExtra("patientID", 0)
-//        val doctorID = intent.getIntExtra("doctorID", -1)
+        val patientName = intent.getStringExtra("patientName")
+
 
         btn_request = findViewById(R.id.btn_request_appointment)//add input modal
         btn_cancel_sched = findViewById(R.id.btn_cancel_appointment)
@@ -47,6 +48,7 @@ class AppointmentDetailsActivity : AppCompatActivity() {
             val intent = Intent(this, HomeActivity::class.java)
             intent.putExtra("patientID", patientID)
             intent.putExtra("userID", userID)
+            intent.putExtra("patientName", patientName)
             startActivity(intent)
         }
         btn_request.setOnClickListener {
@@ -56,9 +58,6 @@ class AppointmentDetailsActivity : AppCompatActivity() {
         btn_cancel_sched.setOnClickListener {
             showModal()
         }
-//        Toast.makeText(this, "Received data: ${selectedDoctor?.name}", Toast.LENGTH_LONG).show()
-//        Toast.makeText(this, "Received data: ${selectedDoctor?.doctorSchedID}", Toast.LENGTH_LONG).show()
-//        Toast.makeText(this, "Received data: ${selectedDoctor?.appointmentDate}", Toast.LENGTH_LONG).show()
         txtDoctorName = findViewById(R.id.txt_doctor_name_appointment_details)
         txtappointsched = findViewById(R.id.txt_appoint_sched)
         txtDoctorName.text = selectedDoctor?.name

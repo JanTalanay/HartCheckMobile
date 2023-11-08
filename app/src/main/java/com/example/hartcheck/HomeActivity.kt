@@ -29,7 +29,6 @@ class HomeActivity : AppCompatActivity() {
         val firstName = intent.getStringExtra("firstName")
         val patientName = intent.getStringExtra("patientName")
 
-
         val btnBP = findViewById<Button>(R.id.btn_view_bp)
         val btnConsul = findViewById<Button>(R.id.btn_consul)
         val btnChat = findViewById<Button>(R.id.btn_chat)

@@ -72,6 +72,8 @@ class BPFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private val systolic = mutableListOf<Entry>()
+    private val diastolic = mutableListOf<Entry>()
     private val list = mutableListOf<Pair<String, String>>()
     private var systolicThreshold: Float = 0f
     private var diastolicThreshold: Float = 0f
@@ -105,12 +107,8 @@ class BPFragment : Fragment() {
 
         val addBP: Button = view.findViewById(R.id.btn_add_bp)
         val backBP: Button = view.findViewById(R.id.btn_back_BloodP)
-//        val viewBP: Button = view.findViewById(R.id.btn_view_bp)
         val prevBP: Button = view.findViewById(R.id.btn_view_prev_bp)
-        val chart: LineChart = view.findViewById(R.id.lineChart)
 
-        val entries1 = mutableListOf<Entry>()
-        val entries2 = mutableListOf<Entry>()
 
         readCSVFile()
         createNotificationChannel()
@@ -130,72 +128,7 @@ class BPFragment : Fragment() {
         addBP.setOnClickListener {
             showModal()
         }
-
-//        viewBP.setOnClickListener {
-//
-//        }
-
-        // Read data from CSV file
-        val csvFile = resources.assets.open("test_sheet.csv")
-        val reader = BufferedReader(InputStreamReader(csvFile))
-        val csvParser = CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader())
-        //val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-
-        for (record in csvParser) {
-            //val xString = record.get("x")
-            val x = record.get("x").toFloat()// should be date: val xDate = dateFormat.parse(xString)
-            val y1 = record.get("y1").toFloat()
-            val y2 = record.get("y2").toFloat()
-            entries1.add(Entry(x, y1))
-            entries2.add(Entry(x, y2))
-//            entries1.add(Entry(xDate.time.toFloat(), y1))
-//            entries2.add(Entry(xDate.time.toFloat(), y2))
-        }
-
-        //DB Method
-//        val connection: Connection = DriverManager.getConnection(
-//            "jdbc:sqlserver://your_server_address:your_port;databaseName=your_database_name;user=your_username;password=your_password"
-//        )
-//
-//        // Execute a query to retrieve the data
-//        val statement: Statement = connection.createStatement()
-//        val resultSet: ResultSet = statement.executeQuery("SELECT x, y FROM your_table_name")
-//
-//        while (resultSet.next()) {
-//            val x = resultSet.getFloat("x")
-//            val y = resultSet.getFloat("y")
-//            entries.add(Entry(x, y))
-//        }
-//
-//        resultSet.close()
-//        statement.close()
-//        connection.close()
-
-        val dataSet1 = LineDataSet(entries1, "Systolic")
-        dataSet1.color = Color.RED
-
-        val dataSet2 = LineDataSet(entries2, "Diastolic")
-        dataSet2.color = Color.BLUE
-
-        val lineData = LineData(dataSet1, dataSet2)
-        chart.data = lineData
-
-        //chart customization
-        val description = Description()
-        description.text = "BP Chart"
-        chart.description = description
-
-        chart.xAxis.position =  XAxisPosition.BOTTOM
-        chart.axisLeft.axisMaximum = 200f
-        chart.axisLeft.axisMinimum = 0f
-        chart.axisRight.isEnabled = false
-
-        chart.legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
-        chart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-        chart.legend.setDrawInside(false)
-
-        chart.invalidate()
-
+        getBpList(patientID!!)
         return view
     }
 
@@ -260,8 +193,68 @@ class BPFragment : Fragment() {
             }
         }
     }
+    private fun setupChart() {
+        val chart: LineChart = requireView().findViewById(R.id.lineChart)
 
+        val dataSet1 = LineDataSet(systolic, "Systolic")
+        dataSet1.color = Color.RED
+        dataSet1.valueTextSize = 11f
 
+        val dataSet2 = LineDataSet(diastolic, "Diastolic")
+        dataSet2.color = Color.BLUE
+        dataSet2.valueTextSize = 11f
+
+        val lineData = LineData(dataSet1, dataSet2)
+        chart.data = lineData
+
+        // Chart customization code...
+        val description = Description()
+        description.text = "BP Chart"
+        chart.description = description
+
+        chart.xAxis.position =  XAxisPosition.BOTTOM
+        chart.axisLeft.axisMaximum = 200f
+        chart.axisLeft.axisMinimum = 0f
+        chart.axisRight.isEnabled = false
+
+        chart.legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+        chart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        chart.legend.setDrawInside(false)
+
+        chart.invalidate()
+    }
+    private fun getBpList(patientID:Int){
+        val service = BloodPressureInstance.retrofitBuilder
+        service.getBloodPressureID(patientID).enqueue(object : Callback<PrevBloodPressure> {
+            override fun onResponse(call: Call<PrevBloodPressure>, response: Response<PrevBloodPressure>) {
+                if (response.isSuccessful) {
+                    val BPlist = response.body()
+                    if (BPlist!=null){
+                        var count = 0f
+                        for(x in BPlist.PrevBP){
+                            count++
+                            systolic.add(Entry(count,x.systolic!!))
+                            diastolic.add(Entry(count, x.diastolic!!))
+                            Log.d("BP", "systolic: $systolic" + response.code())
+                            Log.d("BP", "diastolic: $diastolic " + response.code())
+                            setupChart()
+
+                        }
+                        Log.d("BP", "Prepared data: systolic=$systolic, diastolic=$diastolic")
+                    }
+                } else {
+                    // Handle the error
+                    Log.d("BP", "Failed to connect: " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<PrevBloodPressure>, t: Throwable) {
+                // Handle the failure
+                Log.d("BP", "Failed to connect: " + t.message)
+            }
+        })
+
+    }
     private fun insertBP(dialog: Dialog){
         val patientID = arguments?.getInt(ARG_PATIENT_ID)
 //        val systolic = view?.findViewById<EditText>(R.id.edit_systolic)
@@ -433,23 +426,6 @@ class BPFragment : Fragment() {
             fragment.arguments = args
             return fragment
         }
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BPFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            BPFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
     }
 
 }

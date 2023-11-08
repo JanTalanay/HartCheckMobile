@@ -36,13 +36,6 @@ class PreviousBPActivity : AppCompatActivity() {
         val prevBPList = intent.getParcelableArrayListExtra<BloodPressure>("prevBPList")
         val backPrevBP = findViewById<Button>(R.id.btn_back_prevbp)
 
-//        Toast.makeText(this, "$prevBPList", Toast.LENGTH_SHORT).show()
-
-//        bpList = mutableListOf(
-//            BpData(120f, 90f,"June 3, 2023"),
-//            BpData(180f, 100f,"June 4, 2023"),
-//            BpData(110f, 83f,"June 5, 2023")
-//        )
         bpList = mutableListOf<BpData>()
         prevBPList?.let {
             for (prevBp in it) {
@@ -61,11 +54,12 @@ class PreviousBPActivity : AppCompatActivity() {
         recyclerView.adapter = bpAdapter
 
         backPrevBP.setOnClickListener {
-//            val intent = Intent(this, HomeActivity::class.java)
-//            intent.putExtra("patientID", patientID)
-//            intent.putExtra("userID", userID)
-//            startActivity(intent)
-            replaceFragment(BPFragment.newInstance(userID, patientID, patientName!!))
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("patientID", patientID)
+            intent.putExtra("userID", userID)
+            intent.putExtra("patientName", patientName)
+            startActivity(intent)
+//            replaceFragment(BPFragment.newInstance(userID, patientID, patientName!!))
         }
     }
 

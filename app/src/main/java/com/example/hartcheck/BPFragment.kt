@@ -256,13 +256,33 @@ class BPFragment : Fragment() {
     }
     private fun insertBP(dialog: Dialog){
         val patientID = arguments?.getInt(ARG_PATIENT_ID)
-//        val systolic = view?.findViewById<EditText>(R.id.edit_systolic)
-//        val diastolic = view?.findViewById<EditText>(R.id.edit_diastolic)
         val systolic = dialog.findViewById<EditText>(R.id.edit_systolic)
         val diastolic = dialog.findViewById<EditText>(R.id.edit_diastolic)
 
         val BPsystolic = systolic?.text.toString()
         val BPdiastolic = diastolic?.text.toString()
+
+        // Check if systolic and diastolic values are not empty
+        if (BPsystolic.isEmpty() || BPdiastolic.isEmpty()) {
+            Toast.makeText(context, "Please enter both systolic and diastolic values", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Check if systolic and diastolic values are numeric
+        if (!BPsystolic.isNumeric() || !BPdiastolic.isNumeric()) {
+            Toast.makeText(context, "Please enter valid numeric values", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Check if systolic and diastolic values are within valid range
+        val systolicValue = BPsystolic.toFloat()
+        val diastolicValue = BPdiastolic.toFloat()
+        if (systolicValue < 90 || systolicValue > 140 || diastolicValue < 60 || diastolicValue > 90) {
+            Toast.makeText(context, "Please enter values within the valid range (Systolic: 90-140, Diastolic: 60-90)", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+
         val current = LocalDateTime.now()// Get the current date and time
         val format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss") //Format the current date and time to a String
         val formatted = current.format(format)

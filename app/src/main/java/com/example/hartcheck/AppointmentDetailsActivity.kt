@@ -129,7 +129,7 @@ class AppointmentDetailsActivity : AppCompatActivity() {
         consultationAssignService.deleteConsultation(selectedDoctor?.doctorSchedID!!).enqueue(object : Callback<Consultation> {
             override fun onResponse(call: Call<Consultation>, response: Response<Consultation>) {
                 if(response.isSuccessful){
-                    Toast.makeText(this@AppointmentDetailsActivity, "Cancelled", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@AppointmentDetailsActivity, "The booked consultation is canceled.", Toast.LENGTH_LONG).show()
                     Log.d("MainActivity", "Success: ${response.body()}")
                 }
                 else{

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -20,6 +21,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -41,29 +45,19 @@ class RegisterActivity : AppCompatActivity() {
         gFamilyName = findViewById(R.id.input_ln)
         gEmail = findViewById(R.id.input_email)
         genderDropdown()
-        GoogleSigned()
 
-        //needs helper and observer to add 2nd register page
-        //"register btn should be hidden"
-        //google sign in register need to fix
+        val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(this)
 
-//        autoComplete.onItemClickListener = AdapterView.OnItemClickListener{
-//            adapterView, view, i , l ->
-//
-//            val itemSelected = adapterView.getItemAtPosition(i)
-//        }
-
+        if (account != null) {
+            GoogleSigned()
+        }
 
 
         btn_register.setOnClickListener {
             sheets.registerData(this)
             insertPatient()
 //            goSignOut()
-//            val intent = Intent(this, RegisterFinActivity::class.java)
-//            startActivity(intent)
         }
-
-        //when press next user would be inserted intent the email
     }
 
     private fun genderDropdown() {
@@ -132,6 +126,79 @@ class RegisterActivity : AppCompatActivity() {
             }
         } else null
         val phoneNumber = if (phoneNumberEditText.text.toString().isNotEmpty()) phoneNumberEditText.text.toString().toLong() else null
+
+        // Validations
+    // Check if the fields are not empty
+        if (email.isEmpty()) {
+            emailEditText.error = "The email field is required"
+            return
+        }
+        if (password.isEmpty()) {
+            passwordEditText.error = "The password field is required"
+            return
+        }
+        if (firstName.isEmpty()) {
+            firstNameEditText.error = "The first name field is required"
+            return
+        }
+        if (lastName.isEmpty()) {
+            lastNameEditText.error = "The last name field is required"
+            return
+        }
+        if (birthdate.isEmpty()) {
+            birthdateEditText.error = "The birthdate field is required"
+            return
+        }
+        if (phoneNumber == null) {
+            phoneNumberEditText.error = "The phone number field is required"
+            return
+        }
+
+    // Check if the fields meet the length requirements
+        if (firstName.length < 2) {
+            firstNameEditText.error = "The first name must be at least two or more characters"
+            return
+        }
+        if (lastName.length < 2) {
+            lastNameEditText.error = "The last name must be at least two or more characters"
+            return
+        }
+
+    // Check if the email is valid
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText.error = "The email should be a valid Email address"
+            return
+        }
+
+    // Check if the password meets the requirements
+        if (password.length < 8) {
+            passwordEditText.error = "The password should at least contain 8 characters"
+            return
+        }
+        if (!password.any { it.isDigit() } || !password.any { it.isUpperCase() } || !password.any { it.isLowerCase() }) {
+            passwordEditText.error = "The password should at least contain 1 special character one uppercased character, and one numerical number"
+            return
+        }
+
+    // Check if the phone number meets the requirements
+        if (phoneNumber.toString().length != 11) {
+            phoneNumberEditText.error = "The phone number should at least eleven numbers"
+            return
+        }
+        if (!phoneNumber.toString().matches("\\d{11}".toRegex())) {
+            phoneNumberEditText.error = "Invalid Format Number"
+            return
+        }
+
+    // Check if the birthdate is not less than 18 years old
+        val birthdateCalendar = Calendar.getInstance()
+        birthdateCalendar.time = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(birthdate)
+        val currentDate = Calendar.getInstance()
+        val age = currentDate.get(Calendar.YEAR) - birthdateCalendar.get(Calendar.YEAR)
+        if (age < 18) {
+            birthdateEditText.error = "You must be at least eighteen years old"
+            return
+        }
 
         val usersInput = Users(
 //            usersID = null,

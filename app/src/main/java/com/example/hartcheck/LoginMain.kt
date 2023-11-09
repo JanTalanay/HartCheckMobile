@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -24,6 +25,7 @@ import com.google.android.gms.tasks.Task
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.regex.Pattern
 
 class LoginMain : AppCompatActivity() {
     private lateinit var googleSignIn: ImageButton
@@ -119,10 +121,21 @@ class LoginMain : AppCompatActivity() {
         val email = editEmail.text.toString()
         val Password = editPassword.text.toString()
 
+        // Check if email and password fields are not empty
+        if (email.isEmpty() || Password.isEmpty()) {
+            Toast.makeText(this@LoginMain, "The email and password fields are required", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Validate email format
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this@LoginMain, "The email is in the incorrect format", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+
         val loginRequest  = Login(email = email, password = Password)
         val loginUser = UsersInstance.retrofitBuilder
-        //generate token here
-
 
         loginUser.loginUser(loginRequest).enqueue(object : Callback<Users> {//CLEAN CODE
         override fun onResponse(call: Call<Users>, response: Response<Users>){
@@ -141,12 +154,12 @@ class LoginMain : AppCompatActivity() {
                         intent.putExtra("firstName", firstName)
                         startActivity(intent)
                     }else {
-                        Toast.makeText(this@LoginMain, "User ID is null", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginMain, "Connection Error", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
             else {
-                Toast.makeText(this@LoginMain, "Registration DENIED", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@LoginMain, "The email and/or password is incorrect", Toast.LENGTH_SHORT).show()
             }
         }
             override fun onFailure(call: Call<Users>, t: Throwable) {

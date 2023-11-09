@@ -19,6 +19,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.UsersRemote.UsersInstance
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -43,6 +45,7 @@ class EditProfileFragment : Fragment() {
     private var param2: String? = null
     private var userID: Int? = null
     private var patientName: String? = null
+    private lateinit var gsc: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +69,7 @@ class EditProfileFragment : Fragment() {
         val saveProfile = view.findViewById<Button>(R.id.btn_save_profile)
         val backEditProfile = view.findViewById<Button>(R.id.btn_back_edit_profile)
         val deleteAccount = view.findViewById<Button>(R.id.btn_delete_account)
+        GoogleSignInOptions()
 
         val adapter = ArrayAdapter(requireContext(), R.layout.app_list_item, options)
         adapter.setDropDownViewResource(R.layout.app_list_item)
@@ -208,6 +212,7 @@ class EditProfileFragment : Fragment() {
                     if (response.isSuccessful) {
                         Toast.makeText(context, "User is Deleted successfully", Toast.LENGTH_SHORT).show()
                         val intent = Intent(activity, LoginMain::class.java)
+                        GoogleSignOut()
                         startActivity(intent)
                     } else {
                         Log.d("MainActivity", "Failed to connect: " + response.code())
@@ -224,7 +229,23 @@ class EditProfileFragment : Fragment() {
             })
         }
     }
+    private fun GoogleSignOut() {
+        gsc.signOut().addOnSuccessListener {
+            startActivity(Intent(context, LoginMain::class.java))
+//            finish()
+        }
+    }
 
+    private fun GoogleSignInOptions() {
+        val gso = com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder(com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        val activity = activity
+        if (activity != null) {
+            gsc = GoogleSignIn.getClient(activity, gso)
+        }
+    }
     companion object {
         private const val ARG_PARAM1 = "param1"
         private const val ARG_PARAM2 = "param2"

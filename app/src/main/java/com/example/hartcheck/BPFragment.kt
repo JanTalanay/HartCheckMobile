@@ -111,6 +111,7 @@ class BPFragment : Fragment() {
 
 
         readCSVFile()
+        getBPThreshold()
         createNotificationChannel()
 
         backBP.setOnClickListener {
@@ -142,8 +143,6 @@ class BPFragment : Fragment() {
         val btn_close:Button = dialog.findViewById(R.id.btn_modal_deny)
         val syncBP = dialog.findViewById<Button>(R.id.btn_modal_sync)
         val confirmBP = dialog.findViewById<Button>(R.id.btn_modal_confirm)
-        val systolic = dialog.findViewById<EditText>(R.id.edit_systolic)
-        val diastolic = dialog.findViewById<EditText>(R.id.edit_diastolic)
 
         //add bp manually details here
         syncBP.setOnClickListener {
@@ -275,11 +274,7 @@ class BPFragment : Fragment() {
         BPService.insertBloodPressure(BPInfo).enqueue(object : Callback<BloodPressure> {
             override fun onResponse(call: Call<BloodPressure>, response: Response<BloodPressure>) {
                 if (response.isSuccessful) {
-
-                    Toast.makeText(context, "ADDED NEW BP", Toast.LENGTH_SHORT).show()
-//                    Log.d("MainActivity", "Response: ${response.body()}")
-
-
+                    Toast.makeText(context, "Blood Pressure Data Added", Toast.LENGTH_SHORT).show()
                 } else {
                     // Handle the error response
                     response.errorBody()?.let { errorBody ->
@@ -379,15 +374,19 @@ class BPFragment : Fragment() {
                 if(response.isSuccessful){
                     val BPThreshold = response.body()
                     if(BPThreshold != null){
-                        systolicThreshold = BPThreshold.systolicLevel
-                        diastolicThreshold = BPThreshold.diastolicLevel
+                        systolicThreshold = BPThreshold.systolicLevel.toFloat()
+                        diastolicThreshold = BPThreshold.diastolicLevel.toFloat()
                         Log.d ("MainActivity", "Set Threshold: $systolicThreshold and $diastolicThreshold")
+                    } else {
+                        // Set default thresholds if BPThreshold is null
+                        systolicThreshold = 140.0f
+                        diastolicThreshold = 90.0f
+                        Log.d ("MainActivity", "Set default Threshold: $systolicThreshold and $diastolicThreshold")
                     }
                 }
                 else{
                     Log.d("MainActivity", "Error response: ${response.body()}")
                 }
-
             }
             override fun onFailure(call: Call<BloodPressureThreshold>, t: Throwable) {
                 Log.d ("MainActivity", "Failed to connect: : " + t.message)
@@ -398,6 +397,7 @@ class BPFragment : Fragment() {
             }
         })
     }
+
     fun String.isNumeric(): Boolean = this.matches("\\d+".toRegex())
 
     companion object {

@@ -73,7 +73,7 @@ class LoginMain : AppCompatActivity() {
         val account: GoogleSignInAccount? = GoogleSignIn
             .getLastSignedInAccount(this)
         if(account!=null){
-            goToHome(account.email)
+            goToHome(account.email, account.givenName, account.familyName)
         }
         return account
     }
@@ -92,7 +92,7 @@ class LoginMain : AppCompatActivity() {
 
             try{
                 val account = task.getResult(ApiException::class.java)
-                GoogleLoginUserID(account.email!!)
+                GoogleLoginUserID(account.email!!, account.givenName, account.familyName)
             }
             catch (e:java.lang.Exception){
                 Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
@@ -101,9 +101,13 @@ class LoginMain : AppCompatActivity() {
     }
 
 
-    private fun goToHome(email: String?) {
+    private fun goToHome(email: String?, firstName: String?, lastName: String?) {
         val intent = Intent(this, HomeActivity::class.java)
         intent.putExtra("email", email)
+        intent.putExtra("firstName", firstName)
+        intent.putExtra("familyName", lastName)
+        val patientName = "$firstName $lastName"
+        intent.putExtra("patientName", patientName)
         startActivity(intent)
         finish()
     }
@@ -150,7 +154,7 @@ class LoginMain : AppCompatActivity() {
             }
         })
     }
-    private fun GoogleLoginUserID(email: String) {
+    private fun GoogleLoginUserID(email: String, firstName: String?, lastName: String?) {
         val service = UsersInstance.retrofitBuilder
         service.getRegisterEmail(email).enqueue(object : Callback<Users> {
             override fun onResponse(call: Call<Users>, response: Response<Users>) {
@@ -161,6 +165,10 @@ class LoginMain : AppCompatActivity() {
                         val intent = Intent(this@LoginMain, HomeActivity::class.java)
                         intent.putExtra("userID", userID)
                         intent.putExtra("email", email)
+                        intent.putExtra("firstName", firstName)
+                        intent.putExtra("familyName", lastName)
+                        val patientName = "$firstName $lastName"
+                        intent.putExtra("patientName", patientName)
                         startActivity(intent)
                     } else {
                         Log.d("MainActivity", "User ID is null")

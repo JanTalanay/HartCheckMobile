@@ -405,6 +405,9 @@ class BPFragment : Fragment() {
                     }
                 }
                 else{
+                    systolicThreshold = 140.0f
+                    diastolicThreshold = 90.0f
+                    Log.d ("MainActivity", "Set default Threshold: $systolicThreshold and $diastolicThreshold")
                     Log.d("MainActivity", "Error response: ${response.body()}")
                 }
             }

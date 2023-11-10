@@ -81,7 +81,9 @@ class BookActivity : AppCompatActivity() {
         fragmentTransaction?.commit()
     }
     private fun insertConsultation() {
+        val userID = intent.getIntExtra("userID", 0)
         val patientID = intent.getIntExtra("patientID", 0)
+        val patientName = intent.getStringExtra("patientName")
 
         val input_bug_feature = findViewById<Spinner>(R.id.input_booking_date)
         val selectedDateTime = input_bug_feature.selectedItem.toString()
@@ -95,6 +97,9 @@ class BookActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val intent = Intent(this@BookActivity, PaymentActivity::class.java)
                     intent.putExtra("selectedDateTime", selectedDateTime)
+                    intent.putExtra("userID", userID)
+                    intent.putExtra("patientID", patientID)
+                    intent.putExtra("patientName", patientName)
                     startActivity(intent)
 
                     Log.d("MainActivity", "Response: ${response.body()}")

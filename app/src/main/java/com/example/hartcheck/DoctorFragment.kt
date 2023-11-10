@@ -85,7 +85,7 @@ class DoctorFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList)//test
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList,frag, patientID, patientName = null,userID, BookActivity::class.java)
+        listAdapter = ListAdapter(doctorList,frag, patientID, patientName,userID, BookActivity::class.java)
         recyclerView.adapter = listAdapter
         //Default
         txt_emp.visibility = View.GONE//there are no currently available doctors (put a null checker to show or not)

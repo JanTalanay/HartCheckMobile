@@ -26,8 +26,10 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         val userID = intent.getIntExtra("userID", 0)
+        val patientID = intent.getIntExtra("patientID", 0)
         val firstName = intent.getStringExtra("firstName")
         val patientName = intent.getStringExtra("patientName")
+
 
         val btnBP = findViewById<Button>(R.id.btn_view_bp)
         val btnConsul = findViewById<Button>(R.id.btn_consul)

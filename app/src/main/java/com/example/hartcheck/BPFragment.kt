@@ -274,14 +274,6 @@ class BPFragment : Fragment() {
             return
         }
 
-        // Check if systolic and diastolic values are within valid range
-        val systolicValue = BPsystolic.toFloat()
-        val diastolicValue = BPdiastolic.toFloat()
-        if (systolicValue < 90 || systolicValue > 140 || diastolicValue < 60 || diastolicValue > 90) {
-            Toast.makeText(context, "Please enter values within the valid range (Systolic: 90-140, Diastolic: 60-90)", Toast.LENGTH_SHORT).show()
-            return
-        }
-
 
         val current = LocalDateTime.now()// Get the current date and time
         val format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss") //Format the current date and time to a String

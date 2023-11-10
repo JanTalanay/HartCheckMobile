@@ -181,7 +181,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
     // Check if the phone number meets the requirements
-        if (phoneNumber.toString().length != 11) {
+        if (phoneNumber.toString().length != 12) {
             phoneNumberEditText.error = "The phone number should at least eleven numbers"
             return
         }

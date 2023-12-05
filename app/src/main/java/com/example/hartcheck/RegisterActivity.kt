@@ -185,7 +185,7 @@ class RegisterActivity : AppCompatActivity() {
             phoneNumberEditText.error = "The phone number should at least eleven numbers"
             return
         }
-        if (!phoneNumber.toString().matches("\\d{11}".toRegex())) {
+        if (!phoneNumber.toString().matches("\\d{12}".toRegex())) {
             phoneNumberEditText.error = "Invalid Format Number"
             return
         }
@@ -231,8 +231,6 @@ class RegisterActivity : AppCompatActivity() {
                 }
                 else {
                     // Handle the error response
-                    Toast.makeText(this@RegisterActivity, "HATDOG", Toast.LENGTH_SHORT).show()
-                    Log.d("MainActivity", "HATDOG: ")
                     Log.d("MainActivity", "Response code: ${response.code()}")
                 }
             }

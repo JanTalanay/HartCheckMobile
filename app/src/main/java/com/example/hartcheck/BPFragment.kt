@@ -46,6 +46,8 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 //sql
@@ -274,9 +276,19 @@ class BPFragment : Fragment() {
             return
         }
 
+        // Check if systolic and diastolic values are within valid range
+        val systolicValue = BPsystolic.toFloat()
+        val diastolicValue = BPdiastolic.toFloat()
+        if (systolicValue < 1 || systolicValue > 200 || diastolicValue < 0 || diastolicValue > 200) {
+            Toast.makeText(context, "Please enter values within a valid range", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-        val current = LocalDateTime.now()// Get the current date and time
-        val format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss") //Format the current date and time to a String
+        // Get the current date and time in the Philippines Standard Time (PST) timezone
+        val current = ZonedDateTime.now(ZoneId.of("Asia/Manila"))
+
+        // Format the current date and time to a String
+        val format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val formatted = current.format(format)
         val dateTaken = LocalDateTime.parse(formatted, format)
 
@@ -391,14 +403,14 @@ class BPFragment : Fragment() {
                         Log.d ("MainActivity", "Set Threshold: $systolicThreshold and $diastolicThreshold")
                     } else {
                         // Set default thresholds if BPThreshold is null
-                        systolicThreshold = 140.0f
-                        diastolicThreshold = 90.0f
+                        systolicThreshold = 120.0f
+                        diastolicThreshold = 80.0f
                         Log.d ("MainActivity", "Set default Threshold: $systolicThreshold and $diastolicThreshold")
                     }
                 }
                 else{
-                    systolicThreshold = 140.0f
-                    diastolicThreshold = 90.0f
+                    systolicThreshold = 120.0f
+                    diastolicThreshold = 80.0f
                     Log.d ("MainActivity", "Set default Threshold: $systolicThreshold and $diastolicThreshold")
                     Log.d("MainActivity", "Error response: ${response.body()}")
                 }

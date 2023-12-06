@@ -6,4 +6,5 @@ data class PreviousMedication(
     var previousMed: String? = null,
     var dosage: Float? = null,
     var date: String? = null
+
 )

@@ -6,5 +6,4 @@ data class MedicalHistory(
     var medicalHistory: String? = null,
     var pastSurgicalHistory: String? = null,
     var date: String? = null
-
 )

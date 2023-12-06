@@ -6,5 +6,4 @@ data class MedicalCondition(
     var medicalCondition: String? = null,
     var conditionName: String? = null,
     var date: String? = null
-
 )

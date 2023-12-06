@@ -32,10 +32,6 @@ class RegisterOtherActivity : AppCompatActivity() {
         btn_current.setOnClickListener {
             insertMedicalCond()
         }
-
-
-
-
     }
     private fun insertMedicalCond(){
         val patientID = intent.getIntExtra("patientID", 0)

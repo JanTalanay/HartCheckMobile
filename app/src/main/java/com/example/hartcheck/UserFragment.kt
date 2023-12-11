@@ -79,7 +79,13 @@ class UserFragment : Fragment() {
             startActivity(intent)
         }
         btn_edit_profile.setOnClickListener {
-            replaceFragment(EditProfileFragment.newInstance(userID!!, patientName!!))
+//            replaceFragment(EditProfileFragment.newInstance(userID!!, patientName!!))
+            val intent = Intent(activity, ConfirmUserEmailActivity::class.java)
+            intent.putExtra("userID", userID)
+            intent.putExtra("patientID", patientID)
+            intent.putExtra("patientName", patientName)
+            startActivity(intent)
+
         }
         btn_change.setOnClickListener {
             val intent = Intent(activity, ForgotActivity::class.java)

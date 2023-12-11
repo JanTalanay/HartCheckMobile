@@ -63,31 +63,31 @@ class EditProfileFragment : Fragment() {
 
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_edit_profile, container, false)
-        viewUser()
-        val options = listOf("Select Gender", "Male", "Female")
-        val input_gender = view.findViewById<Spinner>(R.id.input_gender_edit)
-        val saveProfile = view.findViewById<Button>(R.id.btn_save_profile)
-        val backEditProfile = view.findViewById<Button>(R.id.btn_back_edit_profile)
-        val deleteAccount = view.findViewById<Button>(R.id.btn_delete_account)
-        GoogleSignInOptions()
-
-        val adapter = ArrayAdapter(requireContext(), R.layout.app_list_item, options)
-        adapter.setDropDownViewResource(R.layout.app_list_item)
-        adapter.setDropDownViewResource(R.layout.app_list_item)
-        input_gender.adapter = adapter
-
-        saveProfile.setOnClickListener {
-            updateProfile()
-        }
-        backEditProfile.setOnClickListener {
-            val intent = Intent(activity, HomeActivity::class.java)
-            intent.putExtra("userID", userID)
-            intent.putExtra("patientName", patientName)
-            startActivity(intent)
-        }
-        deleteAccount.setOnClickListener {
-            showModal()
-        }
+//        viewUser()
+//        val options = listOf("Select Gender", "Male", "Female")
+//        val input_gender = view.findViewById<Spinner>(R.id.input_gender_edit)
+//        val saveProfile = view.findViewById<Button>(R.id.btn_save_profile)
+//        val backEditProfile = view.findViewById<Button>(R.id.btn_back_edit_profile)
+//        val deleteAccount = view.findViewById<Button>(R.id.btn_delete_account)
+//        GoogleSignInOptions()
+//
+//        val adapter = ArrayAdapter(requireContext(), R.layout.app_list_item, options)
+//        adapter.setDropDownViewResource(R.layout.app_list_item)
+//        adapter.setDropDownViewResource(R.layout.app_list_item)
+//        input_gender.adapter = adapter
+//
+//        saveProfile.setOnClickListener {
+//            updateProfile()
+//        }
+//        backEditProfile.setOnClickListener {
+//            val intent = Intent(activity, HomeActivity::class.java)
+//            intent.putExtra("userID", userID)
+//            intent.putExtra("patientName", patientName)
+//            startActivity(intent)
+//        }
+//        deleteAccount.setOnClickListener {
+//            showModal()
+//        }
         return view
 
     }

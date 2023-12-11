@@ -3,6 +3,7 @@ package com.example.hartcheck.Remote.UsersRemote
 import com.example.hartcheck.Data.ChangePassword
 import com.example.hartcheck.Data.ForgotPassword
 import com.example.hartcheck.Data.OTPVerification
+import com.example.hartcheck.Data.UserConfirm
 import com.example.hartcheck.Model.Login
 import com.example.hartcheck.Model.Users
 import okhttp3.ResponseBody
@@ -21,6 +22,8 @@ interface UsersInterface {
     fun loginUser(@Body request: Login): Call<Users>
     @POST("api/register/ForgotPassword")
     fun forgotPassword(@Body request: ForgotPassword): Call<ResponseBody>
+    @POST("api/register/ConfirmUser")
+    fun confirmUser(@Body request: UserConfirm): Call<ResponseBody>
 
     @POST("api/register/VerifyOTP")
     fun VerifyOTP(@Body request: OTPVerification): Call<ResponseBody>

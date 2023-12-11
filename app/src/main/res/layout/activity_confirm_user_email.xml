@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ConfirmUserEmailActivity">
+    <LinearLayout
+        android:layout_width="370dp"
+        android:layout_height="600dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btn_back_userConfirm"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_back"
+            android:drawableStart="@drawable/back_arrow"
+            android:paddingStart="15dp"
+            android:text="@string/filler"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.083"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.105" />
+
+        <TextView
+            android:id="@+id/p_header_forgot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:text="Verification of User"
+            android:textColor="@color/primary_black"
+            android:textSize="30sp"
+            android:layout_marginBottom="50dp"/>
+
+        <TextView
+            android:id="@+id/p_forgot_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_urbanist_regular"
+            android:text="Please enter your email address link with your account."
+            android:textColor="@color/black_alter"
+            android:textSize="18sp"
+            android:layout_marginBottom="40dp"/>
+
+        <EditText
+            android:id="@+id/txt_email_user_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/custom_input"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:hint="@string/input_email"
+            android:textColor="@color/grey"
+            android:layout_marginBottom="40dp"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="129dp" />
+        <Button
+            android:id="@+id/btn_send_user_code"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/btn_primary"
+            android:text="@string/btn_code"
+            android:textColor="@drawable/btn_text_color_white"
+            android:fontFamily="@font/font_urbanist_medium"
+            android:textAllCaps="false"
+            android:layout_marginBottom="150dp"/>
+
+        <TextView
+            android:id="@+id/remember_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/li_rem_pass"
+            android:textAlignment="center"
+            android:textColor="@color/primary_teal"
+            android:textSize="16sp"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:clickable="true"/>
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

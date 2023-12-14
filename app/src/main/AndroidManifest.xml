@@ -20,7 +20,16 @@
         android:theme="@style/Theme.HartCheck"
         tools:targetApi="31">
         <activity
-            android:name=".ConfirmUserEmailActivity"
+            android:name=".RegisterSurgHistory"
+            android:exported="false" />
+        <activity
+            android:name="FAQ"
+            android:exported="false"/>
+        <activity
+            android:name=".RegisterPrevMedicine"
+            android:exported="false" />
+        <activity
+            android:name=".BugReportActivity"
             android:exported="false" />
         <activity
             android:name=".EditUserOTPActivity"
@@ -41,16 +50,16 @@
             android:name=".RescheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".AppointmentDetailsActivity"
+            android:name=".SplashActivity"
             android:exported="false" />
         <activity
-            android:name=".BookActivity"
+            android:name=".AppointmentDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".PreviousBPActivity"
             android:exported="false" />
         <activity
-            android:name=".BugReportActivity"
+            android:name=".BookActivity"
             android:exported="false" />
         <activity
             android:name=".TestActivity"
@@ -80,7 +89,7 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".ConfirmUserEmailActivity"
             android:exported="false" />
         <activity
             android:name=".GoogleSign"
@@ -89,16 +98,17 @@
             android:name=".EducationalActivity"
             android:exported="false" />
         <activity
-            android:name=".FAQ"
+            android:name=".NavActivity"
             android:exported="false" />
         <activity
-            android:name=".NavActivity"
+            android:name=".HomeActivity"
             android:exported="false" />
         <activity
             android:name=".ConfirmActivity"
             android:exported="false" />
+
         <activity
-            android:name=".SplashActivity"
+            android:name=".RegisterPreviousMed"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

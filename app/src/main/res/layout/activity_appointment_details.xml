@@ -6,14 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".AppointmentDetailsActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            layout="@layout/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
     <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="498dp"
+        android:layout_width="353dp"
+        android:layout_height="429dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appointDetails">
+        app:layout_constraintTop_toBottomOf="@+id/appointDetails"
+        app:layout_constraintVertical_bias="0.181">
 
         <TextView
             android:id="@+id/txt_doctor_name_appointment_details"
@@ -56,6 +68,7 @@
             android:text="July 14, 2023, 10:30"
             android:textColor="@color/primary_black"
             android:textSize="18sp" />
+
         <Button
             android:id="@+id/btn_request_appointment"
             android:layout_width="match_parent"
@@ -82,15 +95,15 @@
 
     <TextView
         android:id="@+id/appointDetails"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_width="340dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/font_urbanist_bold"
         android:text="@string/header_doctor_details"
         android:textColor="@color/primary_black"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_back_appoint_details" />
 
@@ -98,13 +111,14 @@
         android:id="@+id/btn_back_appoint_details"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="104dp"
         android:background="@drawable/btn_back"
         android:drawableStart="@drawable/back_arrow"
         android:paddingStart="15dp"
         android:text="@string/filler"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

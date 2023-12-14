@@ -36,6 +36,9 @@
     <string name="btn_payment">Send Payment Link</string>
     <string name="btn_resched">Reschedule Appointment</string>
     <string name="btn_change_pass">Change Password</string>
+    <string name="btn_addMore">Add more?</string>
+    <string name="btn_Remove">Remove?</string>
+
 
 
     <!--  custom btns-->
@@ -96,9 +99,10 @@
     <string name="input_status">Status</string>
     <string name="input_no">0</string>
     <string name="input_feat">Feature</string>
+    <string name="input_date">Date</string>
 
     <!--    paragraphs-->
-    <string name="p_reg1">Do you have any history of medical conditions that could be hereditary? if yes then what is that condition, if no then answer “N/A”</string>
+    <string name="p_reg1">Do you have any history of medical conditions that could be hereditary? if yes then please list them down along with their respective dates.</string>
     <string name="p_reg2">Have you had any past surgeries? If you had, then please answer what kind of surgery, if none then answer “N/A” </string>
     <string name="p_terms1">By checking the box, you are agreeing with the terms and conditions of the app</string>
     <string name="p_change_pass">Please enter your email to change your password.</string>

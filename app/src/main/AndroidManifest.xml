@@ -20,13 +20,13 @@
         android:theme="@style/Theme.HartCheck"
         tools:targetApi="31">
         <activity
-            android:name=".RegisterSurgHistory"
+            android:name=".RegisterPrevMedicine"
             android:exported="false" />
         <activity
             android:name="FAQ"
             android:exported="false"/>
         <activity
-            android:name=".RegisterPrevMedicine"
+            android:name=".RegisterPreviousMed"
             android:exported="false" />
         <activity
             android:name=".BugReportActivity"
@@ -108,7 +108,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".RegisterPreviousMed"
+            android:name=".RegisterSurgHistory"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

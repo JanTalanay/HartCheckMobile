@@ -6,4 +6,129 @@
     android:layout_height="match_parent"
     tools:context=".RegisterSurgHistory">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="358dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="36dp"
+        android:orientation="vertical"
+        android:stretchColumns="*"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:text="@string/header_reg_2"
+            android:textColor="@color/primary_black"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/q1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:text="@string/p_reg2"
+            android:textColor="@color/primary_black"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_medHis_surg"
+        android:layout_width="358dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="96dp"
+        android:background="@drawable/btn_primary"
+        android:text="@string/btn_next"
+        android:textColor="@drawable/btn_text_color_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/inputFields3"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <EditText
+            android:id="@+id/txt_surg"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="@string/input_surgery"
+            android:inputType="text"
+            android:paddingEnd="10dp"
+            android:textColor="@color/grey"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="307dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/inputFieldsDate3"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.27"
+        app:layout_constraintStart_toEndOf="@+id/inputFields3"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <TextView
+            android:id="@+id/txt_surg_date"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:padding="16dp"
+            android:ems="10"
+            android:textSize="18sp"
+            android:hint="@string/input_date"
+            android:inputType="text"
+            android:textColor="@color/grey"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="307dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_addSurg"
+        android:layout_width="175dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/btn_primary"
+        android:text="@string/btn_addMore"
+        android:textColor="@drawable/btn_text_color_white"
+        app:layout_constraintBottom_toTopOf="@+id/btn_medHis_surg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputFields3"
+        app:layout_constraintVertical_bias="0.018" />
+
+    <Button
+        android:id="@+id/btn_removeSurg"
+        android:layout_width="175dp"
+        android:layout_height="55dp"
+        android:background="@drawable/btn_secondary"
+        android:text="@string/btn_Remove"
+        android:textColor="@drawable/btn_text_color"
+        app:layout_constraintBottom_toTopOf="@+id/btn_medHis_surg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.27"
+        app:layout_constraintStart_toEndOf="@+id/btn_addSurg"
+        app:layout_constraintTop_toBottomOf="@+id/inputFieldsDate3"
+        app:layout_constraintVertical_bias="0.087" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

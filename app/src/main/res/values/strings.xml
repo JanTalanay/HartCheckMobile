@@ -86,6 +86,7 @@
     <string name="input_weight">Weight</string>
     <string name="input_medical_condition">Medical Condition/s</string>
     <string name="input_medication">Current Medications</string>
+    <string name="input_medicine">e.g. Paracetamol</string>
     <string name="input_surgery">e.g. Kidney</string>
     <string name="input_heredetary">E.g. Hypertension</string>
     <string name="input_phone">Phone No. 09xx-xxx-xxxx</string>
@@ -102,8 +103,9 @@
     <string name="input_date">Date</string>
 
     <!--    paragraphs-->
-    <string name="p_reg1">Do you have any history of medical conditions that could be hereditary? if yes then please list them down along with their respective dates.</string>
-    <string name="p_reg2">Have you had any past surgeries? If you had, then please answer what kind of surgery, if none then answer “N/A” </string>
+    <string name="p_reg1">Do you have any history of medical conditions that could be hereditary? If yes then please list them down along with their respective dates.</string>
+    <string name="p_reg2">Have you had any past surgeries? If you had then please list them down along with their respective dates.</string>
+    <string name="p_reg3">Do you have any previous medications e.g. Paracetamol? If you had then please list them down along with their respective dates. </string>
     <string name="p_terms1">By checking the box, you are agreeing with the terms and conditions of the app</string>
     <string name="p_change_pass">Please enter your email to change your password.</string>
     <string name="p_forgot">Forgot Password?</string>

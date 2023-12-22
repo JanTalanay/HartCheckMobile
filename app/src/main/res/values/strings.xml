@@ -101,6 +101,7 @@
     <string name="input_no">0</string>
     <string name="input_feat">Feature</string>
     <string name="input_date">Date</string>
+    <string name="input_otp">4-digit OTP (e.g. 0000)</string>
 
     <!--    paragraphs-->
     <string name="p_reg1">Do you have any history of medical conditions that could be hereditary? If yes then please list them down along with their respective dates.</string>

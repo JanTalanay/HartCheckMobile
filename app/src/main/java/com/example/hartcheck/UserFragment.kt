@@ -1,12 +1,16 @@
 package com.example.hartcheck
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -99,6 +103,28 @@ class UserFragment : Fragment() {
 
 
         return view
+    }//otp in da modal
+
+    private fun showModal(){
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.popup_otp)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val userOtp: EditText = dialog.findViewById(R.id.edit_userOtp)
+        val btn_close:Button = dialog.findViewById(R.id.btn_modal_deny)
+        val btn_confirm:Button = dialog.findViewById(R.id.btn_modal_confirm)
+
+        btn_confirm.setOnClickListener {
+//            insertBP(dialog)
+        }
+
+        btn_close.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun viewUser() {

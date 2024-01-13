@@ -13,6 +13,7 @@ import com.example.hartcheck.Remote.BloodPressureThresholdRemote.BloodPressureTh
 import com.example.hartcheck.Remote.ConsultationRemote.ConsultationInstance
 import com.example.hartcheck.Remote.DoctorScheduleRemote.DoctorScheduleInstance
 import com.example.hartcheck.Remote.PatientsDoctorRemote.PatientsDoctorInstance
+import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
 import com.example.hartcheck.Wrapper.DoctorInfoList
 import com.example.hartcheck.Wrapper.DoctorScheduleDates
 import com.example.hartcheck.Wrapper.PatientsDoctorAssign
@@ -59,6 +60,7 @@ class TestActivity : AppCompatActivity() {
 //            getBPThreshold()
 //            getPatientsDoctorList()
 //            GetDoctorsByPatientId()
+            getpatientEmail()
         }
 
     }
@@ -250,4 +252,26 @@ class TestActivity : AppCompatActivity() {
         }
     }
 
+    private fun getpatientEmail(){
+        val patientID = intent.getIntExtra("patientID", 0)
+        val service = PatientsInstance.retrofitBuilder
+
+        service.getEmailByPatientId(patientID).enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                if (response.isSuccessful) {
+                    val email = response.body()
+                    val textView = findViewById<TextView>(R.id.view_test)
+                    textView.text = "Patient Email: $email"
+                } else {
+                    Log.d("MainActivity", "Failed to connect: " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                // Handle the failure
+                Log.d("MainActivity", "Failed to connect: : " + t.message)
+            }
+        })
+
+    }
 }

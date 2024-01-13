@@ -6,25 +6,28 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.hartcheck.Data.PaymentBook
+import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
 import com.example.hartcheck.Remote.PaymentRemote.PaymentInstance
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PaymentActivity : AppCompatActivity() {
+class PaymentActivity : AppCompatActivity() {// need to fix the UI for automation message
 
     private lateinit var input_email:EditText
     private lateinit var btn_pay:Button
+    var patientEmail: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
         btn_pay = findViewById(R.id.btn_send_payment)
-
+        getpatientEmail()
         btn_pay.setOnClickListener {
             paymentBooking()
         }
@@ -37,9 +40,9 @@ class PaymentActivity : AppCompatActivity() {
         val patientID = intent.getIntExtra("patientID", 0)
         val patientName = intent.getStringExtra("patientName")
 
-        input_email = findViewById(R.id.txt_email_payment)
+//        input_email = findViewById(R.id.txt_email_payment)
         val Paymentservice = PaymentInstance.retrofitBuilder
-        val emailBook = input_email.text.toString()
+        val emailBook = patientEmail ?: ""
 
         val paymentInfo = PaymentBook(email = emailBook)
 
@@ -54,6 +57,8 @@ class PaymentActivity : AppCompatActivity() {
                     intent.putExtra("patientName", patientName)
                     intent.putExtra("selectedDateTime", selectedDateTime)
                     startActivity(intent)
+//                    Toast.makeText(this@PaymentActivity, "Auto", Toast.LENGTH_LONG).show()
+
                 }
                 else {
                     Log.d("MainActivity", "Wrong: " + response.code())
@@ -64,4 +69,27 @@ class PaymentActivity : AppCompatActivity() {
             }
         })
     }
+    private fun getpatientEmail(){
+        val patientID = intent.getIntExtra("patientID", 0)
+        val service = PatientsInstance.retrofitBuilder
+
+        service.getEmailByPatientId(patientID).enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                if (response.isSuccessful) {
+                    patientEmail = response.body()
+//                    Toast.makeText(this@PaymentActivity, "$patientEmail", Toast.LENGTH_LONG).show()
+
+//                    val textView = findViewById<TextView>(R.id.view_test)
+//                    textView.text = "Patient Email: $patientEmail"
+                } else {
+                    Log.d("MainActivity", "Failed to connect: " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.d("MainActivity", "Failed to connect: : " + t.message)
+            }
+        })
+    }
+
 }

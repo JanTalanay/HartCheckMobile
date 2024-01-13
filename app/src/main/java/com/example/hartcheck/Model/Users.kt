@@ -33,6 +33,11 @@ data class Users(
     @SerializedName("gender")
     @Expose
     val gender: Int? = null,
+
+    @SerializedName("isPregnant")
+    @Expose
+    val isPregnant: Boolean? = null,
+
     @SerializedName("phoneNumber")
     @Expose
     val phoneNumber: Long? = null,

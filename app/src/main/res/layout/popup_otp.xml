@@ -29,14 +29,25 @@
             android:id="@+id/edit_userOtp"
             android:layout_width="250dp"
             android:layout_height="55dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/custom_input"
+            android:ems="10"
+            android:hint="@string/input_otp"
+            android:inputType="text"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:ems="10"
-            android:inputType="text"
-            android:hint="@string/input_otp"
-            android:textColor="@color/grey"
-            android:layout_marginBottom="20dp"
+            android:textColor="@color/grey" />
+
+        <TextView
+            android:id="@+id/sent_OTP"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary_teal"
+            android:text ="Send OTP to your email"
+            android:textAlignment="center"
+            android:clickable="true"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:textSize="16sp"
             />
 
         <Button

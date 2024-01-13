@@ -18,4 +18,8 @@ interface PatientsInterface {
 
     @POST("api/Patient")
     fun insetPatients(@Body request: Patients): Call<Patients>
+
+    @GET("api/Patient/{patientId}/email")
+    fun getEmailByPatientId(@Path("patientId") patientId: Int): Call<String>
+
 }

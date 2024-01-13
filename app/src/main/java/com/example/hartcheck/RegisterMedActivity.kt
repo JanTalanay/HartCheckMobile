@@ -59,12 +59,12 @@ class RegisterMedActivity : AppCompatActivity() {
         val patientID = intent.getIntExtra("patientID", 0)
 
         val txtMedCond: EditText = findViewById(R.id.txt_medcond)
-        val txtpastSurge: EditText = findViewById(R.id.txt_pastSurg)
+//        val txtpastSurge: EditText = findViewById(R.id.txt_pastSurg)
 
         val medCond = txtMedCond.text.toString()
-        val pastSurge = txtpastSurge.text.toString()
+//        val pastSurge = txtpastSurge.text.toString()
 
-        val medHisInfo = MedicalHistory(patientID = patientID, medicalHistory = medCond, pastSurgicalHistory = pastSurge)
+        val medHisInfo = MedicalHistory(patientID = patientID, medicalHistory = medCond)
 
         val medHisService = MedHisInstance.retrofitBuilder
         medHisService.insertMedHis(medHisInfo).enqueue(object : Callback<MedicalHistory> {

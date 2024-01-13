@@ -50,7 +50,7 @@
             android:name=".RescheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".RegisterSurgHistory"
             android:exported="false" />
         <activity
             android:name=".AppointmentDetailsActivity"
@@ -108,7 +108,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".RegisterSurgHistory"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

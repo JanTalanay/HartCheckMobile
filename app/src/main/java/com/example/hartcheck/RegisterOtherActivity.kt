@@ -36,13 +36,13 @@ class RegisterOtherActivity : AppCompatActivity() {
     private fun insertMedicalCond(){
         val patientID = intent.getIntExtra("patientID", 0)
         val txtMedicalCon = findViewById<EditText>(R.id.txt_current_con)
-        val txtConditionName = findViewById<EditText>(R.id.txt_condition_name)
+//        val txtConditionName = findViewById<EditText>(R.id.txt_condition_name)
         val MedicalCondservice = MedCondInstance.retrofitBuilder
 
         val MedicalCon = txtMedicalCon.text.toString()
-        val ConditionName = txtConditionName.text.toString()
+//        val ConditionName = txtConditionName.text.toString()
 
-        val MedicalCondInfo = MedicalCondition(patientID = patientID, medicalCondition = MedicalCon, conditionName =ConditionName )
+        val MedicalCondInfo = MedicalCondition(patientID = patientID, medicalCondition = MedicalCon )
 
         MedicalCondservice.insertMedCond(MedicalCondInfo).enqueue(object : Callback<MedicalCondition> {
             override fun onResponse(call: Call<MedicalCondition>, response: Response<MedicalCondition>) {

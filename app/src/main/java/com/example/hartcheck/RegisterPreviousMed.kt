@@ -9,7 +9,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.example.hartcheck.Model.MedicalHistory
+import com.example.hartcheck.Remote.MedHisRemote.MedHisInstance
+import org.w3c.dom.Text
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -23,7 +30,12 @@ class RegisterPreviousMed : AppCompatActivity() {
         setContentView(R.layout.activity_register_previous_med)
         val inputFields = findViewById<LinearLayout>(R.id.inputFields)
         val inputFieldsDate = findViewById<LinearLayout>(R.id.inputFieldsDate)
-        tvDatePicker = findViewById(R.id.txt_medcond_date)
+        val btnmedHisbodyMass = findViewById<Button>(R.id.btn_medHis_bodyMass)
+
+        val patientID = intent.getIntExtra("patientID", 0)
+        Toast.makeText(this@RegisterPreviousMed, "$patientID", Toast.LENGTH_SHORT).show()
+
+        tvDatePicker = findViewById(R.id.txt_medcond_dates)
 
 
         tvDatePicker.setOnClickListener {
@@ -35,9 +47,9 @@ class RegisterPreviousMed : AppCompatActivity() {
         addButton.setOnClickListener {
             if (inputFields.childCount < 5 && inputFieldsDate.childCount <5){
                 val inputField = EditText(this)
-                val inputFieldDate = TextView(this)
+                val inputFieldDate = EditText(this)
                 inputField.hint = this.getString(R.string.input_heredetary)
-                inputFieldDate.text = "Date"
+                inputFieldDate.hint = "Date"
 
                 inputField.layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -57,9 +69,9 @@ class RegisterPreviousMed : AppCompatActivity() {
                         this, {DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
                             val selectedDate = Calendar.getInstance()
                             selectedDate.set(year, monthOfYear, dayOfMonth)
-                            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                            val dateFormat = SimpleDateFormat("yyyy-dd-MM", Locale.getDefault())
                             val formattedDate = dateFormat.format(selectedDate.time)
-                            inputFieldDate.text = "$formattedDate"
+                            inputFieldDate.hint = "$formattedDate"
                         },
                         calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH),
@@ -87,27 +99,45 @@ class RegisterPreviousMed : AppCompatActivity() {
         //this is where you get values
         val sendBtn = findViewById<Button>(R.id.btn_medHis_bodyMass)
         sendBtn.setOnClickListener {
-            val values = mutableListOf<String>()
-            val dates = mutableListOf<String>()
+//            val values = mutableListOf<String>()
+//            val dates = mutableListOf<String>()
+//            for (i in 0 until inputFields.childCount) {
+//                val view: View = inputFields.getChildAt(i)
+//                if (view is EditText) {
+//                    values.add(view.text.toString())
+//                }
+//            }
+//            for (i in 0 until inputFieldsDate.childCount) {
+//                val view: View = inputFieldsDate.getChildAt(i)
+//                if (view is TextView) {
+//                    dates.add(view.text.toString())
+//                }
+//            }
+//            for (i in values){
+//                Log.d("Text", i)
+//            }
+//            for (i in dates){
+//                Log.d("Date", i)
+//            }
+            val medHisInfos = mutableListOf<MedicalHistory>()
             for (i in 0 until inputFields.childCount) {
                 val view: View = inputFields.getChildAt(i)
                 if (view is EditText) {
-                    values.add(view.text.toString())
+                    val medCond = view.text.toString()
+                    val viewDate: View = inputFieldsDate.getChildAt(i)
+                    if (viewDate is TextView) {
+                        val date = viewDate.text.toString()
+                        val medHisInfo = MedicalHistory(patientID = patientID, medicalHistory = medCond, date = date)
+                        medHisInfos.add(medHisInfo)
+                    }
                 }
             }
-            for (i in 0 until inputFieldsDate.childCount) {
-                val view: View = inputFieldsDate.getChildAt(i)
-                if (view is TextView) {
-                    dates.add(view.text.toString())
-                }
-            }
-            for (i in values){
-                Log.d("Text", i)
-            }
-            for (i in dates){
-                Log.d("Date", i)
-            }
+            insertMultipleMedHis(medHisInfos)
         }
+
+//        btnmedHisbodyMass.setOnClickListener{
+//            insertMedHisOld()
+//        }
     }
     private fun showDatePicker() {
         // Create a DatePickerDialog
@@ -126,4 +156,80 @@ class RegisterPreviousMed : AppCompatActivity() {
         // Show the DatePicker dialog
         datePickerDialog.show()
     }
+//    private fun insertMedHis(medHisInfos: List<MedicalHistory>) {
+//        val medHisService = MedHisInstance.retrofitBuilder
+//        medHisInfos.forEach { medHisInfo ->
+//            medHisService.insertMedHis(medHisInfo).enqueue(object : Callback<MedicalHistory> {
+//                override fun onResponse(call: Call<MedicalHistory>, response: Response<MedicalHistory>) {
+//                    if (response.isSuccessful) {
+//                        // Successfully inserted the medical history
+//                        Toast.makeText(this@RegisterPreviousMed, "added the history", Toast.LENGTH_SHORT).show()
+//
+//                    } else {
+//                        // Handle the error response
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<MedicalHistory>, t: Throwable) {
+//                    // Handle network or other exceptions
+//                }
+//            })
+//        }
+//    }
+    private fun insertMedHisOld() {//to be fix
+        val patientID = intent.getIntExtra("patientID", 0)
+
+        val txtMedCond: EditText = findViewById(R.id.txt_medcond)
+        val txtmedconddate: EditText = findViewById(R.id.txt_medcond_dates)
+
+        val medCond = txtMedCond.text.toString()
+        val date = txtmedconddate.text.toString()
+
+        val medHisInfo = MedicalHistory(patientID = patientID, medicalHistory = medCond, date = date)
+
+        val medHisService = MedHisInstance.retrofitBuilder
+        medHisService.insertMedHis(medHisInfo).enqueue(object : Callback<MedicalHistory> {
+            override fun onResponse(call: Call<MedicalHistory>, response: Response<MedicalHistory>) {
+                if (response.isSuccessful) {
+                    // Successfully deleted the bug report
+                    Toast.makeText(this@RegisterPreviousMed, "added the history", Toast.LENGTH_SHORT).show()
+
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    Log.d("MainActivity", "Failed to connect: " + response.code() + ", error: " + errorBody)
+
+                }
+            }
+
+            override fun onFailure(call: Call<MedicalHistory>, t: Throwable) {
+                // Handle network or other exceptions
+                Log.d("MainActivity", "Failed to connect: : " + t.message)
+
+            }
+        })
+    }
+    private fun insertMultipleMedHis(medHisInfos: List<MedicalHistory>) {
+        val medHisService = MedHisInstance.retrofitBuilder
+        medHisInfos.forEach { medHisInfo ->
+            medHisService.insertMedHis(medHisInfo).enqueue(object : Callback<MedicalHistory> {
+                override fun onResponse(call: Call<MedicalHistory>, response: Response<MedicalHistory>) {
+                    if (response.isSuccessful) {
+                        // Successfully inserted the medical history
+                        Toast.makeText(this@RegisterPreviousMed, "added the history", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // Handle the error response
+                        val errorBody = response.errorBody()?.string()
+                        Log.d("MainActivity", "Failed to connect: " + response.code() + ", error: " + errorBody)
+                    }
+                }
+
+                override fun onFailure(call: Call<MedicalHistory>, t: Throwable) {
+                    // Handle network or other exceptions
+                    Log.d("MainActivity", "Failed to connect: : " + t.message)
+                }
+            })
+        }
+    }
+
+
 }

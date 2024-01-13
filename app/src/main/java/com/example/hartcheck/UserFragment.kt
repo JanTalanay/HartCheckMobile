@@ -1,6 +1,7 @@
 package com.example.hartcheck
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -15,13 +16,17 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
+import com.example.hartcheck.Data.OTPVerification
+import com.example.hartcheck.Data.UserConfirm
 import com.example.hartcheck.Model.Patients
 import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.PatientsRemote.PatientsInstance
 import com.example.hartcheck.Remote.UsersRemote.UsersInstance
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -44,6 +49,9 @@ class UserFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var gsc: GoogleSignInClient
+    private lateinit var patientEmail: String
+    private var otpHash: String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,11 +92,19 @@ class UserFragment : Fragment() {
         }
         btn_edit_profile.setOnClickListener {
 //            replaceFragment(EditProfileFragment.newInstance(userID!!, patientName!!))
-            val intent = Intent(activity, ConfirmUserEmailActivity::class.java)
-            intent.putExtra("userID", userID)
-            intent.putExtra("patientID", patientID)
-            intent.putExtra("patientName", patientName)
-            startActivity(intent)
+//            val intent = Intent(activity, ConfirmUserEmailActivity::class.java)
+//            intent.putExtra("userID", userID)
+//            intent.putExtra("patientID", patientID)
+//            intent.putExtra("patientName", patientName)
+//            startActivity(intent)
+            if (userID != null) {
+                if (patientName != null) {
+                    if (patientID != null) {
+                        showModal(userID, patientName, patientID)
+                    }
+                }
+            }
+
 
         }
         btn_change.setOnClickListener {
@@ -98,14 +114,13 @@ class UserFragment : Fragment() {
             startActivity(intent)
         }
 
-
         viewUser()
 
 
         return view
     }//otp in da modal
 
-    private fun showModal(){
+    private fun showModal(userID: Int, patientName: String, patientID: Int){
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -113,17 +128,26 @@ class UserFragment : Fragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val userOtp: EditText = dialog.findViewById(R.id.edit_userOtp)
+        val sentOTP: TextView = dialog.findViewById(R.id.sent_OTP)
         val btn_close:Button = dialog.findViewById(R.id.btn_modal_deny)
         val btn_confirm:Button = dialog.findViewById(R.id.btn_modal_confirm)
 
-        btn_confirm.setOnClickListener {
+
+        btn_confirm.setOnClickListener {//confirm the OTP and hash
 //            insertBP(dialog)
+//            confirmUser(patientID, requireContext())//call the email automatically
+//            replaceFragment(EditProfileFragment.newInstance(userID, patientName))
+            verifyOTP(dialog, userID, patientName)
+//
+        }
+        sentOTP.setOnClickListener {
+            confirmUser(requireContext())
         }
 
         btn_close.setOnClickListener {
             dialog.dismiss()
         }
-
+        getpatientEmail(patientID)
         dialog.show()
     }
 
@@ -189,6 +213,81 @@ class UserFragment : Fragment() {
         gsc.signOut().addOnSuccessListener {
             startActivity(Intent(context, LoginMain::class.java))
 //            finish()
+        }
+    }
+    private fun confirmUser(context: Context) {
+        val userConfirm = UserConfirm(email = patientEmail)
+        val userConfirmService = UsersInstance.retrofitBuilder
+        userConfirmService.confirmUser(userConfirm).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>){
+                if (response.isSuccessful) {
+                    otpHash = response.body()?.string() ?: ""
+//                    Toast.makeText(context, "OTP Hash: $otpHash", Toast.LENGTH_LONG).show()
+                }
+                else {
+                    Toast.makeText(context, "Registration DENIED", Toast.LENGTH_SHORT).show()
+                    response.errorBody()?.let { errorBody ->
+                        Log.d("MainActivity", "Response: ${errorBody.string()}")
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d ("MainActivity", "Registration failed: ${t}\"")
+            }
+        })
+    }
+
+    private fun getpatientEmail(patientID: Int){
+        val service = PatientsInstance.retrofitBuilder
+
+        service.getEmailByPatientId(patientID).enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                if (response.isSuccessful) {
+                    patientEmail = response.body() ?: ""
+//                    Toast.makeText(context, "Patient Email: $patientEmail", Toast.LENGTH_SHORT).show()
+                } else {
+                    Log.d("MainActivity", "Failed to connect: " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                // Handle the failure
+                Log.d("MainActivity", "Failed to connect: : " + t.message)
+            }
+        })
+    }
+
+    private fun verifyOTP(dialog: Dialog, userID: Int, patientName: String){
+        val userOtp: EditText = dialog.findViewById(R.id.edit_userOtp)
+        if (userOtp.text.isNotEmpty()){
+            val otp = userOtp.text.toString()
+//            Toast.makeText(context, "$otp, $patientEmail, $otpHash", Toast.LENGTH_SHORT).show()
+            val verify = OTPVerification(otp = otp, email = patientEmail, otpHash = otpHash)
+            val OTPVerifyService = UsersInstance.retrofitBuilder
+            OTPVerifyService.VerifyOTP(verify).enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>){
+                    if (response.isSuccessful) {
+                        Toast.makeText(context, "OTP Verified", Toast.LENGTH_SHORT).show()
+                        replaceFragment(EditProfileFragment.newInstance(userID, patientName))
+                        dialog.dismiss()
+                    }
+                    else {
+                        Toast.makeText(context, "Wrong OTP, try again", Toast.LENGTH_SHORT).show()
+                        response.errorBody()?.let { errorBody ->
+                            Log.d("MainActivity", "Response: ${errorBody.string()}")
+
+                        }
+                    }
+                }
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.d ("MainActivity", "Registration failed: ")
+                }
+            })
+            // Use otp for verification
+//            Toast.makeText(this, "Your OTP that you enter is: $otp", Toast.LENGTH_SHORT).show()
+
+        } else {
+            // Show a message or handle the error
         }
     }
 

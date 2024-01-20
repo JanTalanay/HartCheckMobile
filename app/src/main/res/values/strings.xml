@@ -89,6 +89,7 @@
     <string name="input_surgery">e.g. Kidney</string>
     <string name="input_heredetary">E.g. Hypertension</string>
     <string name="input_phone">Phone No. 09xx-xxx-xxxx</string>
+    <string name="input_dosage">(mg)</string>
     <string name="input_email">Email</string>
     <string name="input_pass">Password</string>
     <string name="input_confirm_pass">Confirm Password</string>

@@ -22,6 +22,7 @@ class RegisterPrevMedicine : AppCompatActivity() {
         setContentView(R.layout.activity_register_prevmedicine)
         val inputFields = findViewById<LinearLayout>(R.id.inputFields2)
         val inputFieldsDate = findViewById<LinearLayout>(R.id.inputFieldsDate2)
+        val inputFieldsDosage = findViewById<LinearLayout>(R.id.inputFieldsDosage)
         tvDatePicker = findViewById(R.id.txt_medicine_date)
 
 
@@ -35,10 +36,16 @@ class RegisterPrevMedicine : AppCompatActivity() {
             if (inputFields.childCount < 5 && inputFieldsDate.childCount <5){
                 val inputField = EditText(this)
                 val inputFieldDate = TextView(this)
+                val inputFieldDosage = TextView(this)
                 inputField.hint = this.getString(R.string.input_medicine)
+                inputFieldDosage.hint = this.getString(R.string.input_dosage)
                 inputFieldDate.text = "Date"
 
                 inputField.layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                inputFieldDosage.layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
@@ -71,6 +78,7 @@ class RegisterPrevMedicine : AppCompatActivity() {
 
                 inputFields.addView(inputField)
                 inputFieldsDate.addView(inputFieldDate)
+                inputFieldsDosage.addView(inputFieldDosage)
             }
 
         }
@@ -94,12 +102,19 @@ class RegisterPrevMedicine : AppCompatActivity() {
                     values.add(view.text.toString())
                 }
             }
+            for (i in 0 until inputFieldsDosage.childCount) {
+                val view: View = inputFieldsDosage.getChildAt(i)
+                if (view is EditText) {
+                    values.add(view.text.toString())
+                }
+            }
             for (i in 0 until inputFieldsDate.childCount) {
                 val view: View = inputFieldsDate.getChildAt(i)
                 if (view is TextView) {
                     dates.add(view.text.toString())
                 }
             }
+
             for (i in values){
                 Log.d("Text", i)
             }

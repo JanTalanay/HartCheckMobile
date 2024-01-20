@@ -40,7 +40,6 @@
     <string name="btn_Remove">Remove?</string>
 
 
-
     <!--  custom btns-->
     <string name="btn_view_bp_2">View my BP</string>
     <string name="btn_consultations">Consultations</string>
@@ -104,6 +103,7 @@
     <string name="input_otp">4-digit OTP (e.g. 0000)</string>
 
     <!--    paragraphs-->
+    <string name="p_confirm_reg">Are you currently Preganant?.</string>
     <string name="p_reg1">Do you have any history of medical conditions that could be hereditary? If yes then please list them down along with their respective dates.</string>
     <string name="p_reg2">Have you had any past surgeries? If you had then please list them down along with their respective dates.</string>
     <string name="p_reg3">Do you have any previous medications e.g. Paracetamol? If you had then please list them down along with their respective dates. </string>

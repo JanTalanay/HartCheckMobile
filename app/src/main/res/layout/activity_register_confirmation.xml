@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterConfirmationActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="358dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="36dp"
+        android:orientation="vertical"
+        android:stretchColumns="*"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:text="@string/header_reg_2"
+            android:textColor="@color/primary_black"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/q1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/font_urbanist_bold"
+            android:text="@string/p_confirm_reg"
+            android:textColor="@color/primary_black"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_confirm_register"
+        android:layout_width="358dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="96dp"
+        android:background="@drawable/btn_primary"
+        android:text="@string/btn_next"
+        android:textColor="@drawable/btn_text_color_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/inputFields"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+<!--        <EditText-->
+<!--            android:id="@+id/txt_ispregnant"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="55dp"-->
+<!--            android:hint="@string/input_heredetary"-->
+<!--            android:inputType="text"-->
+<!--            android:paddingEnd="10dp"-->
+<!--            android:textColor="@color/grey"-->
+<!--            tools:layout_editor_absoluteX="26dp"-->
+<!--            tools:layout_editor_absoluteY="307dp" />-->
+
+        <RadioGroup
+            android:id="@+id/rGP_confirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yes"/>
+
+            <RadioButton
+                android:id="@+id/rb_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No"/>
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/inputFieldsDate"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.27"
+        app:layout_constraintStart_toEndOf="@+id/inputFields"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

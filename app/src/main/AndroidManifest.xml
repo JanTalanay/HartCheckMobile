@@ -20,19 +20,19 @@
         android:theme="@style/Theme.HartCheck"
         tools:targetApi="31">
         <activity
+            android:name=".RegisterConfirmationActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterPrevMedicine"
             android:exported="false" />
         <activity
-            android:name="FAQ"
-            android:exported="false"/>
+            android:name=".FAQ"
+            android:exported="false" />
         <activity
             android:name=".RegisterPreviousMed"
             android:exported="false" />
         <activity
             android:name=".BugReportActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EditUserOTPActivity"
             android:exported="false" />
         <activity
             android:name=".ChatMainActivity"
@@ -89,9 +89,6 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".ConfirmUserEmailActivity"
-            android:exported="false" />
-        <activity
             android:name=".GoogleSign"
             android:exported="false" />
         <activity
@@ -106,7 +103,6 @@
         <activity
             android:name=".ConfirmActivity"
             android:exported="false" />
-
         <activity
             android:name=".SplashActivity"
             android:exported="true">

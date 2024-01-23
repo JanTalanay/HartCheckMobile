@@ -29,7 +29,7 @@ class MedicinesActivity : AppCompatActivity() {
                     val medicine = response.body()
                     if (medicine != null) {
                         for (professional in medicine.MedicineInfo) {
-                            Log.d("TestActivity", "${professional.medicine}. ${professional.dosage}")
+                            Log.d("TestActivity", "${professional.medicine}}")
                             testView.text = "Patient condition: ${professional.medicine}"
                         }
                     }

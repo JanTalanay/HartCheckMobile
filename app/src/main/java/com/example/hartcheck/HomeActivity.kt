@@ -109,7 +109,7 @@ class HomeActivity : AppCompatActivity() {
         val patientName = intent.getStringExtra("patientName")
 
         getPatientID(userID) { patientID ->
-            val intent = Intent(this@HomeActivity, NavActivity::class.java)
+            val intent = Intent(this@HomeActivity, MedicinesActivity::class.java)
             intent.putExtra("BUTTON_STATE", buttonState)
             intent.putExtra("userID", userID)
             intent.putExtra("patientID", patientID)

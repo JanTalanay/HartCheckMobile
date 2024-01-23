@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class RegisterConfirmationActivity : AppCompatActivity() {
+class RegisterConfirmationActivity : AppCompatActivity() {//Fix intent to process other registration needs, prev med, prev medicine
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_confirmation)

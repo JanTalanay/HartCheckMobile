@@ -25,7 +25,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {//FIXED(INTENTATION OF DATA) (RegisterActivity to either registerconfirmAct
 
     private lateinit var gGivenName: TextView
     private lateinit var gFamilyName: TextView

@@ -65,13 +65,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <EditText
+        <TextView
             android:id="@+id/txt_medcond"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:hint="@string/input_heredetary"
             android:inputType="text"
             android:paddingEnd="10dp"
+            android:textSize="17sp"
+            android:gravity="center"
             android:textColor="@color/grey"
             tools:layout_editor_absoluteX="26dp"
             tools:layout_editor_absoluteY="307dp" />
@@ -102,13 +104,15 @@
 <!--            tools:layout_editor_absoluteX="26dp"-->
 <!--            tools:layout_editor_absoluteY="307dp" />-->
 
-        <EditText
+        <TextView
             android:id="@+id/txt_medcond_dates"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:hint="dates"
+            android:hint="@string/input_date"
             android:inputType="text"
             android:paddingEnd="10dp"
+            android:textSize="17sp"
+            android:gravity="center"
             android:textColor="@color/grey"
             tools:layout_editor_absoluteX="26dp"
             tools:layout_editor_absoluteY="307dp" />
@@ -121,7 +125,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/btn_primary"
-        android:text="@string/btn_addMore"
+        android:text="@string/btn_add"
         android:textColor="@drawable/btn_text_color_white"
         app:layout_constraintBottom_toTopOf="@+id/btn_medHis_bodyMass"
         app:layout_constraintStart_toStartOf="parent"

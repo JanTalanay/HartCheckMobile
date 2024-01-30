@@ -38,6 +38,7 @@
     <string name="btn_change_pass">Change Password</string>
     <string name="btn_addMore">Add more?</string>
     <string name="btn_Remove">Remove?</string>
+    <string name="btn_Remove_prev">Remove Previous?</string>
 
 
     <!--  custom btns-->
@@ -85,7 +86,8 @@
     <string name="input_weight">Weight</string>
     <string name="input_medical_condition">Medical Condition/s</string>
     <string name="input_medication">Current Medications</string>
-    <string name="input_medicine">e.g. Paracetamol</string>
+    <string name="input_medicine">Medicine (e.g. Vertigon)</string>
+    <string name="input_medicines">Medicine</string>
     <string name="input_surgery">e.g. Kidney</string>
     <string name="input_heredetary">E.g. Hypertension</string>
     <string name="input_phone">Phone No. 09xx-xxx-xxxx</string>
@@ -98,9 +100,11 @@
     <string name="input_systolic">Systolic</string>
     <string name="input_diastolic">Diastolic</string>
     <string name="input_status">Status</string>
+    <string name="input_dosage_exp">Dosage (e.g. 25mg)</string>
     <string name="input_no">0</string>
     <string name="input_feat">Feature</string>
     <string name="input_date">Date</string>
+    <string name="input_select_date">-Select a date-</string>
     <string name="input_otp">4-digit OTP (e.g. 0000)</string>
 
     <!--    paragraphs-->
@@ -113,6 +117,9 @@
     <string name="p_forgot">Forgot Password?</string>
     <string name="p_con_name">E.g. Asthma</string>
     <string name="p_med">E.g. Paracetamol</string>
+    <string name="p_med_modal">Please input the medical condition and the date it was diagnosed.</string>
+    <string name="p_medicine_modal">Please input the medicine and the date it was diagnosed.</string>
+    <string name="p_surg_modal">Please input your surgical history.</string>
     <string name="p_current_condition">Do you currently have a medical condition? if none then please add \"none\"</string>
     <string name="p_prev_med">Have you had any previous medications? if none then please add \"none\"</string>
     <string name="p_bmi">Please enter your height in cm and weight in kg</string>

@@ -50,6 +50,7 @@
 
     <!--  header -->
     <string name="header_reg_1">Hello! Register to get started</string>
+    <string name="header_reg_4">Please input your height and weight.</string>
     <string name="header_past_appointments">Appointment History</string>
     <string name="header_reg_2">Please answer the following questions.</string>
     <string name="header_reg_3">You’re almost there!</string>

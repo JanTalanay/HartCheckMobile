@@ -23,7 +23,7 @@
             android:name=".RegisterWeight"
             android:exported="false" />
         <activity
-            android:name=".BodyMassActivity"
+            android:name=".FAQ"
             android:exported="false" />
         <activity
             android:name=".MedicinesActivity"
@@ -119,7 +119,7 @@
             android:name=".ConfirmActivity"
             android:exported="false" />
         <activity
-            android:name=".FAQ"
+            android:name=".BodyMassActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

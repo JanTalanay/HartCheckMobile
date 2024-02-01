@@ -2,11 +2,7 @@ package com.example.hartcheck
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.provider.CalendarContract
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,18 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hartcheck.Adapter.AppointmentAdapter
 import com.example.hartcheck.Adapter.ListAdapter
 import com.example.hartcheck.Data.DocData
 import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.ConsultationRemote.ConsultationInstance
 import com.example.hartcheck.Wrapper.DoctorScheduleDates
-import com.example.hartcheck.Wrapper.PatientsDoctorAssign
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -34,7 +26,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.await
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
@@ -42,28 +33,21 @@ import java.util.Locale
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-
-
 /**
  * A simple [Fragment] subclass.
- * Use the [ConsultationFragment.newInstance] factory method to
+ * Use the [AppointmentHistoryFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ConsultationFragment : Fragment() {
+class AppointmentHistoryFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private val CHANNEL_ID ="Your_Channel_ID"
-    private val notificationID = 101
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var listAdapter: ListAdapter
+    private lateinit var appointAdapter: AppointmentAdapter
     private lateinit var doctorList: MutableList<DocData>
-    private lateinit var btn_avail: Button
-    private lateinit var btnbackconsultation: Button
+    private lateinit var btnbackapphist: Button
     private lateinit var txt_emp: TextView
-    private lateinit var btn_appoint:Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -79,13 +63,11 @@ class ConsultationFragment : Fragment() {
         val patientName = arguments?.getString(ARG_PATIENT_NAME)
 
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_consultation, container, false)
+        val view = inflater.inflate(R.layout.fragment_appointment_history, container, false)
         val frag = true
 
-        btn_avail = view.findViewById(R.id.btn_view_avail)
-        btnbackconsultation = view.findViewById(R.id.btn_back_consultation)
+        btnbackapphist = view.findViewById(R.id.btn_back_app_hist)
         txt_emp = view.findViewById(R.id.txt_empty)
-        btn_appoint = view.findViewById(R.id.btn_view_prev_consul)
 
 
         doctorList = mutableListOf()
@@ -100,8 +82,8 @@ class ConsultationFragment : Fragment() {
                         val scheduleInfo = doctorSchedules.DoctorDates[index].schedDateTime
                         doctorList.add(DocData(doctorSchedID!!,doctorID,doctorName, formatDateTime(scheduleInfo!!)))
                     }
-                    listAdapter = ListAdapter(doctorList,frag, patientID, patientName, userID, AppointmentDetailsActivity::class.java)
-                    recyclerView.adapter = listAdapter
+                    appointAdapter = AppointmentAdapter(doctorList,frag, patientID, patientName, userID, AppointmentHistDetailsFragment::class.java)
+                    recyclerView.adapter = appointAdapter
                 }
             }
         }
@@ -110,22 +92,14 @@ class ConsultationFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listAdapter = ListAdapter(doctorList,frag, patientID,patientName = null, userID, AppointmentDetailsActivity::class.java)
-        recyclerView.adapter = listAdapter
+        appointAdapter = AppointmentAdapter(doctorList,frag, patientID,patientName = null, userID, AppointmentHistDetailsFragment::class.java)
+        recyclerView.adapter = appointAdapter
 
         //enable this as default
         txt_emp.visibility = View.GONE// you don't have any appointments today (put a null checker to show or not)
-        btn_avail.visibility = View.VISIBLE
-        btn_appoint.visibility = View.VISIBLE
         recyclerView.visibility = View.VISIBLE
 
-        btn_avail.setOnClickListener {//available doctors
-            replaceFragment(DoctorFragment.newInstance(userID!!,patientID, patientName!!))
-        }
-        btn_appoint.setOnClickListener {
-            //replaceFragment(AppointmentHistoryFragment.newInstance(userID!!,patientID, patientName!!)) pls fix
-        }
-        btnbackconsultation.setOnClickListener {
+        btnbackapphist.setOnClickListener {
             val intent = Intent(context, HomeActivity::class.java)
             intent.putExtra("patientID", patientID)
             intent.putExtra("patientName", patientName)
@@ -134,6 +108,7 @@ class ConsultationFragment : Fragment() {
         }
         return view
     }
+
     private fun replaceFragment(fragment: Fragment){
         val fragmentManager = activity?.supportFragmentManager
         val fragmentTransaction = fragmentManager?.beginTransaction()
@@ -143,7 +118,8 @@ class ConsultationFragment : Fragment() {
     }
     private fun getConsultationAssign(patientID: Int, onConsultationAssignRetrieved: (doctorSchedules: DoctorScheduleDates) -> Unit) {
         val consultationAssignService = ConsultationInstance.retrofitBuilder
-        consultationAssignService.getConsultationAssign(patientID).enqueue(object : Callback<DoctorScheduleDates> {
+        consultationAssignService.getConsultationAssign(patientID).enqueue(object :
+            Callback<DoctorScheduleDates> {
             override fun onResponse(call: Call<DoctorScheduleDates>, response: Response<DoctorScheduleDates>) {
                 if (response.isSuccessful) {
                     val doctorSchedules = response.body()
@@ -166,7 +142,6 @@ class ConsultationFragment : Fragment() {
             }
         })
     }
-
 
 
     private suspend fun getDoctorInfo(context: Context, doctorIDs: List<Int?>, onDoctorInfoRetrieved: (doctorsInfo: ArrayList<Users>) -> Unit) {

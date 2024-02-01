@@ -20,6 +20,12 @@
         android:theme="@style/Theme.HartCheck"
         tools:targetApi="31">
         <activity
+            android:name=".RegisterWeight"
+            android:exported="false" />
+        <activity
+            android:name=".BodyMassActivity"
+            android:exported="false" />
+        <activity
             android:name=".MedicinesActivity"
             android:exported="false" />
         <activity
@@ -35,7 +41,7 @@
             android:name=".RegisterPrevMedicine"
             android:exported="false" />
         <activity
-            android:name=".FAQ"
+            android:name=".RegisterPreviousMed"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
@@ -113,7 +119,7 @@
             android:name=".ConfirmActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterPreviousMed"
+            android:name=".FAQ"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

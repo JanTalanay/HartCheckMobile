@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="20dp"
+    android:layout_marginHorizontal="20dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp">
+
+    <TableLayout
+        android:id="@+id/doctor_hist_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/txt_appointment_title"
+            android:layout_marginTop="20dp"
+            android:text="@string/p_appointment_date"
+            android:fontFamily="@font/font_urbanist_medium"
+            android:textColor="@color/primary_black"
+            android:visibility="visible"/>
+        <TextView
+            android:id="@+id/txt_appointment_hist_date"
+            android:layout_marginTop="5dp"
+            android:text="January 10 2024, 10:AM to 11:AM "
+            android:fontFamily="@font/font_urbanist_bold"
+            android:textColor="@color/primary_black"
+            android:visibility="visible"
+            />
+        <ImageView
+            android:id="@+id/doc_line"
+            android:layout_width="50dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/line"
+            android:visibility="visible"/>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/txt_doc_hist_name"
+                android:layout_column="0"
+                android:textSize="18sp"
+                android:text="Dr. Padma Jingesh"
+                android:layout_marginRight="5dp"
+                android:layout_width="160dp"
+                android:layout_height="70dp"
+                android:fontFamily="@font/font_urbanist_bold"
+                android:textColor="@color/primary_black" />
+
+            <TextView
+                android:id="@+id/txt_doc_hist_view"
+                android:layout_column="1"
+                android:textSize="18sp"
+                android:layout_width="120dp"
+                android:layout_height="70dp"
+                android:text="@string/p_view"
+                android:gravity="end"
+                android:fontFamily="@font/font_urbanist_bold"
+                android:textColor="@color/primary_teal" />
+
+        </TableRow>
+
+    </TableLayout>
+
+</androidx.cardview.widget.CardView>

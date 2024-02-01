@@ -25,6 +25,7 @@
     <string name="btn_view_bp">View Previous BP</string>
     <string name="btn_sync">Sync Smartwatch</string>
     <string name="btn_add">Add</string>
+    <string name="btn_appointment_hist">Appointment History</string>
     <string name="btn_view_doc">View Available Doctors</string>
     <string name="btn_request">Request to Reschedule</string>
     <string name="btn_cancel_app">Cancel Appointment</string>
@@ -49,8 +50,10 @@
 
     <!--  header -->
     <string name="header_reg_1">Hello! Register to get started</string>
+    <string name="header_past_appointments">Appointment History</string>
     <string name="header_reg_2">Please answer the following questions.</string>
     <string name="header_reg_3">You’re almost there!</string>
+    <string name="header_appoint_hist">Consultation Details</string>
     <string name="header_login">Welcome back! Glad to see you, Again!</string>
     <string name="header_terms">Terms and Conditions</string>
     <string name="header_forgot">Forgot Password?</string>

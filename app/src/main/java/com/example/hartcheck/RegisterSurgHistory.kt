@@ -2,6 +2,7 @@ package com.example.hartcheck
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -14,9 +15,17 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import com.example.hartcheck.Model.MedicalCondition
+import com.example.hartcheck.Model.MedicalHistory
+import com.example.hartcheck.Remote.MedHisRemote.MedHisInstance
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import kotlin.math.min
 
 class RegisterSurgHistory : AppCompatActivity() {
 
@@ -26,6 +35,9 @@ class RegisterSurgHistory : AppCompatActivity() {
         setContentView(R.layout.activity_register_surg_history)
         val inputFields = findViewById<LinearLayout>(R.id.inputFields3)
         val inputFieldsDate = findViewById<LinearLayout>(R.id.inputFieldsDate3)
+
+        val patientID = intent.getIntExtra("patientID", 0) // Provide a default value of 0
+
 
         val addButton = findViewById<Button>(R.id.btn_addSurg)
         addButton.setOnClickListener {
@@ -46,9 +58,18 @@ class RegisterSurgHistory : AppCompatActivity() {
         //this is where you get values
         val sendBtn = findViewById<Button>(R.id.btn_medHis_surg)
         sendBtn.setOnClickListener {
-            val values = mutableListOf<String>()
-            val dates = mutableListOf<String>()
-
+            val medHisInfos = mutableListOf<MedicalHistory>()
+            for (i in 0 until min(inputFields.childCount, inputFieldsDate.childCount)) {
+                val view: View = inputFields.getChildAt(i)
+                val viewDate: View = inputFieldsDate.getChildAt(i)
+                if (view is EditText && viewDate is TextView) {
+                    val medCond = view.text.toString()
+                    val date = viewDate.text.toString()
+                    val medHisInfo = MedicalHistory(patientID = patientID, medicalHistory = medCond, date = date)
+                    medHisInfos.add(medHisInfo)
+                }
+            }
+            insertMultipleMedHis(medHisInfos)
         }
     }
     private fun showModal(){
@@ -82,8 +103,8 @@ class RegisterSurgHistory : AppCompatActivity() {
         btn_confirm.setOnClickListener {
             val inputFields = findViewById<LinearLayout>(R.id.inputFields3)
             val inputFieldsDate = findViewById<LinearLayout>(R.id.inputFieldsDate3)
-            val inputField = TextView(this)
-            val inputFieldDate = TextView(this)
+            val inputField = EditText(this)
+            val inputFieldDate = EditText(this)
             inputField.text = input_med.text
             inputFieldDate.text = input_date.text
 
@@ -115,6 +136,38 @@ class RegisterSurgHistory : AppCompatActivity() {
         }
 
         dialog.show()
+    }
+
+    private fun insertMultipleMedHis(medHisInfos: List<MedicalHistory>) {
+        val email = intent.getStringExtra("email")
+        val otpHash = intent.getStringExtra("otpHash")
+        val patientID = intent.getIntExtra("patientID", 0)
+
+        val medHisService = MedHisInstance.retrofitBuilder
+        medHisInfos.forEach { medHisInfo ->
+            medHisService.insertMedHis(medHisInfo).enqueue(object : Callback<MedicalHistory> {
+                override fun onResponse(call: Call<MedicalHistory>, response: Response<MedicalHistory>) {
+                    if (response.isSuccessful) {
+                        // Successfully inserted the medical history
+//                        Toast.makeText(this@RegisterSurgHistory, "Added History of Previous Condition $otpHash", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@RegisterSurgHistory, RegisterPrevMedicine::class.java)
+                        intent.putExtra("email", email)
+                        intent.putExtra("otpHash", otpHash)
+                        intent.putExtra("patientID", patientID)
+                        startActivity(intent)
+                    } else {
+                        // Handle the error response
+                        val errorBody = response.errorBody()?.string()
+                        Log.d("MainActivity", "Failed to connect: " + response.code() + ", error: " + errorBody)
+                    }
+                }
+
+                override fun onFailure(call: Call<MedicalHistory>, t: Throwable) {
+                    // Handle network or other exceptions
+                    Log.d("MainActivity", "Failed to connect: : " + t.message)
+                }
+            })
+        }
     }
 
 }

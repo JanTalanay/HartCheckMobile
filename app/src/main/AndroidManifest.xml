@@ -44,7 +44,7 @@
             android:name=".RegisterPreviousMed"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".BodyMassActivity"
             android:exported="false" />
         <activity
             android:name=".BugReportActivity"
@@ -119,7 +119,7 @@
             android:name=".ConfirmActivity"
             android:exported="false" />
         <activity
-            android:name=".BodyMassActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

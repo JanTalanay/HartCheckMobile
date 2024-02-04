@@ -2,6 +2,7 @@ package com.example.hartcheck
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -14,9 +15,16 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import com.example.hartcheck.Model.PreviousMedication
+import com.example.hartcheck.Remote.PreviousMedRemote.PreviousMedInstance
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import kotlin.math.min
 
 class RegisterPrevMedicine : AppCompatActivity() {
 
@@ -30,7 +38,7 @@ class RegisterPrevMedicine : AppCompatActivity() {
 
         val addButton = findViewById<Button>(R.id.btn_addMedicine)
         addButton.setOnClickListener {
-            if (inputFields.childCount < 5 && inputFieldsDate.childCount <5){
+            if (inputFields.childCount < 5 && inputFieldsDate.childCount <5 && inputFieldsDosage.childCount <5){
                 showModal()
             }
 
@@ -38,43 +46,33 @@ class RegisterPrevMedicine : AppCompatActivity() {
 
         val removeButton = findViewById<Button>(R.id.btn_removeMedicine)
         removeButton.setOnClickListener {
-            if (inputFields.childCount > 1 && inputFieldsDate.childCount > 1) {
+            if (inputFields.childCount > 1 && inputFieldsDate.childCount > 1 && inputFieldsDosage.childCount > 1) {
                 inputFields.removeViewAt(inputFields.childCount - 1)
                 inputFieldsDate.removeViewAt(inputFieldsDate.childCount - 1)
+                inputFieldsDosage.removeViewAt(inputFieldsDosage.childCount - 1)
             }
         }
+        val patientID = intent.getIntExtra("patientID", 0)
 
         //this is where you get values
         val sendBtn = findViewById<Button>(R.id.btn_medHis_medicine)
         sendBtn.setOnClickListener {
-            val values = mutableListOf<String>()
-            val dates = mutableListOf<String>()
-            for (i in 0 until inputFields.childCount) {
+            val prevMedInfos = mutableListOf<PreviousMedication>()
+            for (i in 0 until min(inputFields.childCount, inputFieldsDate.childCount)) {
                 val view: View = inputFields.getChildAt(i)
-                if (view is EditText) {
-                    values.add(view.text.toString())
+                val viewDosage: View = inputFieldsDosage.getChildAt(i)
+                val viewDate: View = inputFieldsDate.getChildAt(i)
+                if (view is EditText && viewDate is TextView && viewDosage is EditText) {
+                    val prevMed = view.text.toString()
+                    val dosage = viewDosage.text.toString()
+                    val date = viewDate.text.toString()
+                    val prevMedInfo = PreviousMedication(patientID = patientID, previousMed = prevMed, dosage = dosage.toFloat(), date = date)
+                    prevMedInfos.add(prevMedInfo)
                 }
             }
-            for (i in 0 until inputFieldsDosage.childCount) {
-                val view: View = inputFieldsDosage.getChildAt(i)
-                if (view is EditText) {
-                    values.add(view.text.toString())
-                }
-            }
-            for (i in 0 until inputFieldsDate.childCount) {
-                val view: View = inputFieldsDate.getChildAt(i)
-                if (view is TextView) {
-                    dates.add(view.text.toString())
-                }
-            }
-
-            for (i in values){
-                Log.d("Text", i)
-            }
-            for (i in dates){
-                Log.d("Date", i)
-            }
+            insertMultiplePrevMed(prevMedInfos)
         }
+
     }
     private fun showModal(){
         val dialog = Dialog(this)
@@ -110,9 +108,9 @@ class RegisterPrevMedicine : AppCompatActivity() {
             val inputFieldsDate = findViewById<LinearLayout>(R.id.inputFieldsDate2)
             val inputFieldsDosage = findViewById<LinearLayout>(R.id.inputFieldsDosage)
 
-            val inputField = TextView(this)
-            val inputFieldDosage = TextView(this)
-            val inputFieldDate = TextView(this)
+            val inputField = EditText(this)
+            val inputFieldDosage = EditText(this)
+            val inputFieldDate = EditText(this)
             inputField.text = input_med.text
             inputFieldDate.text = input_date.text
             inputFieldDosage.text = input_dosage.text
@@ -155,4 +153,37 @@ class RegisterPrevMedicine : AppCompatActivity() {
 
         dialog.show()
     }
+    private fun insertMultiplePrevMed(prevMedInfo: List<PreviousMedication>) {
+        val email = intent.getStringExtra("email")
+        val otpHash = intent.getStringExtra("otpHash")
+        val patientID = intent.getIntExtra("patientID", 0)
+
+
+        val prevMedService = PreviousMedInstance.retrofitBuilder
+        prevMedInfo.forEach { prevMedInfo ->
+            prevMedService.insertPrevMed(prevMedInfo).enqueue(object : Callback<PreviousMedication> {
+                override fun onResponse(call: Call<PreviousMedication>, response: Response<PreviousMedication>) {
+                    if (response.isSuccessful) {
+                        // Successfully inserted the medication history
+//                        Toast.makeText(this@RegisterPrevMedicine, "Added Previous Medication! $otpHash", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@RegisterPrevMedicine, BodyMassActivity::class.java)
+                        intent.putExtra("email", email)
+                        intent.putExtra("otpHash", otpHash)
+                        intent.putExtra("patientID", patientID)
+                        startActivity(intent)
+                    } else {
+                        // Handle the error response
+                        val errorBody = response.errorBody()?.string()
+                        Log.d("MainActivity", "Failed to connect: " + response.code() + ", error: " + errorBody)
+                    }
+                }
+
+                override fun onFailure(call: Call<PreviousMedication>, t: Throwable) {
+                    // Handle network or other exceptions
+                    Log.d("MainActivity", "Failed to connect: : " + t.message)
+                }
+            })
+        }
+    }
+
 }

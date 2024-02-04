@@ -70,23 +70,23 @@ class AppointmentHistoryFragment : Fragment() {
         txt_emp = view.findViewById(R.id.txt_empty)
 
 
-        doctorList = mutableListOf()
-        getConsultationAssign(patientID!!) { doctorSchedules ->
-            val doctorIDs = doctorSchedules.DoctorDates.mapNotNull { it.doctorID }
-            GlobalScope.launch(Dispatchers.Main) {
-                getDoctorInfo(requireContext(), doctorIDs) { doctorsInfo ->
-                    for ((index, doctor) in doctorsInfo.withIndex()) {
-                        val doctorSchedID = doctorSchedules.DoctorDates[index].doctorSchedID
-                        val doctorID = doctorSchedules.DoctorDates[index].doctorID
-                        val doctorName = "${doctor.firstName} ${doctor.lastName}"
-                        val scheduleInfo = doctorSchedules.DoctorDates[index].schedDateTime
-                        doctorList.add(DocData(doctorSchedID!!,doctorID,doctorName, formatDateTime(scheduleInfo!!)))
-                    }
-                    appointAdapter = AppointmentAdapter(doctorList,frag, patientID, patientName, userID, AppointmentHistDetailsFragment::class.java)
-                    recyclerView.adapter = appointAdapter
-                }
-            }
-        }
+//        doctorList = mutableListOf()
+//        getConsultationAssign(patientID!!) { doctorSchedules ->
+//            val doctorIDs = doctorSchedules.DoctorDates.mapNotNull { it.doctorID }
+//            GlobalScope.launch(Dispatchers.Main) {
+//                getDoctorInfo(requireContext(), doctorIDs) { doctorsInfo ->
+//                    for ((index, doctor) in doctorsInfo.withIndex()) {
+//                        val doctorSchedID = doctorSchedules.DoctorDates[index].doctorSchedID
+//                        val doctorID = doctorSchedules.DoctorDates[index].doctorID
+//                        val doctorName = "${doctor.firstName} ${doctor.lastName}"
+//                        val scheduleInfo = doctorSchedules.DoctorDates[index].schedDateTime
+//                        doctorList.add(DocData(doctorSchedID!!,doctorID,doctorName, formatDateTime(scheduleInfo!!)))
+//                    }
+//                    appointAdapter = AppointmentAdapter(doctorList,frag, patientID, patientName, userID, AppointmentHistDetailsFragment::class.java)
+//                    recyclerView.adapter = appointAdapter
+//                }
+//            }
+//        }
 
 
 
@@ -116,47 +116,47 @@ class AppointmentHistoryFragment : Fragment() {
         fragmentTransaction?.replace(R.id.frame_layout, fragment)
         fragmentTransaction?.commit()
     }
-    private fun getConsultationAssign(patientID: Int, onConsultationAssignRetrieved: (doctorSchedules: DoctorScheduleDates) -> Unit) {
-        val consultationAssignService = ConsultationInstance.retrofitBuilder
-        consultationAssignService.getConsultationAssign(patientID).enqueue(object :
-            Callback<DoctorScheduleDates> {
-            override fun onResponse(call: Call<DoctorScheduleDates>, response: Response<DoctorScheduleDates>) {
-                if (response.isSuccessful) {
-                    val doctorSchedules = response.body()
-                    if (doctorSchedules != null) {
-                        onConsultationAssignRetrieved(doctorSchedules)
-                        val doctorIDs = doctorSchedules.DoctorDates.map { it.doctorID }
-                        GlobalScope.launch(Dispatchers.Main) {
-                            getDoctorInfo(requireContext(), doctorIDs) { doctorsInfo ->
-                                // Handle the doctorsInfo
-                            }
-                        }
-                    }
-                } else {
-                    Log.d("TestActivity", "Error: ${response.code()}")
-                }
-            }
+//    private fun getConsultationAssign(patientID: Int, onConsultationAssignRetrieved: (doctorSchedules: DoctorScheduleDates) -> Unit) {
+//        val consultationAssignService = ConsultationInstance.retrofitBuilder
+//        consultationAssignService.getConsultationAssign(patientID).enqueue(object :
+//            Callback<DoctorScheduleDates> {
+//            override fun onResponse(call: Call<DoctorScheduleDates>, response: Response<DoctorScheduleDates>) {
+//                if (response.isSuccessful) {
+//                    val doctorSchedules = response.body()
+//                    if (doctorSchedules != null) {
+//                        onConsultationAssignRetrieved(doctorSchedules)
+//                        val doctorIDs = doctorSchedules.DoctorDates.map { it.doctorID }
+//                        GlobalScope.launch(Dispatchers.Main) {
+//                            getDoctorInfo(requireContext(), doctorIDs) { doctorsInfo ->
+//                                // Handle the doctorsInfo
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    Log.d("TestActivity", "Error: ${response.code()}")
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<DoctorScheduleDates>, t: Throwable) {
+//                Log.d("TestActivity", "Failure: ${t.message}")
+//            }
+//        })
+//    }
 
-            override fun onFailure(call: Call<DoctorScheduleDates>, t: Throwable) {
-                Log.d("TestActivity", "Failure: ${t.message}")
-            }
-        })
-    }
 
-
-    private suspend fun getDoctorInfo(context: Context, doctorIDs: List<Int?>, onDoctorInfoRetrieved: (doctorsInfo: ArrayList<Users>) -> Unit) {
-        //getting the doctor first and last name base on the doctorID from getConsultationAssign
-        val service = ConsultationInstance.retrofitBuilder
-        val doctorsInfo = ArrayList<Users>()
-
-        for (doctorID in doctorIDs) {
-            val doctorInfo = service.getConsultationDoctor(doctorID!!).await()
-            if (doctorInfo != null) {
-                doctorsInfo.add(doctorInfo)
-            }
-        }
-        onDoctorInfoRetrieved(doctorsInfo)
-    }
+//    private suspend fun getDoctorInfo(context: Context, doctorIDs: List<Int?>, onDoctorInfoRetrieved: (doctorsInfo: ArrayList<Users>) -> Unit) {
+//        //getting the doctor first and last name base on the doctorID from getConsultationAssign
+//        val service = ConsultationInstance.retrofitBuilder
+//        val doctorsInfo = ArrayList<Users>()
+//
+//        for (doctorID in doctorIDs) {
+//            val doctorInfo = service.getConsultationDoctor(doctorID!!).await()
+//            if (doctorInfo != null) {
+//                doctorsInfo.add(doctorInfo)
+//            }
+//        }
+//        onDoctorInfoRetrieved(doctorsInfo)
+//    }
 
 
     private fun formatDateTime(originalDateTime: String): String {

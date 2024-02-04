@@ -43,7 +43,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_medHis_bodyMass"
+        android:id="@+id/btn_prevMedication_next"
         android:layout_width="358dp"
         android:layout_height="55dp"
         android:layout_marginBottom="96dp"

@@ -25,20 +25,6 @@ class RegisterConfirmationActivity : AppCompatActivity() {//Fix intent to proces
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_confirmation)
-        //intent the inputs here and make a gender checker
-        //if male set ispregnant to false ignore and insert it
-        //if female ask if the person is currently pregnant
-
-//        val email = intent.getStringExtra("email")
-//        val password = intent.getStringExtra("password")
-//        val firstName = intent.getStringExtra("firstName")
-//        val lastName = intent.getStringExtra("lastName")
-//        val birthdate = intent.getStringExtra("birthdate")
-//        val gender = intent.getIntExtra("gender", 1)
-//        val phoneNumber = intent.getLongExtra("phoneNumber", 1)
-//
-//        Toast.makeText(this@RegisterConfirmationActivity, "$gender, $email " , Toast.LENGTH_LONG).show()
-
         val btnConfirmReg = findViewById<Button>(R.id.btn_confirm_register)
 
         btnConfirmReg.setOnClickListener{
@@ -81,13 +67,13 @@ class RegisterConfirmationActivity : AppCompatActivity() {//Fix intent to proces
                     val users = response.body()
                     if(users != null){
 //                        Log.d("MainActivity", "Server response: ${users}")
-                        Toast.makeText(this@RegisterConfirmationActivity, "Registered", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this@RegisterConfirmationActivity, RegisterFinActivity::class.java) //change intent to new activity
-//                        intent.putExtra("userID", users.usersID)
-//                        intent.putExtra("email", users.email)
-//                        intent.putExtra("password", users.password)
-//                        intent.putExtra("otpHash", users.otpHash)
-//                        startActivity(intent)
+//                        Toast.makeText(this@RegisterConfirmationActivity, "Registered", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@RegisterConfirmationActivity, RegisterPreviousMed::class.java) //change intent to new activity
+                        intent.putExtra("userID", users.usersID)
+                        intent.putExtra("email", users.email)
+                        intent.putExtra("password", users.password)
+                        intent.putExtra("otpHash", users.otpHash)
+                        startActivity(intent)
                     }else {
                         Toast.makeText(this@RegisterConfirmationActivity, "User ID is null", Toast.LENGTH_SHORT).show()
                     }

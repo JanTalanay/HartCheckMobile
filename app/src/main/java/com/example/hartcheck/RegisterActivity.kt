@@ -136,8 +136,80 @@ class RegisterActivity : AppCompatActivity() {//FIXED(INTENTATION OF DATA) (Regi
         val phoneNumber = if (phoneNumberEditText.text.toString().isNotEmpty()) phoneNumberEditText.text.toString().toLong()
         else null
 
+        // Validations
+        // Check if the fields are not empty
+        if (email.isEmpty()) {
+            emailEditText.error = "The email field is required"
+            return
+        }
+        if (password.isEmpty()) {
+            passwordEditText.error = "The password field is required"
+            return
+        }
+        if (firstName.isEmpty()) {
+            firstNameEditText.error = "The first name field is required"
+            return
+        }
+        if (lastName.isEmpty()) {
+            lastNameEditText.error = "The last name field is required"
+            return
+        }
+        if (birthdate.isEmpty()) {
+            birthdateEditText.error = "The birthdate field is required"
+            return
+        }
+        if (phoneNumber == null) {
+            phoneNumberEditText.error = "The phone number field is required"
+            return
+        }
 
-        Toast.makeText(this@RegisterActivity, "Gender: $gender, " , Toast.LENGTH_LONG).show()
+        // Check if the fields meet the length requirements
+        if (firstName.length < 2) {
+            firstNameEditText.error = "The first name must be at least two or more characters"
+            return
+        }
+        if (lastName.length < 2) {
+            lastNameEditText.error = "The last name must be at least two or more characters"
+            return
+        }
+
+        // Check if the email is valid
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText.error = "The email should be a valid Email address"
+            return
+        }
+
+        // Check if the password meets the requirements
+        if (password.length < 8) {
+            passwordEditText.error = "The password should at least contain 8 characters"
+            return
+        }
+        if (!password.any { it.isDigit() } || !password.any { it.isUpperCase() } || !password.any { it.isLowerCase() }) {
+            passwordEditText.error = "The password should at least contain 1 special character one uppercased character, and one numerical number"
+            return
+        }
+
+        // Check if the phone number meets the requirements
+//        if (phoneNumber.toString().length != 12) {
+//            phoneNumberEditText.error = "The phone number should at least eleven numbers"
+//            return
+//        }
+//        if (!phoneNumber.toString().matches("\\d{12}".toRegex())) {
+//            phoneNumberEditText.error = "Invalid Format Number"
+//            return
+//        }
+
+        // Check if the birthdate is not less than 18 years old
+        val birthdateCalendar = Calendar.getInstance()
+        birthdateCalendar.time = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(birthdate)
+        val currentDate = Calendar.getInstance()
+        val age = currentDate.get(Calendar.YEAR) - birthdateCalendar.get(Calendar.YEAR)
+        if (age < 18) {
+            birthdateEditText.error = "You must be at least eighteen years old"
+            return
+        }
+
+//        Toast.makeText(this@RegisterActivity, "Gender: $gender, " , Toast.LENGTH_LONG).show()
         if (gender == 0) {
             registerPatientsMale(email, password, firstName, lastName, birthdate, gender, isPregnant, phoneNumber, role)
             return
@@ -178,12 +250,12 @@ class RegisterActivity : AppCompatActivity() {//FIXED(INTENTATION OF DATA) (Regi
                     if(users != null){
 //                        Log.d("MainActivity", "Server response: ${users}")
                         Toast.makeText(this@RegisterActivity, "Register", Toast.LENGTH_SHORT).show()
-//                        val intent = Intent(this@RegisterActivity, RegisterFinActivity::class.java) //change intent to new activity
-//                        intent.putExtra("userID", users.usersID)
-//                        intent.putExtra("email", users.email)
-//                        intent.putExtra("password", users.password)
-//                        intent.putExtra("otpHash", users.otpHash)
-//                        startActivity(intent)
+                        val intent = Intent(this@RegisterActivity, RegisterPreviousMed::class.java) //change intent to new activity
+                        intent.putExtra("userID", users.usersID)
+                        intent.putExtra("email", users.email)
+                        intent.putExtra("password", users.password)
+                        intent.putExtra("otpHash", users.otpHash)
+                        startActivity(intent)
                     }else {
                         Toast.makeText(this@RegisterActivity, "User ID is null", Toast.LENGTH_SHORT).show()
                     }

@@ -104,7 +104,7 @@ class ConsultationFragment : Fragment() {
                     recyclerView.adapter = listAdapter
                 }
             }
-        }
+        }//test
 
 
 

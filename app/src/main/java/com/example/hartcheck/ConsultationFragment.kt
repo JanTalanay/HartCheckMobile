@@ -123,7 +123,7 @@ class ConsultationFragment : Fragment() {
             replaceFragment(DoctorFragment.newInstance(userID!!,patientID, patientName!!))
         }
         btn_appoint.setOnClickListener {
-            replaceFragment(AppointmentHistoryFragment.newInstance(userID!!,patientID, patientName!!))
+            replaceFragment(AppointHistFragment.newInstance(userID!!,patientID, patientName!!))
         }
         btnbackconsultation.setOnClickListener {
             val intent = Intent(context, HomeActivity::class.java)

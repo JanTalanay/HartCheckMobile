@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -35,6 +36,8 @@ class RegisterPrevMedicine : AppCompatActivity() {
         val inputFields = findViewById<LinearLayout>(R.id.inputFields2)
         val inputFieldsDate = findViewById<LinearLayout>(R.id.inputFieldsDate2)
         val inputFieldsDosage = findViewById<LinearLayout>(R.id.inputFieldsDosage)
+
+
 
         val addButton = findViewById<Button>(R.id.btn_addMedicine)
         addButton.setOnClickListener {
@@ -87,6 +90,13 @@ class RegisterPrevMedicine : AppCompatActivity() {
         val input_dosage = dialog.findViewById<EditText>(R.id.edit_prev_medicine_dosage)
         val input_date = dialog.findViewById<EditText>(R.id.edit_prev_medicine_date)
 
+        val dosageDp =  60
+        val dateDp =  130
+
+        val metrics = resources.displayMetrics
+        val actualDosageDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dosageDp.toFloat(), metrics).toInt()
+        val actualDateDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dateDp.toFloat(), metrics).toInt()
+
         input_date.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
                 this, {DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
@@ -122,13 +132,13 @@ class RegisterPrevMedicine : AppCompatActivity() {
                 gravity = Gravity.CENTER
             }
             inputFieldDosage.layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
+                actualDosageDp,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
                 gravity = Gravity.CENTER
             }
             inputFieldDate.layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
+                actualDateDp,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
                 gravity = Gravity.CENTER
@@ -136,6 +146,7 @@ class RegisterPrevMedicine : AppCompatActivity() {
             inputField.setPadding(41,25,25,25)
             inputFieldDate.setPadding(41,25,25,25)
             inputFieldDosage.setPadding(41,25,25,25)
+
             inputField.textSize = 18F
             inputFieldDate.textSize = 18F
             inputFieldDosage.textSize = 18F

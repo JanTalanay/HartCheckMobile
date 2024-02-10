@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AppointmentHistoryFragment">
+    tools:context=".AppointHistFragment">
 
     <include
         layout="@layout/header_layout"
@@ -16,13 +15,13 @@
         android:id="@+id/btn_back_app_hist"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="88dp"
         android:background="@drawable/btn_back"
         android:drawableStart="@drawable/back_arrow"
         android:paddingStart="15dp"
         android:text="@string/filler"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.096"
+        app:layout_constraintHorizontal_bias="0.085"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,28 +29,27 @@
         android:id="@+id/header2"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="532dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="@font/font_urbanist_bold"
         android:text="@string/header_past_appointments"
         android:textColor="@color/primary_black"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_back_consultation"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_back_app_hist" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="350dp"
         android:layout_height="430dp"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintVertical_bias="0.447"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.86">
+        app:layout_constraintTop_toBottomOf="@+id/header2">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,7 +62,7 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/consulList"
+                android:id="@+id/consulList_apphist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -90,7 +88,6 @@
 
 
     </androidx.core.widget.NestedScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

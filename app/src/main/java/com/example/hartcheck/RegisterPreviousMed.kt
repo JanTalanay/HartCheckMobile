@@ -164,7 +164,7 @@ class RegisterPreviousMed : AppCompatActivity() {
             "Asthma" to "A chronic inflammatory disorder of the airways characterized by recurrent episodes of wheezing, shortness of breath, chest tightness, and coughing. Asthma symptoms can vary in severity and are often triggered by allergens, exercise, cold air, or respiratory infections.",
             "Allergies" to "An exaggerated immune response to substances (allergens) that are typically harmless to most people. Common allergens include pollen, dust mites, pet dander, certain foods, and insect venom. Allergic reactions can range from mild symptoms like sneezing and itching to severe reactions such as anaphylaxis.",
             "Depression" to "A mood disorder characterized by persistent feelings of sadness, hopelessness, and loss of interest or pleasure in activities. Depression can significantly impair daily functioning and quality of life, and may require treatment with psychotherapy, medication, or a combination of both.",
-            // Add more conditions and messages as needed
+            // add ka pa kung gusto mo tangina mo
         )
 
         // Collect all warning conditions

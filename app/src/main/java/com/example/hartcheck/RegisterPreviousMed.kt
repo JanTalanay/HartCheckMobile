@@ -157,14 +157,14 @@ class RegisterPreviousMed : AppCompatActivity() {
         val email = intent.getStringExtra("email")
         val otpHash = intent.getStringExtra("otpHash")
 
-        val warningConditions = listOf("pregnancy", "diabetes")
+        val warningConditions = listOf("hypertension", "diabetes", "asthma", "allergies", "depression")
         val warningMessages = mapOf(
             "diabetes" to "Diabetes is a chronic condition that requires careful management. Regular monitoring and medication are essential. Consult with your healthcare provider for personalized treatment plans.",
-            "Hypertension (High Blood Pressure)" to "A condition characterized by elevated blood pressure in the arteries, which can lead to serious health complications such as heart disease, stroke, and kidney failure. Hypertension often has no symptoms and is typically diagnosed through routine blood pressure measurements.",
-            "Asthma" to "A chronic inflammatory disorder of the airways characterized by recurrent episodes of wheezing, shortness of breath, chest tightness, and coughing. Asthma symptoms can vary in severity and are often triggered by allergens, exercise, cold air, or respiratory infections.",
-            "Allergies" to "An exaggerated immune response to substances (allergens) that are typically harmless to most people. Common allergens include pollen, dust mites, pet dander, certain foods, and insect venom. Allergic reactions can range from mild symptoms like sneezing and itching to severe reactions such as anaphylaxis.",
-            "Depression" to "A mood disorder characterized by persistent feelings of sadness, hopelessness, and loss of interest or pleasure in activities. Depression can significantly impair daily functioning and quality of life, and may require treatment with psychotherapy, medication, or a combination of both.",
-            // add ka pa kung gusto mo tangina mo
+            "hypertension" to "A condition characterized by elevated blood pressure in the arteries, which can lead to serious health complications such as heart disease, stroke, and kidney failure. Hypertension often has no symptoms and is typically diagnosed through routine blood pressure measurements.",
+            "asthma" to "A chronic inflammatory disorder of the airways characterized by recurrent episodes of wheezing, shortness of breath, chest tightness, and coughing. Asthma symptoms can vary in severity and are often triggered by allergens, exercise, cold air, or respiratory infections.",
+            "allergies" to "An exaggerated immune response to substances (allergens) that are typically harmless to most people. Common allergens include pollen, dust mites, pet dander, certain foods, and insect venom. Allergic reactions can range from mild symptoms like sneezing and itching to severe reactions such as anaphylaxis.",
+            "depression" to "A mood disorder characterized by persistent feelings of sadness, hopelessness, and loss of interest or pleasure in activities. Depression can significantly impair daily functioning and quality of life, and may require treatment with psychotherapy, medication, or a combination of both.",
+
         )
 
         // Collect all warning conditions
@@ -213,13 +213,13 @@ class RegisterPreviousMed : AppCompatActivity() {
                 override fun onResponse(call: Call<MedicalCondition>, response: Response<MedicalCondition>) {
                     if (response.isSuccessful) {
                         // Successfully inserted the medical history
-                        Toast.makeText(this@RegisterPreviousMed, "Inserted", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this@RegisterPreviousMed, "Inserted", Toast.LENGTH_SHORT).show()
 
-//                        val intent = Intent(this@RegisterPreviousMed, RegisterSurgHistory::class.java)
-//                        intent.putExtra("email", email)
-//                        intent.putExtra("otpHash", otpHash)
-//                        intent.putExtra("patientID", patientID)
-//                        startActivity(intent)
+                        val intent = Intent(this@RegisterPreviousMed, RegisterSurgHistory::class.java)
+                        intent.putExtra("email", email)
+                        intent.putExtra("otpHash", otpHash)
+                        intent.putExtra("patientID", patientID)
+                        startActivity(intent)
                     } else {
                         // Handle the error response
                         val errorBody = response.errorBody()?.string()

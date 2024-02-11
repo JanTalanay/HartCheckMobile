@@ -47,7 +47,7 @@ class RegisterConfirmationActivity : AppCompatActivity() {//Fix intent to proces
             // Show a warning if the user is pregnant
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Warning")
-            builder.setMessage("You are currently pregnant.")
+            builder.setMessage("You are currently pregnant. It's important to consult with your healthcare provider for proper guidance.")
             builder.setPositiveButton(android.R.string.ok) { dialog, _ ->
                 dialog.dismiss()
             }

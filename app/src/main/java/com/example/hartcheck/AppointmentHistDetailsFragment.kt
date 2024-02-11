@@ -54,26 +54,26 @@ class AppointmentHistDetailsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_appointment_hist_details, container, false)
         val frag = true
 
-        recyclerView = view.findViewById(R.id.consulList)
-        btnbackapphist = view.findViewById(R.id.btn_back_appoint_hist)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//        recyclerView = view.findViewById(R.id.consulList)
+//        btnbackapphist = view.findViewById(R.id.btn_back_appoint_hist)
+//        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 //        consultationAdapter = ConsultationAdapter(consulList,frag, patientID,patientName = null, userID, AppointmentHistDetailsFragment::class.java)
 //        recyclerView.adapter = consultationAdapter
 
         //enable this as default
-        txt_emp.visibility = View.GONE// you don't have any appointments today (put a null checker to show or not)
-        recyclerView.visibility = View.VISIBLE
+//        txt_emp.visibility = View.GONE// you don't have any appointments today (put a null checker to show or not)
+//        recyclerView.visibility = View.VISIBLE
 
-        val history = listOf(
-            ConsultationData("Condition           v","condition goes here"),//use get conditions here
-            ConsultationData("Diagnosis           v","diagnosis goes here"),
-            ConsultationData("Prescription        v","medicine goes here")
+//        val history = listOf(
+//            ConsultationData("Condition           v","condition goes here"),//use get conditions here
+//            ConsultationData("Diagnosis           v","diagnosis goes here"),
+//            ConsultationData("Prescription        v","medicine goes here")
+//
+//        )
 
-        )
 
-
-        consultationAdapter = ConsultationAdapter(history)
-        recyclerView.adapter = consultationAdapter
+//        consultationAdapter = ConsultationAdapter(history)
+//        recyclerView.adapter = consultationAdapter
 
 
         btnbackapphist.setOnClickListener {
@@ -95,12 +95,12 @@ class AppointmentHistDetailsFragment : Fragment() {
         private const val ARG_PARAM2 = "param2"
 
         @JvmStatic
-        fun newInstance(userID: Int, patientID: Int, patientName: String): ConsultationFragment {
-            val fragment = ConsultationFragment()
+        fun newInstance(patientID: Int, patientName: String, userID: Int): AppointmentHistDetailsFragment {
+            val fragment = AppointmentHistDetailsFragment()
             val args = Bundle()
-            args.putInt(ARG_USER_ID, userID)
-            args.putInt(ARG_PATIENT_ID, patientID)
-            args.putString(ARG_PATIENT_NAME, patientName)
+            args.putInt("patientID", patientID)
+            args.putString("patientName", patientName)
+            args.putInt("userID", userID)
             fragment.arguments = args
             return fragment
         }

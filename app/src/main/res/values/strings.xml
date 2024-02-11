@@ -204,6 +204,28 @@
         record and track their blood pressure readings chat with their doctor during appointment times,
         and manage their health profile.</string>
 
+
+    <!-- Educ-->
+    <string name="eQ1">1. About Hypertension</string>
+    <string name="eQ2">2. What causes Hypertension?</string>
+    <string name="eQ3">3. What are the symptoms of Hypertension?</string>
+    <string name="eQ4">4. How do I manage my Hypertension?</string>
+
+    <string name="eAns1">High blood pressure, also called hypertension, is blood pressure that is
+        higher than normal. Your blood pressure changes throughout the day based on your activities.
+        Having blood pressure measures consistently above normal may result in a diagnosis of high blood pressure (or hypertension).</string>
+
+    <string name="eAns2">High blood pressure usually develops over time. It can happen because of unhealthy lifestyle choices,
+        such as not getting enough regular physical activity. Certain health conditions, such as diabetes and having obesity,
+        can also increase the risk for developing high blood pressure.</string>
+
+    <string name="eAns3">High blood pressure usually has no warning signs or symptoms, and many people do not know they have it.
+        Measuring your blood pressure is the only way to know whether you have high blood pressure. However symptoms such as headache, palpitation, or lightheadedness
+        may be symptoms of Severe Hypertension</string>
+
+    <string name="eAns4">Eat a well-balanced diet that\'s low in salt. \nLimit alcohol. \nEnjoy regular physical activity. \nManage stress. \nMaintain a healthy weight. \nQuit smoking. \nTake your medications properly. \nWork together with your health care professional.</string>
+
+
     <!-- terms -->
     <string name="terms">
         Please read the following terms and conditions carefully before using our mobile application. By accessing and using our application, you are consenting to the collection, processing, storage, and usage of your personal data, including blood pressure information, in accordance with the provisions outlined below.  Data Privacy and Security Measures:

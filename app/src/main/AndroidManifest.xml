@@ -38,7 +38,7 @@
             android:name=".RegisterConfirmationActivity"
             android:exported="false" />
         <activity
-            android:name=".NavActivity"
+            android:name=".RegisterPrevMedicine"
             android:exported="false" />
         <activity
             android:name=".RegisterPreviousMed"
@@ -107,7 +107,7 @@
             android:name=".GoogleSign"
             android:exported="false" />
         <activity
-            android:name=".EducationalActivity"
+            android:name=".NavActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
@@ -119,7 +119,7 @@
             android:name=".ConfirmActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterPrevMedicine"
+            android:name=".EducationalActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

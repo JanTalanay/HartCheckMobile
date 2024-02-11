@@ -8,6 +8,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.hartcheck.Adapter.ExpandableAdapter
+import com.example.hartcheck.Data.FAQData
 import com.example.hartcheck.Model.EducationalResource
 import com.example.hartcheck.Model.Users
 import com.example.hartcheck.Remote.EducationalResourceRemote.EducationalResourceInstance
@@ -22,6 +26,10 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class EducationalActivity : AppCompatActivity() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: ExpandableAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_educational)
@@ -31,6 +39,19 @@ class EducationalActivity : AppCompatActivity() {
 
         val btnBackEduc = findViewById<Button>(R.id.btn_back_Educ)
         viewEduc()
+
+        recyclerView = findViewById(R.id.recyclerView_educ)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val faqList = listOf(
+            FAQData(getString(R.string.eQ1), getString(R.string.eAns1)),
+            FAQData(getString(R.string.eQ2), getString(R.string.eAns2)),
+            FAQData(getString(R.string.eQ3), getString(R.string.eAns3)),
+            FAQData(getString(R.string.eQ4), getString(R.string.eAns4))
+        )
+
+        adapter = ExpandableAdapter(faqList)
+        recyclerView.adapter = adapter
 
         //back btn implement
         btnBackEduc.setOnClickListener {
@@ -43,7 +64,6 @@ class EducationalActivity : AppCompatActivity() {
     }
     private fun viewEduc() {
         val Educservice = EducationalResourceInstance.retrofitBuilder
-        val streduc = findViewById<TextView>(R.id.str_educ)
         val strlink = findViewById<TextView>(R.id.str_link)
         val educResources = mutableListOf<EducationalResource>()
 
@@ -60,7 +80,7 @@ class EducationalActivity : AppCompatActivity() {
                 }
                 if (educResources.isNotEmpty()) {
                     val randomEducResource = educResources.random()
-                    streduc.text = randomEducResource.text
+                    //streduc.text = randomEducResource.text
                     strlink.text = randomEducResource.link
                 }
                 else {

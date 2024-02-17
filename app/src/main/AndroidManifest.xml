@@ -20,7 +20,7 @@
         android:theme="@style/Theme.HartCheck"
         tools:targetApi="31">
         <activity
-            android:name=".SplashActivity"
+            android:name=".AppointmentHistDetailActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterWeight"
@@ -122,7 +122,7 @@
             android:name=".ConfirmActivity"
             android:exported="false" />
         <activity
-            android:name=".AppointmentHistDetailActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

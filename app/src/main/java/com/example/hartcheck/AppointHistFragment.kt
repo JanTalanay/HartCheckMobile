@@ -85,7 +85,7 @@ class AppointHistFragment : Fragment() {
                         val scheduleInfo = doctorSchedules.DoctorDates[index].schedDateTime
                         doctorList.add(DocData(doctorSchedID!!,doctorID,doctorName, formatDateTime(scheduleInfo!!)))
                     }
-                    appointAdapter = AppointmentAdapter(doctorList,frag, patientID,patientName = null, userID, AppointmentHistDetailsFragment::class.java)
+                    appointAdapter = AppointmentAdapter(doctorList,frag, patientID,patientName = null, userID, AppointmentHistDetailActivity::class.java)
                     recyclerView.adapter = appointAdapter
                 }
             }
@@ -98,7 +98,7 @@ class AppointHistFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.consulList_apphist)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        appointAdapter = AppointmentAdapter(doctorList,frag, patientID,patientName = null, userID, AppointmentHistDetailsFragment::class.java)
+        appointAdapter = AppointmentAdapter(doctorList,frag, patientID,patientName = null, userID, AppointmentHistDetailActivity::class.java)
         recyclerView.adapter = appointAdapter
 
         //enable this as default

@@ -49,14 +49,14 @@ class AppointmentAdapter(
             }
             contentTextView.text = doc.appointmentDate
             viewBtn.setOnClickListener {
-//                val position = adapterPosition
-//                val selectedDoctor = doctorList[position]
-//                val intent = Intent(itemView.context, activityClass)
-//                intent.putExtra("selectedDoctor", selectedDoctor)
-//                intent.putExtra("patientID", patientID)
-//                intent.putExtra("patientName", patientName)
-//                intent.putExtra("userID", userID)
-//                itemView.context.startActivity(intent)
+                val position = adapterPosition
+                val selectedDoctor = doctorList[position]
+                val intent = Intent(itemView.context, activityClass)
+                intent.putExtra("selectedDoctor", selectedDoctor)
+                intent.putExtra("patientID", patientID)
+                intent.putExtra("patientName", patientName)
+                intent.putExtra("userID", userID)
+                itemView.context.startActivity(intent)
 
             }
 

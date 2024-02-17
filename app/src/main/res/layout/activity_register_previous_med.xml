@@ -146,4 +146,42 @@
         app:layout_constraintStart_toEndOf="@+id/btn_addMed"
         app:layout_constraintTop_toBottomOf="@+id/inputFieldsDate"
         app:layout_constraintVertical_bias="0.018" />
+
+    <LinearLayout
+        android:id="@+id/ll_prev_medication"
+        android:layout_width="371dp"
+        android:layout_height="42dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/btn_prevMedication_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_addMed">
+
+        <CheckBox
+            android:id="@+id/cb_diabetes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diabetes" />
+
+        <CheckBox
+            android:id="@+id/cb_hypertension"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hypertension" />
+
+        <CheckBox
+            android:id="@+id/cb_asthma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Asthma" />
+
+        <CheckBox
+            android:id="@+id/cb_allergies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Allergies" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

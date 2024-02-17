@@ -12,6 +12,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -84,12 +85,36 @@ class RegisterSurgHistory : AppCompatActivity() {
         val input_med = dialog.findViewById<EditText>(R.id.edit_surg)
         val input_date = dialog.findViewById<EditText>(R.id.edit_prev_surg_date)
 
+
+        // Check if any checkbox is checked and set the value to the input_med EditText
+        val appendectomyCheckBox = findViewById<CheckBox>(R.id.cb_Appendectomy)
+        val cholecystectomyCheckBox = findViewById<CheckBox>(R.id.cb_Cholecystectomy)
+        val hysterectomyCheckBox = findViewById<CheckBox>(R.id.cb_Hysterectomy)
+        val cesareansectionCheckBox = findViewById<CheckBox>(R.id.cb_Cesarean_section)
+        val kneearthroCheckBox = findViewById<CheckBox>(R.id.cb_knee_arthro)
+        val mastectomyCheckBox = findViewById<CheckBox>(R.id.cb_mastectomy)
+
+
+        if (appendectomyCheckBox.isChecked) {
+            input_med.setText("Appendectomy")
+        } else if (cholecystectomyCheckBox.isChecked) {
+            input_med.setText("Cholecystectomy")
+        } else if (hysterectomyCheckBox.isChecked) {
+            input_med.setText("Hysterectomy")
+        } else if (cesareansectionCheckBox.isChecked) {
+            input_med.setText("Cesarean section")
+        } else if (kneearthroCheckBox.isChecked) {
+            input_med.setText("Knee arthroscopy")
+        } else if (mastectomyCheckBox.isChecked) {
+            input_med.setText("Mastectomy")
+        }
+
         input_date.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
                 this, {DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
                     val selectedDate = Calendar.getInstance()
                     selectedDate.set(year, monthOfYear, dayOfMonth)
-                    val dateFormat = SimpleDateFormat("yyyy-dd-MM", Locale.getDefault())
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                     val formattedDate = dateFormat.format(selectedDate.time)
                     input_date.setText("$formattedDate")
                 },
@@ -128,6 +153,15 @@ class RegisterSurgHistory : AppCompatActivity() {
 
             inputFields.addView(inputField)
             inputFieldsDate.addView(inputFieldDate)
+            
+            appendectomyCheckBox.isChecked = false
+            cholecystectomyCheckBox.isChecked = false
+            hysterectomyCheckBox.isChecked = false
+            cesareansectionCheckBox.isChecked = false
+            kneearthroCheckBox.isChecked = false
+            mastectomyCheckBox.isChecked = false
+
+
             dialog.dismiss()
         }
 

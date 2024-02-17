@@ -134,4 +134,71 @@
         app:layout_constraintTop_toBottomOf="@+id/inputFieldsDate3"
         app:layout_constraintVertical_bias="0.087" />
 
+    <LinearLayout
+        android:id="@+id/ll_conf_surg"
+        android:layout_width="396dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="36dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/ll_conf_surg2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_addSurg"
+        app:layout_constraintVertical_bias="0.833">
+
+        <CheckBox
+            android:id="@+id/cb_Appendectomy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Appendectomy" />
+
+        <CheckBox
+            android:id="@+id/cb_Cholecystectomy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cholecystectomy" />
+
+        <CheckBox
+            android:id="@+id/cb_Hysterectomy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hysterectomy" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_conf_surg2"
+        android:layout_width="396dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="12dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/btn_medHis_surg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <CheckBox
+            android:id="@+id/cb_Cesarean_section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cesarean section" />
+
+        <CheckBox
+            android:id="@+id/cb_knee_arthro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Knee arthroscopy" />
+
+        <CheckBox
+            android:id="@+id/cb_mastectomy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mastectomy" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

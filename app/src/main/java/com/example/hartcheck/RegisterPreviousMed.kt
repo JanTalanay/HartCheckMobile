@@ -12,6 +12,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -100,12 +101,29 @@ class RegisterPreviousMed : AppCompatActivity() {
         val input_med = dialog.findViewById<EditText>(R.id.edit_prev_med)
         val input_date = dialog.findViewById<EditText>(R.id.edit_prev_med_date)
 
+
+        // Check if any checkbox is checked and set the value to the input_med EditText
+        val diabetesCheckBox = findViewById<CheckBox>(R.id.cb_diabetes)
+        val hypertensionCheckBox = findViewById<CheckBox>(R.id.cb_hypertension)
+        val asthmaCheckBox = findViewById<CheckBox>(R.id.cb_asthma)
+        val allergiesCheckBox = findViewById<CheckBox>(R.id.cb_allergies)
+
+        if (diabetesCheckBox.isChecked) {
+            input_med.setText("diabetes")
+        } else if (hypertensionCheckBox.isChecked) {
+            input_med.setText("hypertension")
+        } else if (asthmaCheckBox.isChecked) {
+            input_med.setText("asthma")
+        } else if (allergiesCheckBox.isChecked) {
+            input_med.setText("allergies")
+        }
+
         input_date.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
                 this, {DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
                     val selectedDate = Calendar.getInstance()
                     selectedDate.set(year, monthOfYear, dayOfMonth)
-                    val dateFormat = SimpleDateFormat("yyyy-dd-MM", Locale.getDefault())
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                     val formattedDate = dateFormat.format(selectedDate.time)
                     input_date.setText("$formattedDate")
                 },
@@ -142,10 +160,18 @@ class RegisterPreviousMed : AppCompatActivity() {
             inputFieldDate.textSize = 18F
 
 
+
             inputFields.addView(inputField)
             inputFieldsDate.addView(inputFieldDate)
+
+            diabetesCheckBox.isChecked = false
+            hypertensionCheckBox.isChecked = false
+            asthmaCheckBox.isChecked = false
+            allergiesCheckBox.isChecked = false
+
             dialog.dismiss()
         }
+
 
         btn_close.setOnClickListener {
             dialog.dismiss()

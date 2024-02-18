@@ -85,7 +85,7 @@ class AppointHistFragment : Fragment() {
                         val scheduleInfo = doctorSchedules.DoctorDates[index].schedDateTime
                         doctorList.add(DocData(doctorSchedID!!,doctorID,doctorName, formatDateTime(scheduleInfo!!)))
                     }
-                    appointAdapter = AppointmentAdapter(doctorList,frag, patientID,patientName = null, userID, AppointmentHistDetailActivity::class.java)
+                    appointAdapter = AppointmentAdapter(doctorList,frag, patientID,patientName, userID, AppointmentHistDetailActivity::class.java)
                     recyclerView.adapter = appointAdapter
                 }
             }

@@ -53,6 +53,7 @@ class AppointmentAdapter(
                 val selectedDoctor = doctorList[position]
                 val intent = Intent(itemView.context, activityClass)
                 intent.putExtra("selectedDoctor", selectedDoctor)
+                intent.putExtra("doctorID", selectedDoctor.doctorID)
                 intent.putExtra("patientID", patientID)
                 intent.putExtra("patientName", patientName)
                 intent.putExtra("userID", userID)

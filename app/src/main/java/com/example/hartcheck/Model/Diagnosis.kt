@@ -7,5 +7,6 @@ import kotlinx.android.parcel.Parcelize
 data class Diagnosis(
     var diagnosisID: Int,
     var consultationID: Int,
-    var diagnosis: String
+    var diagnosis: String,
+    var dateTime: String
 ): Parcelable

@@ -8,4 +8,8 @@ import retrofit2.http.Path
 interface DiagnosisInterface {
     @GET("api/Diagnosis/{patientID}")
     fun getDiagnosisByPatientID(@Path("patientID") patientID: Int): Call<DiagnosisList>
+
+    @GET("api/Diagnosis/{patientID}/{doctorID}")
+    fun getDiagnosisByPatientIDAndDoctorID(@Path("patientID") patientID: Int, @Path("doctorID") doctorID: Int
+    ): Call<DiagnosisList>
 }

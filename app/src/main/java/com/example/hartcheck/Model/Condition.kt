@@ -7,5 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class Condition(
     var conditionID: Int,
     var consultationID: Int,
-    var condition: String
+    var condition: String,
+    var date: String
+
 ):Parcelable

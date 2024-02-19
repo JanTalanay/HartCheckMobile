@@ -73,7 +73,7 @@
     <string name="header_bug_resolved">Bug has been resolved!</string>
     <string name="header_chat_empty">Chat is currently empty</string>
     <string name="header_prev_bp">Previous BP</string>
-    <string name="header_purchase_success">Purchase Success</string>
+    <string name="header_purchase_success">Booked</string>
     <string name="header_appointments">Appointments</string>
     <string name="header_appointment_details">Appointment Details</string>
     <string name="header_available_doctor">Available Doctors</string>

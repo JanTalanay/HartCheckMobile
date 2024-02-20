@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="20dp"
+    android:theme="@style/Theme.HartCheck"
     android:layout_marginHorizontal="20dp">
 
     <LinearLayout
@@ -35,6 +36,8 @@
             android:ems="10"
             android:inputType="text"
             android:hint="@string/input_heredetary"
+            android:fontFamily="@font/font_urbanist_medium"
+            android:textSize="18sp"
             android:textColor="@color/grey"
             android:layout_marginBottom="20dp"
             />
@@ -48,6 +51,8 @@
             android:ems="10"
             android:inputType="text"
             android:hint="@string/input_select_date"
+            android:fontFamily="@font/font_urbanist_medium"
+            android:textSize="18sp"
             android:textColor="@color/grey" />
 
         <Button
@@ -56,9 +61,10 @@
             android:layout_height="55dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_primary"
-            android:fontFamily="@font/font_urbanist_medium"
             android:text="@string/btn_add"
             android:textAllCaps="false"
+            android:gravity="center"
+            android:fontFamily="@font/font_urbanist_medium"
             android:textColor="@drawable/btn_text_color_white"
             android:textSize="18sp" />
 
@@ -68,8 +74,10 @@
             android:layout_height="55dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_secondary"
-            android:fontFamily="@font/font_urbanist_medium"
             android:text="@string/btn_exit"
+            android:theme="@style/btn_primary"
+            android:gravity="center"
+            android:fontFamily="@font/font_urbanist_medium"
             android:textAllCaps="false"
             android:textColor="@drawable/btn_text_color"
             android:textSize="18sp" />

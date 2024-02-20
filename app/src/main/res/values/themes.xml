@@ -6,12 +6,23 @@
         <item name="android:fontFamily">@font/font_urbanist_regular</item>
     </style>
 
-    <style name="btn_primary">
+    <style name="btn_primary" parent="Base.Theme.HartCheck">
         <item name="android:color">@color/white</item>
     </style>
 
-    <style name="btn_primary2" parent="Widget.AppCompat.Button">
+    <style name="btn_primary2" parent="Base.Theme.HartCheck">
         <item name="backgroundTint">@drawable/btn_primary</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:fontFamily">@font/font_urbanist_regular</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="backgroundTint">@color/secondary_white</item>
+        <item name="colorPrimary">@color/primary_black</item>
+        <item name="colorPrimaryDark">@color/primary_black</item>
+        <item name="colorAccent">@color/primary_black</item>
+        <item name="materialButtonStyle">@color/primary_black</item>
     </style>
 
 

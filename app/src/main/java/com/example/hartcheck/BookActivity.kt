@@ -95,7 +95,8 @@ class BookActivity : AppCompatActivity() {
         Consultationservice.insertConsultation(ConInfo).enqueue(object : Callback<Consultation> {
             override fun onResponse(call: Call<Consultation>, response: Response<Consultation>) {
                 if (response.isSuccessful) {
-                    val intent = Intent(this@BookActivity, PaymentActivity::class.java)
+                    val intent = Intent(this@BookActivity, ConfirmActivity::class.java)
+                    intent.putExtra("BUTTON_STATE","payment_success")
                     intent.putExtra("selectedDateTime", selectedDateTime)
                     intent.putExtra("userID", userID)
                     intent.putExtra("patientID", patientID)

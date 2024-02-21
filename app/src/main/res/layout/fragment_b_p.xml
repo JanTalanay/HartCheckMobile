@@ -26,60 +26,74 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lineChart"
-        android:layout_width="321dp"
-        android:layout_height="384dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_back_BloodP" />
-
-    <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/btn_secondary"
-        android:fontFamily="@font/font_urbanist_medium"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lineChart" />
-
-    <Button
-        android:id="@+id/btn_add_bp"
-        android:layout_width="320dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="20dp"
-        android:layout_span="2"
-        android:background="@drawable/btn_primary"
-        android:fontFamily="@font/font_urbanist_medium"
-        android:text="@string/btn_add_bp"
-        android:textAllCaps="false"
-        android:textColor="@drawable/btn_text_color_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvStatus" />
-
-    <Button
-        android:id="@+id/btn_view_prev_bp"
-        android:layout_width="320dp"
-        android:layout_height="55dp"
-        android:layout_span="2"
-        android:background="@drawable/btn_primary"
-        android:fontFamily="@font/font_urbanist_medium"
-        android:text="@string/btn_view_bp"
-        android:textAllCaps="false"
-        android:textColor="@drawable/btn_text_color_white"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="350dp"
+        android:layout_height="460dp"
+        android:layout_marginBottom="88dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_add_bp"
-        app:layout_constraintVertical_bias="0.309" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_back_BloodP"
+        app:layout_constraintVertical_bias="0.428">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/lineChart"
+                android:layout_width="321dp"
+                android:layout_height="384dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="15dp" />
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="250dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/btn_secondary"
+                android:fontFamily="@font/font_urbanist_medium"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lineChart"
+                android:layout_marginBottom="15dp"/>
+
+            <Button
+                android:id="@+id/btn_add_bp"
+                android:layout_width="320dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="20dp"
+                android:layout_span="2"
+                android:background="@drawable/btn_primary"
+                android:fontFamily="@font/font_urbanist_medium"
+                android:text="@string/btn_add_bp"
+                android:textAllCaps="false"
+                android:textColor="@drawable/btn_text_color_white"
+                android:layout_marginBottom="15dp" />
+
+            <Button
+                android:id="@+id/btn_view_prev_bp"
+                android:layout_width="320dp"
+                android:layout_height="55dp"
+                android:layout_span="2"
+                android:background="@drawable/btn_primary"
+                android:fontFamily="@font/font_urbanist_medium"
+                android:text="@string/btn_view_bp"
+                android:textAllCaps="false"
+                android:textColor="@drawable/btn_text_color_white" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

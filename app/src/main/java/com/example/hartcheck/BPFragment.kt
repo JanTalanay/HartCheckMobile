@@ -309,10 +309,10 @@ class BPFragment : Fragment() {
         val BPInfo = BloodPressure(patientID = patientID, systolic = BPsystolic.toFloat(), diastolic = BPdiastolic.toFloat(), dateTaken = dateTaken.toString())
 
         val status = when {
-            BPsystolic.toFloat() <  120f && BPdiastolic.toFloat() <  80f -> "Normal"
-            BPsystolic.toFloat() >=  120f && BPsystolic.toFloat() <  130f && BPdiastolic.toFloat() <  80f -> "Elevated"
+            BPsystolic.toFloat() >=  140f || BPdiastolic.toFloat() >=  90f -> "Hypertension Stage  2"
             BPsystolic.toFloat() >=  130f && BPsystolic.toFloat() <  140f || BPdiastolic.toFloat() >=  80f && BPdiastolic.toFloat() <  90f -> "Hypertension Stage  1"
-            BPsystolic.toFloat() >=  140f || BPdiastolic.toFloat() >=  90f -> "Hypertension Stage  2 or Hypertensive Crisis"
+            BPsystolic.toFloat() >=  120f && BPsystolic.toFloat() <  130f && BPdiastolic.toFloat() <  80f -> "Elevated"
+            BPsystolic.toFloat() <  120f && BPdiastolic.toFloat() <  80f -> "Normal"
             else -> "Invalid Range"
         }
 
@@ -400,24 +400,18 @@ class BPFragment : Fragment() {
             val systolicValue = pair.first.toFloat()
             val diastolicValue = pair.second.toFloat()
             if (systolicValue >= systolicThreshold || diastolicValue >= diastolicThreshold) {
+                tvStatus.text = "High Blood Pressure (hypertension)"
                 sendNotification("High Blood Pressure (hypertension)")
             } else if (systolicValue >= (systolicThreshold - 10) || (systolicValue >= (systolicThreshold - 20) && diastolicValue >= (diastolicThreshold - 10))) {
+                tvStatus.text = "Elevated"
                 sendNotification("Elevated")
             } else if ((systolicValue >= (systolicThreshold - 20) && systolicValue < systolicThreshold) || (diastolicValue >= (diastolicThreshold - 10) && diastolicValue < diastolicThreshold)) {
+                tvStatus.text = "At Risk (prehypertension)"
                 sendNotification("At Risk (prehypertension)")
             } else if (systolicValue < (systolicThreshold - 20) && diastolicValue < (diastolicThreshold - 10)) {
+                tvStatus.text = "Normal"
                 sendNotification("Normal")
             }
-
-            val status = when {
-                systolicValue <  120f && diastolicValue <  80f -> "Normal"
-                systolicValue >=  120f && systolicValue <  130f && diastolicValue <  80f -> "Elevated"
-                systolicValue >=  130f && systolicValue <  140f || diastolicValue >=  80f && diastolicValue <  90f -> "Hypertension Stage  1"
-                systolicValue >=  140f || diastolicValue >=  90f -> "Hypertension Stage  2 or Hypertensive Crisis"
-                else -> "Invalid Range"
-            }
-
-            tvStatus.text = "Status: $status"
 
             currentIndex++
         } else {

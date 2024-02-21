@@ -114,6 +114,7 @@ class BPFragment : Fragment() {
 
         readCSVFile()
         getBPThreshold()
+        setupChart()
         createNotificationChannel()
 
         backBP.setOnClickListener {
@@ -131,7 +132,9 @@ class BPFragment : Fragment() {
         addBP.setOnClickListener {
             showModal()
         }
+
         getBpList(patientID!!)
+
         return view
     }
 
@@ -199,25 +202,31 @@ class BPFragment : Fragment() {
 
         val dataSet1 = LineDataSet(systolic, "Systolic")
         dataSet1.color = Color.RED
-        dataSet1.valueTextSize = 11f
+        dataSet1.valueTextSize = 14f
 
         val dataSet2 = LineDataSet(diastolic, "Diastolic")
         dataSet2.color = Color.BLUE
-        dataSet2.valueTextSize = 11f
+        dataSet2.valueTextSize = 14f
 
         val lineData = LineData(dataSet1, dataSet2)
         chart.data = lineData
 
         // Chart customization code...
         val description = Description()
-        description.text = "BP Chart"
+        description.text = ""
         chart.description = description
+
+        chart.axisLeft.textSize =  13f
 
         chart.xAxis.position =  XAxisPosition.BOTTOM
         chart.axisLeft.axisMaximum = 200f
         chart.axisLeft.axisMinimum = 0f
         chart.axisRight.isEnabled = false
 
+        chart.xAxis.setDrawGridLines(false)
+        chart.xAxis.textSize =  12f
+
+        chart.legend.textSize =  16f
         chart.legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
         chart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
         chart.legend.setDrawInside(false)
@@ -238,6 +247,9 @@ class BPFragment : Fragment() {
                             diastolic.add(Entry(count, x.diastolic!!))
                             Log.d("BP", "systolic: $systolic" + response.code())
                             Log.d("BP", "diastolic: $diastolic " + response.code())
+
+                            //just setup here
+
                             setupChart()
 
                         }
@@ -260,6 +272,8 @@ class BPFragment : Fragment() {
         val patientID = arguments?.getInt(ARG_PATIENT_ID)
         val systolic = dialog.findViewById<EditText>(R.id.edit_systolic)
         val diastolic = dialog.findViewById<EditText>(R.id.edit_diastolic)
+
+        val tvStatus = requireView().findViewById<TextView>(R.id.tvStatus)
 
         val BPsystolic = systolic?.text.toString()
         val BPdiastolic = diastolic?.text.toString()
@@ -294,11 +308,21 @@ class BPFragment : Fragment() {
 
         val BPInfo = BloodPressure(patientID = patientID, systolic = BPsystolic.toFloat(), diastolic = BPdiastolic.toFloat(), dateTaken = dateTaken.toString())
 
+        val status = when {
+            BPsystolic.toFloat() <  120f && BPdiastolic.toFloat() <  80f -> "Normal"
+            BPsystolic.toFloat() >=  120f && BPsystolic.toFloat() <  130f && BPdiastolic.toFloat() <  80f -> "Elevated"
+            BPsystolic.toFloat() >=  130f && BPsystolic.toFloat() <  140f || BPdiastolic.toFloat() >=  80f && BPdiastolic.toFloat() <  90f -> "Hypertension Stage  1"
+            BPsystolic.toFloat() >=  140f || BPdiastolic.toFloat() >=  90f -> "Hypertension Stage  2 or Hypertensive Crisis"
+            else -> "Invalid Range"
+        }
+
         val BPService = BloodPressureInstance.retrofitBuilder
         BPService.insertBloodPressure(BPInfo).enqueue(object : Callback<BloodPressure> {
             override fun onResponse(call: Call<BloodPressure>, response: Response<BloodPressure>) {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Blood Pressure Data Added", Toast.LENGTH_SHORT).show()
+                    //status only shows if user syncs or adds bp as it would be unreasonable to show status from yesterday
+                    tvStatus.text = "Status: $status"
                 } else {
                     // Handle the error response
                     response.errorBody()?.let { errorBody ->
@@ -365,6 +389,8 @@ class BPFragment : Fragment() {
         val systolic = view.findViewById<EditText>(R.id.edit_systolic)
         val diastolic = view.findViewById<EditText>(R.id.edit_diastolic)
 
+        val tvStatus = requireView().findViewById<TextView>(R.id.tvStatus)
+
         if (currentIndex < list.size) {
             val pair = list[currentIndex]
             systolic?.setText(pair.first)
@@ -382,6 +408,16 @@ class BPFragment : Fragment() {
             } else if (systolicValue < (systolicThreshold - 20) && diastolicValue < (diastolicThreshold - 10)) {
                 sendNotification("Normal")
             }
+
+            val status = when {
+                systolicValue <  120f && diastolicValue <  80f -> "Normal"
+                systolicValue >=  120f && systolicValue <  130f && diastolicValue <  80f -> "Elevated"
+                systolicValue >=  130f && systolicValue <  140f || diastolicValue >=  80f && diastolicValue <  90f -> "Hypertension Stage  1"
+                systolicValue >=  140f || diastolicValue >=  90f -> "Hypertension Stage  2 or Hypertensive Crisis"
+                else -> "Invalid Range"
+            }
+
+            tvStatus.text = "Status: $status"
 
             currentIndex++
         } else {

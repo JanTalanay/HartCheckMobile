@@ -322,6 +322,7 @@ class BPFragment : Fragment() {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Blood Pressure Data Added", Toast.LENGTH_SHORT).show()
                     //status only shows if user syncs or adds bp as it would be unreasonable to show status from yesterday
+                    tvStatus.visibility = View.VISIBLE
                     tvStatus.text = "Status: $status"
                 } else {
                     // Handle the error response
@@ -400,15 +401,19 @@ class BPFragment : Fragment() {
             val systolicValue = pair.first.toFloat()
             val diastolicValue = pair.second.toFloat()
             if (systolicValue >= systolicThreshold || diastolicValue >= diastolicThreshold) {
+                tvStatus.visibility = View.VISIBLE
                 tvStatus.text = "High Blood Pressure (hypertension)"
                 sendNotification("High Blood Pressure (hypertension)")
             } else if (systolicValue >= (systolicThreshold - 10) || (systolicValue >= (systolicThreshold - 20) && diastolicValue >= (diastolicThreshold - 10))) {
+                tvStatus.visibility = View.VISIBLE
                 tvStatus.text = "Elevated"
                 sendNotification("Elevated")
             } else if ((systolicValue >= (systolicThreshold - 20) && systolicValue < systolicThreshold) || (diastolicValue >= (diastolicThreshold - 10) && diastolicValue < diastolicThreshold)) {
+                tvStatus.visibility = View.VISIBLE
                 tvStatus.text = "At Risk (prehypertension)"
                 sendNotification("At Risk (prehypertension)")
             } else if (systolicValue < (systolicThreshold - 20) && diastolicValue < (diastolicThreshold - 10)) {
+                tvStatus.visibility = View.VISIBLE
                 tvStatus.text = "Normal"
                 sendNotification("Normal")
             }

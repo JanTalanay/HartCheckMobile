@@ -114,7 +114,7 @@ class BPFragment : Fragment() {
 
         readCSVFile()
         getBPThreshold()
-        setupChart()
+//        setupChart()
         createNotificationChannel()
 
         backBP.setOnClickListener {

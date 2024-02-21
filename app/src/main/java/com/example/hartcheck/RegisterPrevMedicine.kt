@@ -102,7 +102,7 @@ class RegisterPrevMedicine : AppCompatActivity() {
                 this, {DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
                     val selectedDate = Calendar.getInstance()
                     selectedDate.set(year, monthOfYear, dayOfMonth)
-                    val dateFormat = SimpleDateFormat("yyyy-dd-MM", Locale.getDefault())
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                     val formattedDate = dateFormat.format(selectedDate.time)
                     input_date.setText("$formattedDate")
                 },

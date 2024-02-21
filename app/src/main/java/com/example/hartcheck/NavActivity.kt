@@ -39,7 +39,7 @@ class NavActivity : AppCompatActivity() {
             when(it){
                 R.id.nav_profile -> replaceFragment(UserFragment.newInstance(userID, patientID, patientName!!))
                 R.id.nav_consultations -> replaceFragment(ConsultationFragment.newInstance(userID,patientID, patientName!!))
-                R.id.nav_bp -> replaceFragment(BPFragment.newInstance(0,0, "etits")) //userID,patientID, patientName!!
+                R.id.nav_bp -> replaceFragment(BPFragment.newInstance(userID,patientID, patientName!!)) //userID,patientID, patientName!!
                 R.id.nav_chat -> replaceFragment(ChatFragment.newInstance(userID, patientID, patientName!!))
                 else ->{
 

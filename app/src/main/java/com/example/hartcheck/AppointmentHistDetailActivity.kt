@@ -91,7 +91,7 @@ class AppointmentHistDetailActivity : AppCompatActivity() {
                     val diagnosis = response.body()
                     if (diagnosis != null && diagnosis.DiagnosisInfo.isNotEmpty()) {
                         // Update the description field with the fetched diagnosis data and dateTime
-                        val diagnosisText = diagnosis.DiagnosisInfo.joinToString(separator = "\n") { "${it.diagnosis} - ${formatDateTime(it.dateTime)}" }
+                        val diagnosisText = diagnosis.DiagnosisInfo.joinToString(separator = "\n") { "${it.diagnosis} - ${formatDateTime(it.dateTime)} \n" }
                         history[1] = ConsultationData("Diagnosis", diagnosisText)
                         consultationAdapter.notifyDataSetChanged() // Notify the adapter that the data has changed
                     } else {
@@ -119,7 +119,7 @@ class AppointmentHistDetailActivity : AppCompatActivity() {
                     if (medicine != null && medicine.MedicineInfo.isNotEmpty()) {
                         // Concatenate medicine details into a single string
                         val medicineDetails = medicine.MedicineInfo.joinToString(separator = "\n") {
-                            "${it.medicine} - ${formatDateTime(it.dateTime!!)} - Dosage: ${it.dosage}"
+                            "${it.medicine} - ${formatDateTime(it.dateTime!!)} Dosage: ${it.dosage} \n"
                         }
                         // Update the description field with the fetched medicine data
                         history[2] = ConsultationData("Prescription", medicineDetails)
@@ -149,7 +149,7 @@ class AppointmentHistDetailActivity : AppCompatActivity() {
                     val conditions = response.body()
                     if (conditions != null && conditions.ConditionsInfo.isNotEmpty()) {
                         // Update the description field with the fetched conditions data
-                        history[0] = ConsultationData("Condition", conditions.ConditionsInfo.joinToString(separator = "\n") { "${it.condition} - ${formatDateTime(it.date)}" })
+                        history[0] = ConsultationData("Condition", conditions.ConditionsInfo.joinToString(separator = "\n") { "${it.condition} - ${formatDate(it.date)}" })
                         consultationAdapter.notifyDataSetChanged() // Notify the adapter that the data has changed
                     } else {
                         Toast.makeText(this@AppointmentHistDetailActivity, "No conditions found for this patient.", Toast.LENGTH_SHORT).show()
@@ -168,6 +168,16 @@ class AppointmentHistDetailActivity : AppCompatActivity() {
     private fun formatDateTime(originalDateTime: String): String {
         val inputPattern = "yyyy-MM-dd'T'HH:mm:ss"
         val outputPattern = "MMMM dd, yyyy 'at' hh:mm a"
+
+        val inputFormat = SimpleDateFormat(inputPattern, Locale.US)
+        val outputFormat = SimpleDateFormat(outputPattern, Locale.US)
+
+        val dateTime = inputFormat.parse(originalDateTime)
+        return outputFormat.format(dateTime)
+    }
+    private fun formatDate(originalDateTime: String): String {
+        val inputPattern = "yyyy-MM-dd'T'HH:mm:ss"
+        val outputPattern = "MMMM dd, yyyy"
 
         val inputFormat = SimpleDateFormat(inputPattern, Locale.US)
         val outputFormat = SimpleDateFormat(outputPattern, Locale.US)

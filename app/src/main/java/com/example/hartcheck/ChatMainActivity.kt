@@ -35,7 +35,7 @@ class ChatMainActivity : AppCompatActivity() {
             }
         }
         wbWeb.apply {
-            loadUrl("https://10.0.2.2:7124/")
+            loadUrl("https://10.0.2.2:7215/Patient/ChatDoc")
             settings.javaScriptEnabled = true
             Log.d("wbWeb","WORKED")
         }

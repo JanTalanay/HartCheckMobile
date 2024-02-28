@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hartcheck.Adapter.ConsultationAdapter
 import com.example.hartcheck.Data.ConsultationData
+import com.example.hartcheck.Data.DocData
 import com.example.hartcheck.Remote.ConditionsRemote.ConditionsInstance
 import com.example.hartcheck.Remote.DiagnosisRemote.DiagnosisInstance
 import com.example.hartcheck.Remote.MedicineRemote.MedicineInstance
@@ -33,11 +34,15 @@ class AppointmentHistDetailActivity : AppCompatActivity() {
     private lateinit var btnbackapphist: Button
     private lateinit var txt_emp: TextView
     private var history = mutableListOf<ConsultationData>()
+    private lateinit var txtDoctorName:TextView
+    private lateinit var txtappointsched:TextView
+    private lateinit var txtPatientName:TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_appointment_hist_detail)
-
+        val selectedDoctor = intent.getParcelableExtra<DocData>("selectedDoctor")
         val userID = intent.getIntExtra("userID",  0)
         val patientID = intent.getIntExtra("patientID",  0)
         val patientName = intent.getStringExtra("patientName")
@@ -62,7 +67,15 @@ class AppointmentHistDetailActivity : AppCompatActivity() {
             ConsultationData("Diagnosis", "diagnosis goes here"),
             ConsultationData("Prescription", "medicine goes here")
         )
-
+        txtDoctorName = findViewById(R.id.txt_appoint_his_doctor)
+        txtappointsched = findViewById(R.id.txt_appoint_his_date)
+        txtPatientName = findViewById(R.id.txt_appoint_his_patientName)
+        txtDoctorName.text = selectedDoctor?.name
+        txtappointsched.text = selectedDoctor?.appointmentDate
+        txtPatientName.text = patientName
+//        Toast.makeText(this, selectedDoctor?.name, Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, selectedDoctor?.appointmentDate, Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, patientName, Toast.LENGTH_LONG).show()
 
         consultationAdapter = ConsultationAdapter(history)
         recyclerView.adapter = consultationAdapter
@@ -72,7 +85,7 @@ class AppointmentHistDetailActivity : AppCompatActivity() {
         getConsultationsList()
 
         btnbackapphist.setOnClickListener {
-            val intent = Intent(this@AppointmentHistDetailActivity, HomeActivity::class.java)//change
+            val intent = Intent(this@AppointmentHistDetailActivity, HomeActivity::class.java)
                 intent.putExtra("patientID", patientID)
                 intent.putExtra("patientName", patientName)
                 intent.putExtra("userID", userID)

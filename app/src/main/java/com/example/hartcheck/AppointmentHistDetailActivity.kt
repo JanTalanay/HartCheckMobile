@@ -70,9 +70,9 @@ class AppointmentHistDetailActivity : AppCompatActivity() {
         txtDoctorName = findViewById(R.id.txt_appoint_his_doctor)
         txtappointsched = findViewById(R.id.txt_appoint_his_date)
         txtPatientName = findViewById(R.id.txt_appoint_his_patientName)
-        txtDoctorName.text = selectedDoctor?.name
-        txtappointsched.text = selectedDoctor?.appointmentDate
-        txtPatientName.text = patientName
+        txtDoctorName.text = "Assigned Doctor: " + (selectedDoctor?.name ?: "Default Doctor Name")
+        txtappointsched.text = "Appointment Date: " + (selectedDoctor?.appointmentDate?: "date")
+        txtPatientName.text = "Patient Name: " + (patientName?: "Patient")
 //        Toast.makeText(this, selectedDoctor?.name, Toast.LENGTH_LONG).show()
 //        Toast.makeText(this, selectedDoctor?.appointmentDate, Toast.LENGTH_LONG).show()
 //        Toast.makeText(this, patientName, Toast.LENGTH_LONG).show()

@@ -52,30 +52,74 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.050" />
-
-        <TextView
-            android:id="@+id/txt_appoint_his_patientName"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linear_hist"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="TextView"
-            android:textSize="18sp" />
-        <TextView
-            android:id="@+id/txt_appoint_his_doctor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="TextView"
-            android:textSize="18sp" />
-        <TextView
-            android:id="@+id/txt_appoint_his_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="TextView"
-            android:textSize="18sp" />
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/txt_name_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/font_urbanist_bold"
+                android:text="Patient Name: "
+                android:textColor="@color/primary_black"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txt_appoint_his_patientName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-
+                android:text="TextView"
+                android:textSize="18sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_hist_2"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/txt_name_title_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/font_urbanist_bold"
+                android:text="Assigned Doctor: "
+                android:textColor="@color/primary_black"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txt_appoint_his_doctor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="18sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_hist_3"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/txt_name_title_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/font_urbanist_bold"
+                android:text="Consultation Date: "
+                android:textColor="@color/primary_black"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txt_appoint_his_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="TextView"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_hist"
